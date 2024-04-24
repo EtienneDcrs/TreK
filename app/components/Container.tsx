@@ -12,13 +12,14 @@ const Container: React.FC<ContainerProps> = ({
             className="
                 max-w-[2520px]
                 mx-auto
-                xl:px-20
-                lg:px-10
-                md:px-2
-                px-4
+                xl:px-12
+                lg:px-8
+                md:px-4
+                px-3
             "
         >
             {children}
+
         </div>
     );
 }

@@ -1,5 +1,5 @@
 export default function Home() {
   return (
-    <div className="text-blue-500 text-2xl">Hello rando !</div>
+    <div className="text-blue-500 text-2xl">Hello !</div>
   );
 }

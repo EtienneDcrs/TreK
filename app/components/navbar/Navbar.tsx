@@ -1,10 +1,13 @@
 import Container from "../Container";
 import Logo from "./Logo";
+import Menu from "./Menu";
+import NavItem from "./NavItem";
+import Searchbar from "./Searchbar";
 
 const Navbar = () => {
     return (
         <div className="fixed w-full bg-white z-10 shadow-sm">
-            <div className="py-4 border-b-[1px]">
+            <div className="py-3 border-b-[1px]">
                 <Container>
                     <div
                         className="
@@ -12,11 +15,19 @@ const Navbar = () => {
                             flex-row
                             items-center
                             justify-between
-                            gap-3
-                            md:gap-0
-                        "
+                            gap-1                    
+                            "
                     >
-                        <Logo />
+                        <div className="flex flex-row justify-between items-center gap-4">
+
+                            <Logo />
+                            <NavItem />
+                        </div>
+                        
+                        <div className="flex flex-row items-center">
+                            <Searchbar />
+                            <Menu />
+                        </div>
                     </div>
                 </Container>
             </div>
