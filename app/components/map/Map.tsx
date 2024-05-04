@@ -85,8 +85,6 @@ const Map = () => {
 
     return (
         <div id="map" className="leaflet-map">
-            {/* Render the Leaflet map using MapContainer from react-leaflet */}
-            <MapContainer style={{ width: '100%', height: '400px' }} id="map" />
         </div>
     );
 };
