@@ -5,6 +5,7 @@ import Navbar from "./components/navbar/Navbar";
 import RegisterModal from "./components/modals/RegisterModal";
 import PageBody from "./components/PageBody";
 import ToasterProvider from "./providers/ToasterProvider";
+import LoginModal from "./components/modals/LoginModal";
 
 
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{children: React.React
     <html lang="en">
       <body className="flex flex-col font-sans" >
         <ToasterProvider />
+        <LoginModal />
         <RegisterModal />
         <Navbar />
         <PageBody />
