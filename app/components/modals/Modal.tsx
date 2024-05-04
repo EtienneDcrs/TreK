@@ -71,6 +71,7 @@ const Modal: React.FC<ModalProps> = ({
         <>
             <div
                 className="
+                    text-sm
                     justify-center
                     items-center
                     flex
@@ -87,14 +88,13 @@ const Modal: React.FC<ModalProps> = ({
                 <div
                     className="
                         relative
-                        w-full
+                        w-5/6
                         md:w-4/6
                         lg:w-3/6
                         xl:w-2/5
                         my-6
                         mx-auto
-                        h-full
-                        md:h-auto
+                        h-auto
                     "
                 >
                     {/* CONTENT */}
@@ -129,7 +129,7 @@ const Modal: React.FC<ModalProps> = ({
                                 className="
                                     flex
                                     items-center
-                                    p-6
+                                    p-3
                                     roudened-t
                                     justify-center
                                     relative
@@ -154,16 +154,16 @@ const Modal: React.FC<ModalProps> = ({
                                 </div>
                             </div>
                                 {/* BODY */}
-                                <div className="relative p-6 flex-auto">
+                                <div className="relative px-6 py-2 flex-auto">
                                     {body}
                                 </div>
                                 {/* FOOTER */}
-                                <div className="flex flex-col gap-2 p-6">
+                                <div className="flex flex-col gap-3 p-6 pt-2">
                                     <div
                                         className="
                                             flex flex-row
                                             items-center
-                                            gap-4
+                                            gap-2
                                             w-full
                                         "
                                     >
@@ -181,6 +181,7 @@ const Modal: React.FC<ModalProps> = ({
                                             onClick={handleSubmit} 
                                         />
                                     </div>
+                                    {footer}
                                 </div>
                         </div>
                     </div>

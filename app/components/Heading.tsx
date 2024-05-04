@@ -13,7 +13,7 @@ const Heading = ({
 }: HeadingProps) => {
     return(
         <div
-            className={center ? "text-center" : "text-start "}
+            className={center ? "text-center" : "text-start pl-2 "}
         >
             <div className="text-2xl font-bold">
                 {title}

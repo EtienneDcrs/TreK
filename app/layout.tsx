@@ -3,6 +3,8 @@ import{ Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import RegisterModal from "./components/modals/RegisterModal";
+import PageBody from "./components/PageBody";
+import ToasterProvider from "./providers/ToasterProvider";
 
 
 
@@ -14,17 +16,15 @@ export const metadata: Metadata = {
 
 const font = Nunito({ subsets: ["latin"] });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body className="flex flex-col font-sans" >
+        <ToasterProvider />
         <RegisterModal />
-        <Navbar /> 
-        {children}
+        <Navbar />
+        <PageBody />
+        {/* {children} */}
         </body>
     </html>
   );
