@@ -6,8 +6,16 @@ import { useCallback } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import { signOut } from "next-auth/react";
+import { SafeUser } from "@/app/types";
 
-const Menu = () => {
+interface UserMenuProps {
+    currentUser?: SafeUser | null;
+
+};
+
+
+const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const [isOpen, setIsOpen] = useState(false);
@@ -56,17 +64,36 @@ const Menu = () => {
                         <div
                             className="flex flex-col cursor-pointer"
                         >
-                            <>
-                                <MenuItem 
-                                    onClick={loginModal.onOpen}
-                                    label="Login"
-                                    className="border-b-[1px]"
-                                />
-                                <MenuItem 
-                                    onClick={registerModal.onOpen}
-                                    label="Sign up"
-                                />
-                            </>
+                            {currentUser ? (
+                                <>
+                                    <MenuItem 
+                                        onClick={() => console.log("Mon compte")}
+                                        label="Votre compte"
+                                        className="border-b-[1px]"
+                                    />
+                                    <MenuItem 
+                                        onClick={() => console.log("Paramètres")}
+                                        label="Paramètres"
+                                        className="border-b-[1px]"
+                                    />
+                                    <MenuItem 
+                                        onClick={() => {signOut()}}
+                                        label="Se déconnecter"
+                                    />
+                                </>
+                            ) : (     
+                                <>
+                                    <MenuItem 
+                                        onClick={loginModal.onOpen}
+                                        label="Login"
+                                        className="border-b-[1px]"
+                                    />
+                                    <MenuItem 
+                                        onClick={registerModal.onOpen}
+                                        label="Sign up"
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
                 )}
@@ -75,4 +102,4 @@ const Menu = () => {
     );
 };
 
-export default Menu;
+export default UserMenu;

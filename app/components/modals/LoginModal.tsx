@@ -17,7 +17,7 @@ import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
 import Button from "../Button";
 import { useRouter } from 'next/navigation';
-import { log } from 'console';
+import { sign } from 'crypto';
 
 const LoginModal = () => {
     const router = useRouter();
@@ -47,8 +47,8 @@ const LoginModal = () => {
 
             if (callback?.ok) {
                 toast.success("Logged in successfully");
-                router.refresh();
                 loginModal.onClose();
+                router.refresh();
             }
 
             if (callback?.error) {
@@ -62,7 +62,7 @@ const LoginModal = () => {
             className="flex flex-col gap-3"
         >
             <Heading 
-                title="Bienvenue !"
+                title="Heureux de vous revoir !"
                 subtitle="Connectez vous à votre compte !"
             />
             <Input 
@@ -92,13 +92,13 @@ const LoginModal = () => {
                 outline
                 label="Continue with Google" 
                 icon={FcGoogle}
-                onClick={() => {}}
+                onClick={() => signIn("google")}
             />
             <Button 
                 outline
                 label="Continue with Github" 
                 icon={AiFillGithub}
-                onClick={() => {}}
+                onClick={() => signIn("github")}
             />
             <div
                 className="text-neutral-500 text-center font-light"

@@ -1,10 +1,21 @@
 import Container from "../Container";
 import Logo from "./Logo";
-import Menu from "./Menu";
 import NavItem from "./NavItem";
 import Searchbar from "./Searchbar";
+import UserMenu from "./UserMenu";
+import { SafeUser } from "@/app/types";
 
-const Navbar = () => {
+
+interface NavbarProps {
+    currentUser?: SafeUser | null;
+}
+
+
+const Navbar: React.FC<NavbarProps> = ({
+    currentUser
+}) => {
+    
+    console.log(currentUser);
     return (
         <div className="fixed w-full bg-white z-10 shadow-sm">
             <div className="py-3 border-b-[1px]">
@@ -26,7 +37,7 @@ const Navbar = () => {
                         
                         <div className="flex flex-row items-center">
                             <Searchbar />
-                            <Menu />
+                            <UserMenu currentUser={currentUser} />
                         </div>
                     </div>
                 </Container>

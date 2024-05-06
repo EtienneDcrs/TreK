@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import{ Nunito } from "next/font/google";
 import "./globals.css";
+
 import Navbar from "./components/navbar/Navbar";
 import RegisterModal from "./components/modals/RegisterModal";
 import PageBody from "./components/PageBody";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
+import { getCurrentUser } from "./actions/getCurrentUser";
 
 
 
@@ -17,14 +19,19 @@ export const metadata: Metadata = {
 
 const font = Nunito({ subsets: ["latin"] });
 
-export default function RootLayout({ children }: Readonly<{children: React.ReactNode;}>) {
+export default async function RootLayout({ 
+  children, 
+}: {
+  children: React.ReactNode;
+}) {
+  const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body className="flex flex-col font-sans" >
         <ToasterProvider />
         <LoginModal />
         <RegisterModal />
-        <Navbar />
+        <Navbar currentUser={currentUser}/>
         <PageBody />
         {/* {children} */}
         </body>

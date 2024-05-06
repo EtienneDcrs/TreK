@@ -70,7 +70,7 @@ const NavItem = () => {
 
                     "
                 >
-                    Onglet 2
+                    Mes randos
                 </div>
                 <div
                     className="
@@ -90,7 +90,7 @@ const NavItem = () => {
 
                     "
                 >
-                    Onglet 2 bis
+                    Mes favoris
                 </div>
                 <div
                     onClick={toggleOpen}
@@ -132,12 +132,12 @@ const NavItem = () => {
                             <>
                                 <MenuItem 
                                     onClick={() => console.log("Clicked")}
-                                    label="Onglet 2"
+                                    label="Mes randos"
                                     className={"border-b-[1px] "}
                                     />
                                 <MenuItem 
                                     onClick={() => console.log("Clicked")}
-                                    label="Onglet 2 bis"
+                                    label="Mes favoris"
 
                                 />
                             </>
