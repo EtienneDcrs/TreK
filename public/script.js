@@ -243,13 +243,14 @@ function deleteRoute(route){
   var polyline_to_remove = map._layers[route.line._leaflet_id];
   map.removeLayer(polyline_to_remove);
   hideMarkers();
-  
+  /*
   document.getElementById('route_btn').style.display = 'none';
   document.getElementById('delete_route').style.display = 'none';
   document.getElementById('route-info-content-elevation-gain').innerHTML = "Dénivelé positif : ";
   document.getElementById('route-info-content-distance').innerHTML = "Distance : ";
   document.getElementById('route-info-content-elevation').innerHTML = "Dénivelé (Départ - Arrivée) : ";
   document.getElementById('route-info-content-elevation-gain').innerHTML = "Dénivelé positif : ";
+  */
 }
 
 
@@ -275,11 +276,11 @@ function updateRoute(route){
     map.fitBounds(active_route.line.getBounds());
     showMarkers(active_route);
     
-    document.getElementById('route_btn').style.display = 'block'; // Afficher le bouton de zoom sur la route
-    document.getElementById('delete_route').style.display = 'block';
-    document.getElementById('route-info-content-distance').innerHTML = "Distance : "+getRouteLength(active_route.coords).toFixed(2) + ' km';
-    document.getElementById('route-info-content-elevation').innerHTML = "Dénivelé (Départ - Arrivée) : "+getRouteElevation(active_route.coords).toFixed(2) + ' m';
-    document.getElementById('route-info-content-elevation-gain').innerHTML = "Dénivelé positif : "+getRouteElevationGain(active_route.coords).toFixed(2) + ' m';
+    // document.getElementById('route_btn').style.display = 'block'; // Afficher le bouton de zoom sur la route
+    // document.getElementById('delete_route').style.display = 'block';
+    // document.getElementById('route-info-content-distance').innerHTML = "Distance : "+getRouteLength(active_route.coords).toFixed(2) + ' km';
+    // document.getElementById('route-info-content-elevation').innerHTML = "Dénivelé (Départ - Arrivée) : "+getRouteElevation(active_route.coords).toFixed(2) + ' m';
+    // document.getElementById('route-info-content-elevation-gain').innerHTML = "Dénivelé positif : "+getRouteElevationGain(active_route.coords).toFixed(2) + ' m';
     
   }
   else{
