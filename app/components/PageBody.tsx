@@ -1,11 +1,27 @@
 'use client';
 
+import { useState } from "react";
+import { getCoordinatesFromGPX } from "../actions/getCoordinates";
 import FileInput from "./inputs/FileInput";
 import Map from "./map/Map";
+import { LatLngExpression } from "leaflet";
 
 
 
 const PageBody = () => {
+    const [coordinates, setCoordinates] = useState<[number, number][]>([]);
+    const [center, setCenter] = useState<[  number,number]>([46.9119382485954, 2.2651793849164115]); //[43.68169106,3.84768334]
+    /*const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("New file selected")
+        const file = event.target.files![0];
+        getCoordinatesFromGPX(file).then((coords) => {
+            // Map over the coords to create an array of [lat, lng] pairs
+            const latLngs: [number, number][] = coords.map(coord => [coord.lat, coord.lng]);
+            setCoordinates(latLngs);
+            setCenter(latLngs[Math.floor(latLngs.length / 2)]); 
+        });
+    };
+    */   
     return (
         <div 
             className="
@@ -71,7 +87,7 @@ const PageBody = () => {
                         md:h-full
                         "
                 >
-                    <Map />
+                    <Map center={center} polyline={coordinates}/>
                 </div>
                 <div
                     className="
@@ -86,7 +102,7 @@ const PageBody = () => {
                         "
                 >
                     
-                    <FileInput title="Upload a file" acceptedFileTypes=".gpx, .kml"/>
+                    <FileInput title="Upload a file" acceptedFileTypes=".gpx, .kml" onChange={()=>{}}/>
                 </div>
                 <div
                     className="

@@ -24,7 +24,7 @@ model User {
   updatedAt      DateTime  @updatedAt
   favoriteIds    String[]  @db.ObjectId
   accounts       Account[]
-  posts          Post[]
+  posts          Route[]
 }
 
 model Account {
@@ -46,28 +46,21 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Post {
+model Route {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  imageSrc    String
+  //imageSrc    String
   createdAt   DateTime @default(now())
-  content     String
-  published   Boolean
+  published   Boolean?
   authorId    String   @db.ObjectId
+  lats        Float[]
+  lngs        Float[]
+  elevations  Float[]
+  category    String?
+  length      String?
+  duration    String?
+  difficulty  String?
 
-  author User    @relation(fields: [authorId], references: [id])
-  routes Route[]
-}
-
-model Route {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  // path      String
-  category   String
-  length     String
-  duration   String?
-  difficulty String?
-  postId     String  @db.ObjectId
-
-  post Post @relation(fields: [postId], references: [id])
+  author User @relation(fields: [authorId], references: [id])
 }

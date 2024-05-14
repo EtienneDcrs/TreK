@@ -107,6 +107,7 @@ const NavItem = () => {
                         rounded-r-full
                         hover:text-blue-500
                         hover:shadow-md
+                        border-l-[1px]
                     "
                 >
                     Autre

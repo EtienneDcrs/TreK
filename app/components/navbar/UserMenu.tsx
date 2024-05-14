@@ -6,6 +6,7 @@ import { useCallback } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import usePostModal from "@/app/hooks/usePostModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 
@@ -18,6 +19,7 @@ interface UserMenuProps {
 const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
+    const postModal = usePostModal();
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = useCallback(() => {
@@ -53,7 +55,7 @@ const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
                             rounded-xl
                             shadow-md
                             bg-white
-                            w-[150px]                            
+                            w-[170px]                            
                             overflow-hidden
                             right-0
                             top-16
@@ -74,6 +76,11 @@ const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
                                     <MenuItem 
                                         onClick={() => console.log("Paramètres")}
                                         label="Paramètres"
+                                        className="border-b-[1px]"
+                                    />
+                                    <MenuItem 
+                                        onClick={postModal.onOpen}
+                                        label="Créez une randonnée"
                                         className="border-b-[1px]"
                                     />
                                     <MenuItem 

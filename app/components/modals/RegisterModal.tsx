@@ -18,9 +18,11 @@ import { toast } from "react-hot-toast";
 import Button from "../Button";
 import { sign } from "crypto";
 import { signIn } from "next-auth/react";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 const RegisterModal = () => {
-    const RegisterModal = useRegisterModal();
+    const registerModal = useRegisterModal();
+    const loginModal = useLoginModal();
     const [ isLoading, setIsLoading ] = useState(false);
 
     const {
@@ -42,7 +44,7 @@ const RegisterModal = () => {
             .then((response) => {
                 console.log(response);
                 setIsLoading(false);
-                RegisterModal.onClose();
+                registerModal.onClose();
             })
             .catch((error) => {
                 toast.error('Something went wrong. Please try again.');
@@ -51,6 +53,12 @@ const RegisterModal = () => {
                 setIsLoading(false);
             });
     }; 
+
+    const toggle = useCallback(() => {
+        registerModal.onClose();
+        loginModal.onOpen();
+    }
+    , [loginModal, registerModal]);
 
     const bodyContent = (
         <div
@@ -95,13 +103,13 @@ const RegisterModal = () => {
                 outline
                 label="Continue with Google" 
                 icon={FcGoogle}
-                onClick={() => signIn("google")}
+                onClick={() => {}}
             />
             <Button 
                 outline
                 label="Continue with Github" 
                 icon={AiFillGithub}
-                onClick={() => signIn("github")}
+                onClick={() => {}}
             />
             <div
                 className="text-neutral-500 text-center font-light"
@@ -112,7 +120,7 @@ const RegisterModal = () => {
                     <div>
                         Vous avez déjà un compte ? 
                     </div>
-                    <div onClick={RegisterModal.onClose} className="text-neutral-800 cursor-pointer hover:underline">
+                    <div onClick={toggle} className="text-neutral-800 cursor-pointer hover:underline">
                         Connectez vous
                     </div>
                 </div>
@@ -123,8 +131,8 @@ const RegisterModal = () => {
     return(
         <Modal
             disabled={isLoading}
-            isOpen={RegisterModal.isOpen}
-            onClose={RegisterModal.onClose}
+            isOpen={registerModal.isOpen}
+            onClose={registerModal.onClose}
             onSubmit={handleSubmit(onSubmit)}
             title="Register"
             actionLabel="Continue"
