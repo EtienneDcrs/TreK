@@ -79,46 +79,12 @@ const allLayers = [baseLayer, OpenStreetMap_France,OpenTopoMap]
 
 interface MapProps {
     center?: [number,number];
-    className?: string;
+    id?: string;
     polyline?: [number, number][];
 };
 
-const Map: React.FC<MapProps> = ({ center, className, polyline }) => {
-    /*const defaultPosition :[number,number]= [46.9119382485954, 2.2651793849164115];
-    var mapCenter = defaultPosition as LatLngExpression;
-    // Fonction pour calculer le centre de la Polyline
-    const calculatePolylineCenter = (polyline: [number,number][]):[number,number] => {
-        console.log("Calculating center of polyline");
-        if (!polyline || polyline.length == 0) return defaultPosition;
-
-        let minLat = Infinity;
-        let minLng = Infinity;
-        let maxLat = -Infinity;
-        let maxLng = -Infinity;
-
-        // Parcourir les coordonnées pour trouver les valeurs min et max
-        polyline.forEach((coords: [number,number]) => {
-            console.log("Coords", coords);
-            if (coords[0]){
-                minLat = Math.min(minLat, coords[0]);
-                minLng = Math.min(minLng, coords[1]);
-                maxLat = Math.max(maxLat, coords[0]);
-                maxLng = Math.max(maxLng, coords[1]);
-            };
-        });
-        console.log("Center of polyline", [(minLat + maxLat) / 2, (minLng + maxLng) / 2]);
-        return [(minLat + maxLat) / 2, (minLng + maxLng) / 2];  
-    };
-
-    mapCenter = defaultPosition as LatLngExpression;
-    // Déterminer le centre à utiliser pour la carte
-    if (polyline){
-        mapCenter = calculatePolylineCenter(polyline) as LatLngExpression;
-    } else if (center){
-        mapCenter = center as LatLngExpression;
-    }
-
-    console.log("Map center", mapCenter);
+const Map: React.FC<MapProps> = ({ center, id, polyline }) => {
+    /*
     return (
         <MapContainer className={`${className ? className : "leaflet-map"}`} center={mapCenter} zoom={6} scrollWheelZoom={true}>
             <TileLayer
@@ -133,7 +99,7 @@ const Map: React.FC<MapProps> = ({ center, className, polyline }) => {
     );*/
     return(
         <div className="h-full">
-            <div id="map" use-global-leaflet="true"></div>
+            <div id={id} use-global-leaflet="true"></div>
             {/* <div className="leaflet-map" use-global-leaflet="true"></div> */}
         </div>
     );

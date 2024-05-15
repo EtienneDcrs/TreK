@@ -17,7 +17,6 @@ import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
 import Button from "../Button";
 import { useRouter } from 'next/navigation';
-import { sign } from 'crypto';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 
 const LoginModal = () => {

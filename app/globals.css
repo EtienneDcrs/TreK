@@ -22,7 +22,7 @@ body,
   z-index: 50;
 }
 
-.leaflet-post-map{
+#map2{
   width: 100%;
   height: 400px;
   z-index: 50;

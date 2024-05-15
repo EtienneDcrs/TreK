@@ -1,28 +1,106 @@
 'use client';
 
+import axios from "axios";
 import usePostModal from "@/app/hooks/usePostModal";
+import { useMemo, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import Input from "../inputs/Input";
-import { useMemo, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
 import FileInput from "../inputs/FileInput";
+import CategoryInput from "../inputs/CategoryInput";
 import Map from "../map/Map";
 import { getCoordinatesFromGPX } from "@/app/actions/getCoordinates";
 import { useMap } from "react-leaflet";
 import { LatLng, LatLngExpression } from "leaflet";
 import { watch } from "fs";
+import {toast} from "react-hot-toast"
+import { useRouter } from "next/navigation";
+import { FaMountain, FaRegSnowflake, FaUmbrellaBeach } from "react-icons/fa";
+import { MdForest } from "react-icons/md";
+import { GiBoatFishing, GiCaveEntrance, GiHills, GiWindmill } from "react-icons/gi";
+import { FaMountainCity, FaQuestion } from "react-icons/fa6";
+import { set } from "firebase/database";
+import DifficultyInput from "../inputs/DifficultyInput";
+import Script from "next/script";
 
 enum STEPS {
     FILE=0,
-    DESCRIPTION=1
+    CATEGORY=1,
+    DIFFICULTY=2,
+    DESCRIPTION=3,
 }
+
+export const categories = [
+    {
+        label: "Montagne",
+        descritpion: "Randonnée en montagne",
+        icon: FaMountain
+    },
+    {
+        label: "Forêt", // Foret
+        descritpion: "Randonnée en forêt",
+        icon: MdForest
+    },
+    {
+        label: "Campagne",
+        descritpion: "Randonnée en campagne",
+        icon: GiWindmill,
+    },
+    {
+        label: "Ville",
+        descritpion: "Randonnée en ville",
+        icon: FaMountainCity
+    },
+    {
+        label:"Lac",
+        descritpion: "Randonnée autour d'un lac",
+        icon: GiBoatFishing
+    },
+    {
+        label:"Plage",
+        descritpion: "Randonnée en bord de mer",
+        icon: FaUmbrellaBeach
+    },
+    {
+        label: "Grotte",
+        descritpion: "Randonnée en grotte",
+        icon: GiCaveEntrance
+    },
+    {
+        label: "Autre",
+        descritpion: "Autre type de randonnée",
+        icon: FaQuestion
+    },
+        
+]
+
+export const difficulties = [
+    {
+        label: "Facile",
+        color: "green",
+    },
+    {
+        label: "Moyen",
+        color: "yellow",
+    },
+    {
+        label: "Difficile",
+        color: "orange",
+    },
+    {
+        label: "Expert",
+        color: "red",
+    },
+
+
+]
 
 const PostModal = () => {
     const postModal = usePostModal();
-
+    const router = useRouter()
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ step, setStep ] = useState(STEPS.FILE);
+    const [ step, setStep ] = useState(STEPS.DIFFICULTY);
     const [coordinates, setCoordinates] = useState<[number, number][]>([]);
     const [center, setCenter] = useState<[number,number]>([46.9119382485954, 2.2651793849164115]); //[43.68169106,3.84768334]
     
@@ -35,7 +113,8 @@ const PostModal = () => {
             // Map over the coords to create an array of [lat, lng] pairs
             const latLngs: [number, number][] = coords.map(coord => [coord.lat, coord.lng]);
             setCoordinates(latLngs);
-            setCenter(latLngs[Math.floor(latLngs.length / 2)]); 
+            setCenter(latLngs[Math.floor(latLngs.length / 2)]);
+            // elevation missing for now
         });
     };
 
@@ -98,7 +177,33 @@ const PostModal = () => {
     const difficulty = watch("difficulty");
 
     const setCustomValue = (name: string, value: any) => {
-        setValue(name, value, { shouldValidate: true });
+        setValue(name, value, { 
+            shouldDirty: true,
+            shouldTouch: true,
+            shouldValidate: true });
+    }
+
+
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        if (step !== STEPS.DESCRIPTION){
+            return onNext();
+        }
+        setIsLoading(true);
+
+        axios.post('api/posts',data)
+        .then(()=>{
+            toast.success('Post Created !');
+            router.refresh();
+            reset();
+            setStep(STEPS.FILE);
+            postModal.onClose()
+        })
+        .catch(()=>{
+            toast.error("Something went wrong")
+        })
+        .finally(()=>{
+            setIsLoading(false);
+        })
     }
 
     let bodyContent = (
@@ -117,16 +222,80 @@ const PostModal = () => {
                     />
                     <div className="w-full">
                         <Map 
-                            className="leaflet-post-map"
+                            id="map2"
                             polyline={coordinates}
                             center={center}
                         />
+                        {/* <Script src="./script.js"/> */}
                     </div>
                 </div>
 
             </div>
         </div>
     )
+
+    if (step === STEPS.CATEGORY) {
+        bodyContent = (
+            <div className="flex flex-col gap-4">
+                <Heading 
+                    title="Partagez une nouvelle randonnée !"
+                    subtitle="Définissez la catégorie qui correspond à votre randonnée"
+                />
+                <div
+                    className="
+                    grid
+                    grid-cols-1
+                    md:grid-cols-2
+                    gap-3
+                    max-h-[50vh]
+                    overflow-y-auto">
+                        {categories.map((item)=> (
+                            <div key={item.label} className="col-span-1">
+                                <CategoryInput 
+                                    onClick={(category) => {setCustomValue("category", category)}}
+                                    selected={category === item.label}
+                                    label={item.label}
+                                    icon={item.icon}
+                                    />
+                                
+                            </div>
+                        ))}
+                </div>
+            </div>
+            
+        )
+    }
+    if (step === STEPS.DIFFICULTY) {
+        bodyContent = (
+            <div className="flex flex-col gap-4">
+                <Heading 
+                    title="Partagez une nouvelle randonnée !"
+                    subtitle="Définnissez la difficulté et longueur de votre randonnée"
+                />
+                <div
+                    className="
+                    grid
+                    grid-cols-1
+                    md:grid-cols-2
+                    gap-3
+                    max-h-[50vh]
+                    overflow-y-auto">
+                    {difficulties.map((item)=> (
+                            <div key={item.label} className="col-span-1">
+                                <DifficultyInput
+                                    onClick={(difficulty) => {setCustomValue("difficulty", difficulty)}}
+                                    selected={difficulty === item.label}
+                                    label={item.label}
+                                    color={item.color}
+                                    />
+                                
+                            </div>
+                    ))}
+                </div>
+            </div>
+            
+        )
+    }
 
     if (step === STEPS.DESCRIPTION) {
         bodyContent = (
@@ -158,10 +327,10 @@ const PostModal = () => {
         <Modal 
             isOpen={postModal.isOpen}
             onClose={postModal.onClose}
-            onSubmit={onNext}
+            onSubmit={handleSubmit(onSubmit)}
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
-            secondaryAction={step === STEPS.DESCRIPTION ? onPrev : undefined} 
+            secondaryAction={step === STEPS.FILE ? undefined : onPrev} 
             title="Create a new post"
             body={bodyContent}
         />

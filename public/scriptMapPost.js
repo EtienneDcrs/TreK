@@ -1,4 +1,4 @@
-console.log("Script chargé !");
+console.log("Script post chargé !");
 
 // for more layers, see https://leaflet-extras.github.io/leaflet-providers/preview/
 // Here are few layers
@@ -48,12 +48,11 @@ var WaymarkedTrails_hiking = L.tileLayer('https://tile.waymarkedtrails.org/hikin
 	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 });
 
-var map = L.map('map', {
+var map = L.map('map2', {
   center: [46.9119382485954,2.2651793849164115],
   zoom: 6,
   layers: [baseLayer]
 });
-
 var baseLayers = {
   "Base Layer": baseLayer,
   "Layer France": OpenStreetMap_France,
