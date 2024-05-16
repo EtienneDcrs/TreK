@@ -5,17 +5,11 @@ import Searchbar from "./Searchbar";
 import UserMenu from "./UserMenu";
 import { SafeUser } from "@/app/types";
 
-
 interface NavbarProps {
     currentUser?: SafeUser | null;
 }
 
-
-const Navbar: React.FC<NavbarProps> = ({
-    currentUser
-}) => {
-    
-    console.log(currentUser);
+const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
     return (
         <div className="fixed w-full bg-white z-10 shadow-sm">
             <div className="py-3 border-b-[1px]">
@@ -30,11 +24,10 @@ const Navbar: React.FC<NavbarProps> = ({
                             "
                     >
                         <div className="flex flex-row justify-between items-center gap-4">
-
                             <Logo />
                             <NavItem />
                         </div>
-                        
+
                         <div className="flex flex-row items-center">
                             <Searchbar />
                             <UserMenu currentUser={currentUser} />
@@ -44,6 +37,6 @@ const Navbar: React.FC<NavbarProps> = ({
             </div>
         </div>
     );
-}
+};
 
 export default Navbar;

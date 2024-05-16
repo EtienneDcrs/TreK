@@ -1,14 +1,10 @@
-'use client';
+"use client";
 
-import {signIn} from 'next-auth/react';
+import { signIn } from "next-auth/react";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
-import {
-    FieldValues,
-    SubmitHandler,
-    useForm,
-} from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import Modal from "./Modal";
@@ -16,14 +12,14 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
 import Button from "../Button";
-import { useRouter } from 'next/navigation';
-import useRegisterModal from '@/app/hooks/useRegisterModal';
+import { useRouter } from "next/navigation";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 const LoginModal = () => {
     const router = useRouter();
     const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {
         register,
@@ -38,12 +34,11 @@ const LoginModal = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-        
+
         signIn("credentials", {
             ...data,
             redirect: false,
-        })
-        .then((callback) => {
+        }).then((callback) => {
             setIsLoading(false);
 
             if (callback?.ok) {
@@ -55,32 +50,29 @@ const LoginModal = () => {
             if (callback?.error) {
                 toast.error(callback.error);
             }
-        })
-    }
+        });
+    };
 
     const toggle = useCallback(() => {
         loginModal.onClose();
         registerModal.onOpen();
-    }
-    , [loginModal, registerModal]);
+    }, [loginModal, registerModal]);
 
     const bodyContent = (
-        <div
-            className="flex flex-col gap-3"
-        >
-            <Heading 
+        <div className="flex flex-col gap-3">
+            <Heading
                 title="Heureux de vous revoir !"
                 subtitle="Connectez vous à votre compte !"
             />
-            <Input 
+            <Input
                 id="email"
                 label="Email"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
                 required
-            />  
-            <Input 
+            />
+            <Input
                 id="password"
                 type="password"
                 label="Password"
@@ -88,14 +80,14 @@ const LoginModal = () => {
                 register={register}
                 errors={errors}
                 required
-            /> 
+            />
         </div>
     );
 
     const footerContent = (
         <div className="flex flex-col gap-3">
             <hr />
-            <Button 
+            {/* <Button 
                 outline
                 label="Continue with Google" 
                 icon={FcGoogle}
@@ -106,25 +98,22 @@ const LoginModal = () => {
                 label="Continue with Github" 
                 icon={AiFillGithub}
                 onClick={() => signIn("github")}
-            />
-            <div
-                className="text-neutral-500 text-center font-light"
-            >
-                <div
-                    className="flex flex-row justify-center items-center gap-2"
+            /> */}
+            <div className="text-neutral-500 text-center font-light">
+                <div className="flex flex-row justify-center items-center gap-2">
+                    <div>Pas encore de compte ?</div>
+                    <div
+                        onClick={toggle}
+                        className="text-neutral-800 cursor-pointer hover:underline"
                     >
-                    <div>
-                        Pas encore de compte ? 
-                    </div>
-                    <div onClick={toggle} className="text-neutral-800 cursor-pointer hover:underline">
                         Créez votre compte
                     </div>
                 </div>
             </div>
         </div>
     );
-    
-    return(
+
+    return (
         <Modal
             disabled={isLoading}
             isOpen={loginModal.isOpen}

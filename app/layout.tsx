@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import{ Nunito } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 //import "/leaflet.css";
 import Navbar from "./components/navbar/Navbar";
@@ -11,36 +11,33 @@ import { getCurrentUser } from "./actions/getCurrentUser";
 import PostModal from "./components/modals/PostModal";
 import Script from "next/script";
 
-
-
 export const metadata: Metadata = {
-  title: "Rando App",
-  description: "appli de rando",
+    title: "Rando App",
+    description: "appli de rando",
 };
-
 
 const font = Nunito({ subsets: ["latin"] });
 
-export default async function RootLayout({ 
-  children, 
+export default async function RootLayout({
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  const currentUser = await getCurrentUser();
-  return (
-    <html lang="en">
-      
-      <body className="flex flex-col font-sans" >
-        <ToasterProvider />
-        <PostModal />
-        <LoginModal />
-        <RegisterModal />
-        <Navbar currentUser={currentUser}/>
-        <PageBody />
-        {/* {children} */}
-        <Script src="./script.js"/>
-        <script src="./leaflet.js"></script>
-        </body>
-    </html>
-  );
+    const currentUser = await getCurrentUser();
+    return (
+        <html lang="en">
+            <body className="flex flex-col font-sans">
+                <ToasterProvider />
+                <PostModal />
+                <LoginModal />
+                <RegisterModal />
+                <Navbar currentUser={currentUser} />
+
+                <div>{children}</div>
+
+                <Script src="./script.js" />
+                <script src="./leaflet.js"></script>
+            </body>
+        </html>
+    );
 }

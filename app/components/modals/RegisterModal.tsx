@@ -1,14 +1,10 @@
-'use client';
+"use client";
 
 import axios from "axios";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
-import {
-    FieldValues,
-    SubmitHandler,
-    useForm,
-} from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Modal from "./Modal";
@@ -23,7 +19,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {
         register,
@@ -47,44 +43,38 @@ const RegisterModal = () => {
                 registerModal.onClose();
             })
             .catch((error) => {
-                toast.error('Something went wrong. Please try again.');
+                toast.error("Something went wrong. Please try again.");
             })
             .finally(() => {
                 setIsLoading(false);
             });
-    }; 
+    };
 
     const toggle = useCallback(() => {
         registerModal.onClose();
         loginModal.onOpen();
-    }
-    , [loginModal, registerModal]);
+    }, [loginModal, registerModal]);
 
     const bodyContent = (
-        <div
-            className="flex flex-col gap-3"
-        >
-            <Heading 
-                title="Bienvenue !"
-                subtitle="Créez votre compte !"
-            />
-            <Input 
+        <div className="flex flex-col gap-3">
+            <Heading title="Bienvenue !" subtitle="Créez votre compte !" />
+            <Input
                 id="email"
                 label="Email"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
                 required
-            /> 
-            <Input 
+            />
+            <Input
                 id="name"
                 label="Name"
                 disabled={isLoading}
                 register={register}
                 errors={errors}
                 required
-            /> 
-            <Input 
+            />
+            <Input
                 id="password"
                 type="password"
                 label="Password"
@@ -92,14 +82,14 @@ const RegisterModal = () => {
                 register={register}
                 errors={errors}
                 required
-            /> 
+            />
         </div>
     );
 
     const footerContent = (
         <div className="flex flex-col gap-3">
             <hr />
-            <Button 
+            {/* <Button 
                 outline
                 label="Continue with Google" 
                 icon={FcGoogle}
@@ -110,25 +100,22 @@ const RegisterModal = () => {
                 label="Continue with Github" 
                 icon={AiFillGithub}
                 onClick={() => {}}
-            />
-            <div
-                className="text-neutral-500 text-center font-light"
-            >
-                <div
-                    className="flex flex-row justify-center items-center gap-2"
+            /> */}
+            <div className="text-neutral-500 text-center font-light">
+                <div className="flex flex-row justify-center items-center gap-2">
+                    <div>Vous avez déjà un compte ?</div>
+                    <div
+                        onClick={toggle}
+                        className="text-neutral-800 cursor-pointer hover:underline"
                     >
-                    <div>
-                        Vous avez déjà un compte ? 
-                    </div>
-                    <div onClick={toggle} className="text-neutral-800 cursor-pointer hover:underline">
                         Connectez vous
                     </div>
                 </div>
             </div>
         </div>
     );
-    
-    return(
+
+    return (
         <Modal
             disabled={isLoading}
             isOpen={registerModal.isOpen}

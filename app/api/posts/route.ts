@@ -18,5 +18,32 @@ export async function POST(
     const {
         title,
         description,
+        category,
+        difficulty,
     } = body;
-}
+
+    Object.keys(body).forEach((key) => {
+        if (!body[key]) {
+            NextResponse.error();
+        }
+    });
+
+    const route = await prisma.route.create({
+        data: {
+            title,
+            description,
+            published: false,
+            authorId: currentUser.id,
+            lats: [],
+            lngs: [],
+            elevations: [],
+            category,
+            length: "10km",
+            duration: "2h",
+            difficulty,
+
+        }   
+    });
+
+    return NextResponse.json(route);
+};
