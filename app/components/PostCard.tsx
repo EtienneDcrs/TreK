@@ -1,9 +1,10 @@
 "use client";
-import { Route } from "@prisma/client";
+import { Post } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { SafePost } from "../types";
 
 interface PostCardProps {
-    data: Route;
+    data: SafePost;
     currentUser: any;
 }
 
@@ -12,7 +13,7 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
     return (
         <div
             onClick={() => {
-                //router.push(`/post/${data.id}`);
+                router.push(`/posts/${data.id}`);
             }}
             className="
                 cursor-pointer 
@@ -25,8 +26,8 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
         >
             {data.title}
             <br />
-
             {data.description}
+            <br />
             {data.category}
         </div>
     );

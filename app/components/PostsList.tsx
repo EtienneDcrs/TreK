@@ -1,6 +1,7 @@
 "use client";
 
-import EmptyState from "./EmptyState";
+import { SafePost } from "../types";
+import EmptyState from "./filters/EmptyState";
 import PostCard from "./PostCard";
 import { useSearchParams } from "next/navigation";
 
@@ -15,18 +16,20 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
     const user = params?.get("user");
     const difficulty = params?.get("difficulty");
 
-    if (posts.length === 0) {
-        return <EmptyState showReset />;
-    }
-
     if (category) {
-        posts = posts.filter((post: any) => post.category === category);
+        posts = posts.filter((post: SafePost) => post.category === category);
     }
     if (user) {
-        posts = posts.filter((post: any) => post.authorId === user);
+        posts = posts.filter((post: SafePost) => post.authorId === user);
     }
     if (difficulty) {
-        posts = posts.filter((post: any) => post.difficulty === difficulty);
+        posts = posts.filter(
+            (post: SafePost) => post.difficulty === difficulty
+        );
+    }
+    console.log(posts);
+    if (posts.length == 0) {
+        return <EmptyState showReset />;
     }
 
     return (
@@ -38,7 +41,6 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
                 shadow-lg
                 w-full
                 md:w-2/5
-                lg:w-1/2
                 md:h-full
                 gap-2
                 overflow-y-auto
@@ -51,7 +53,7 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
                 gap-4
             "
             >
-                {posts.map((post: any) => {
+                {posts.map((post: SafePost) => {
                     return (
                         <PostCard
                             key={post.id}

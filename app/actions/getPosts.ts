@@ -2,12 +2,18 @@ import prisma from "@/app/libs/prismadb";
 
 export default async function getPosts() {
     try {
-        const posts = await prisma.route.findMany({
+        const posts = await prisma.post.findMany({
             orderBy: {
                 createdAt: 'desc',
             },
         });
-        return posts;
+
+        const safePost = posts.map((post) => ({
+            ...post,
+            createdAt: post.createdAt.toISOString(),
+        }));
+        return safePost;
+
     }catch (error:any) {
         throw new Error(error);
     }

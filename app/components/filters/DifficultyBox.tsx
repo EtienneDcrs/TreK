@@ -79,7 +79,7 @@ const DifficultyBox: React.FC<DifficultyBoxProps> = ({
                 w-full
                 border-2
                 ${hoverColor}
-                ${selected ? borderColor : "border-neutral-300"}
+                ${selected ? borderColor : "border-neutral-200"}
                 ${selected ? bgColor : "bg-white"}
             `}
         >

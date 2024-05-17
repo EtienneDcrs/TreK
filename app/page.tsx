@@ -4,7 +4,7 @@ import Map from "./components/map/Map";
 import PostsList from "./components/PostsList";
 import getPosts from "./actions/getPosts";
 import { getCurrentUser } from "./actions/getCurrentUser";
-import Filters from "./components/Filters";
+import Filters from "./components/filters/Filters";
 
 export default async function Home() {
     const posts = await getPosts();
@@ -50,7 +50,6 @@ export default async function Home() {
                             h-3/5
                             md:w-3/5
                             md:h-full
-                            lg:w-1/2
                             flex
                             flex-col
                             gap-2

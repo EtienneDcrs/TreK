@@ -11,21 +11,12 @@ import FileInput from "../inputs/FileInput";
 import CategoryInput from "../inputs/CategoryInput";
 import Map from "../map/Map";
 import { getCoordinatesFromGPX } from "@/app/actions/getCoordinates";
-import { useMap } from "react-leaflet";
-import { LatLng, LatLngExpression } from "leaflet";
-import { watch } from "fs";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { FaMountain, FaRegSnowflake, FaUmbrellaBeach } from "react-icons/fa";
+import { FaMountain, FaUmbrellaBeach } from "react-icons/fa";
 import { MdForest } from "react-icons/md";
-import {
-    GiBoatFishing,
-    GiCaveEntrance,
-    GiHills,
-    GiWindmill,
-} from "react-icons/gi";
+import { GiBoatFishing, GiCaveEntrance, GiWindmill } from "react-icons/gi";
 import { FaMountainCity, FaQuestion } from "react-icons/fa6";
-import { set } from "firebase/database";
 import DifficultyInput from "../inputs/DifficultyInput";
 import Script from "next/script";
 
@@ -102,7 +93,7 @@ const PostModal = () => {
     const postModal = usePostModal();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-    const [step, setStep] = useState(STEPS.DIFFICULTY);
+    const [step, setStep] = useState(STEPS.CATEGORY);
     const [coordinates, setCoordinates] = useState<[number, number][]>([]);
     const [center, setCenter] = useState<[number, number]>([
         46.9119382485954, 2.2651793849164115,

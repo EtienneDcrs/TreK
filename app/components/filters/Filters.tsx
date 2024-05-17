@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import CategoryBox from "./CategoryBox";
-import { categories, difficulties } from "./modals/PostModal";
+import { categories, difficulties } from "../modals/PostModal";
 import { IconType } from "react-icons";
 import DifficultyBox from "./DifficultyBox";
 
@@ -18,10 +18,10 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                 className="
                     grid
                     grid-cols-4
-                    justify-evenly 
+                    justify-center 
                     items-center 
                     gap-1
-                    px-2
+                    p-2
                     border-2 rounded-md
                     w-1/3 h-full
                 "
@@ -46,7 +46,7 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                     justify-evenly 
                     items-center 
                     gap-1
-                    px-2
+                    p-2
                     border-2 rounded-md
                     w-1/3 h-full
                 "

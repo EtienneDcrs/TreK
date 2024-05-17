@@ -24,7 +24,7 @@ model User {
     updatedAt      DateTime  @updatedAt
     favoriteIds    String[]  @db.ObjectId
     accounts       Account[]
-    posts          Route[]
+    posts          Post[]
 }
 
 model Account {
@@ -46,7 +46,7 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model Route {
+model Post {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     title       String
     description String

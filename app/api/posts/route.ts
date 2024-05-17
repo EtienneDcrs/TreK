@@ -28,7 +28,7 @@ export async function POST(
         }
     });
 
-    const route = await prisma.route.create({
+    const post = await prisma.post.create({
         data: {
             title,
             description,
@@ -45,5 +45,5 @@ export async function POST(
         }   
     });
 
-    return NextResponse.json(route);
+    return NextResponse.json(post);
 };
