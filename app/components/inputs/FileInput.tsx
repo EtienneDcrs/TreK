@@ -3,14 +3,14 @@
 import { on } from "events";
 
 interface FileInputProps {
-    // onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: any; //(event: React.ChangeEvent<HTMLInputElement>) => void;
     title: string;
     acceptedFileTypes?: string;
     className?: string;
 }
 
 const FileInput: React.FC<FileInputProps> = ({
-    // onChange,
+    onChange,
     title,
     acceptedFileTypes,
     className,
@@ -29,7 +29,7 @@ const FileInput: React.FC<FileInputProps> = ({
                 {title}
             </label>
             <input
-                //onChange={onChange}
+                onChange={onChange}
                 type="file"
                 id="fileInput"
                 accept={acceptedFileTypes}

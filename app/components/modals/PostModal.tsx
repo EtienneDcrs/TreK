@@ -10,7 +10,10 @@ import Heading from "../Heading";
 import FileInput from "../inputs/FileInput";
 import CategoryInput from "../inputs/CategoryInput";
 import Map from "../map/Map";
-import { getCoordinatesFromGPX } from "@/app/actions/getCoordinates";
+import {
+    getCoordinatesFromGPX,
+    getCoordinatesFromKML,
+} from "@/app/actions/getCoordinates";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FaMountain, FaUmbrellaBeach } from "react-icons/fa";
@@ -93,48 +96,14 @@ const PostModal = () => {
     const postModal = usePostModal();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-    const [step, setStep] = useState(STEPS.CATEGORY);
-    const [coordinates, setCoordinates] = useState<[number, number][]>([]);
+    const [step, setStep] = useState(STEPS.FILE);
     const [center, setCenter] = useState<[number, number]>([
         46.9119382485954, 2.2651793849164115,
     ]); //[43.68169106,3.84768334]
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log("New file selected");
-        const file = event.target.files![0];
-
-        getCoordinatesFromGPX(file).then((coords) => {
-            // Map over the coords to create an array of [lat, lng] pairs
-            const latLngs: [number, number][] = coords.map((coord) => [
-                coord.lat,
-                coord.lng,
-            ]);
-            setCoordinates(latLngs);
-            setCenter(latLngs[Math.floor(latLngs.length / 2)]);
-            // elevation missing for now
-        });
-    };
-
-    const onNext = () => {
-        setStep((value) => value + 1);
-    };
-    const onPrev = () => {
-        setStep((value) => value - 1);
-    };
-
-    const actionLabel = useMemo(() => {
-        if (step === STEPS.DESCRIPTION) {
-            return "Create";
-        }
-        return "Next";
-    }, [step]);
-
-    const secondaryActionLabel = useMemo(() => {
-        if (step === STEPS.FILE) {
-            return undefined;
-        }
-        return "Back";
-    }, [step]);
+    const polyline: [number, number][] = [];
+    const lat: number[] = [];
+    const lng: number[] = [];
+    const ele: number[] = [];
 
     const {
         register,
@@ -158,11 +127,6 @@ const PostModal = () => {
         },
     });
 
-    const title = watch("title");
-    const description = watch("description");
-    const category = watch("category");
-    const difficulty = watch("difficulty");
-
     const setCustomValue = (name: string, value: any) => {
         setValue(name, value, {
             shouldDirty: true,
@@ -170,6 +134,60 @@ const PostModal = () => {
             shouldValidate: true,
         });
     };
+
+    const handleFileChange = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        console.log("New file selected");
+        const file = event.target.files![0];
+        console.log(file);
+        if (!file) {
+            return;
+        } else if (file.name.split(".").pop() === "gpx") {
+            const coords = await getCoordinatesFromGPX(file);
+            for (let i = 0; i < coords.lat.length; i++) {
+                polyline.push([coords.lat[i], coords.lng[i]]);
+                lat.push(coords.lat[i]);
+                lng.push(coords.lng[i]);
+                ele.push(coords.ele[i]);
+            }
+        } else if (file.name.split(".").pop() === "kml") {
+            const coords = await getCoordinatesFromKML(file);
+            for (let i = 0; i < coords.lat.length; i++) {
+                polyline.push([coords.lat[i], coords.lng[i]]);
+                lat.push(coords.lat[i]);
+                lng.push(coords.lng[i]);
+                ele.push(coords.ele[i]);
+            }
+        }
+        setCustomValue("lats", lat);
+        setCustomValue("lngs", lng);
+        setCustomValue("elevations", ele);
+    };
+
+    const onNext = () => {
+        setStep((value) => value + 1);
+    };
+    const onPrev = () => {
+        setStep((value) => value - 1);
+    };
+
+    const actionLabel = useMemo(() => {
+        if (step === STEPS.DESCRIPTION) {
+            return "Create";
+        }
+        return "Next";
+    }, [step]);
+
+    const secondaryActionLabel = useMemo(() => {
+        if (step === STEPS.FILE) {
+            return undefined;
+        }
+        return "Back";
+    }, [step]);
+
+    const category = watch("category");
+    const difficulty = watch("difficulty");
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         if (step !== STEPS.DESCRIPTION) {
@@ -204,13 +222,12 @@ const PostModal = () => {
                 <div className="flex flex-col items-center gap-4">
                     <FileInput
                         title="Ajouter un parcours"
-                        acceptedFileTypes=".gpx"
+                        acceptedFileTypes=".gpx , .kml"
                         className="centered"
-                        // onChange={handleFileChange}
+                        onChange={handleFileChange}
                     />
                     <div className="w-full">
-                        <Map id="map2" polyline={coordinates} center={center} />
-                        {/* <Script src="./script.js"/> */}
+                        <Map id="map2" polyline={polyline} center={center} />
                     </div>
                 </div>
             </div>
@@ -306,11 +323,6 @@ const PostModal = () => {
                         errors={errors}
                         required
                     />
-                    {/* <textarea name="description" id="desc" cols={30} rows={10}
-                        className="border-2 w-full border-neutral-300 rounded-md p-3 outline-none transition focus:border-black"
-                        placeholder="Description du parcours"
-                    >
-                    </textarea> */}
                 </div>
             </div>
         );

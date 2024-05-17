@@ -40,7 +40,7 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
                 rounded-md
                 shadow-lg
                 w-full
-                md:w-2/5
+                md:w-1/2
                 md:h-full
                 gap-2
                 overflow-y-auto

@@ -48,7 +48,7 @@ export default async function Home() {
                             rounded-md
                             w-full
                             h-3/5
-                            md:w-3/5
+                            md:w-1/2
                             md:h-full
                             flex
                             flex-col
