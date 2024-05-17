@@ -59,7 +59,7 @@ export default async function Home() {
                         <div
                             className="
                                 bg-white
-                                p-1
+                                p-4
                                 md:py-4
                                 rounded-md
                                 shadow-lg

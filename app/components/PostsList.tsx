@@ -1,9 +1,7 @@
 "use client";
 
-import { BsPostcard } from "react-icons/bs";
 import EmptyState from "./EmptyState";
 import PostCard from "./PostCard";
-import { getCurrentUser } from "../actions/getCurrentUser";
 import { useSearchParams } from "next/navigation";
 
 interface PostsListProps {
@@ -14,6 +12,8 @@ interface PostsListProps {
 const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
     const params = useSearchParams();
     const category = params?.get("category");
+    const user = params?.get("user");
+    const difficulty = params?.get("difficulty");
 
     if (posts.length === 0) {
         return <EmptyState showReset />;
@@ -21,6 +21,12 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
 
     if (category) {
         posts = posts.filter((post: any) => post.category === category);
+    }
+    if (user) {
+        posts = posts.filter((post: any) => post.authorId === user);
+    }
+    if (difficulty) {
+        posts = posts.filter((post: any) => post.difficulty === difficulty);
     }
 
     return (
@@ -41,15 +47,15 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
             <div
                 className="
                 grid grid-cols-1
-                md:grid-cols-2
+                lg:grid-cols-2
                 gap-4
             "
             >
                 {posts.map((post: any) => {
                     return (
                         <PostCard
-                            currentUser={currentUser}
                             key={post.id}
+                            currentUser={currentUser}
                             data={post}
                         />
                     );

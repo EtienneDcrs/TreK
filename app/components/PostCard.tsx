@@ -3,12 +3,11 @@ import { Route } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 interface PostCardProps {
-    key: string;
     data: Route;
     currentUser: any;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ key, data, currentUser }) => {
+const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
     const router = useRouter();
     return (
         <div

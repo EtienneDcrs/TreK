@@ -5,62 +5,62 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String?
-  email          String    @unique
-  emailVerified  DateTime?
-  image          String?
-  hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  favoriteIds    String[]  @db.ObjectId
-  accounts       Account[]
-  posts          Route[]
+    id             String    @id @default(auto()) @map("_id") @db.ObjectId
+    name           String?
+    email          String    @unique
+    emailVerified  DateTime?
+    image          String?
+    hashedPassword String?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+    favoriteIds    String[]  @db.ObjectId
+    accounts       Account[]
+    posts          Route[]
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String // accessToken
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String  @db.ObjectId
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.String
+    access_token      String? @db.String // accessToken
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.String
+    session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
 model Route {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  //imageSrc    String
-  createdAt   DateTime @default(now())
-  published   Boolean?
-  authorId    String   @db.ObjectId
-  lats        Float[]
-  lngs        Float[]
-  elevations  Float[]
-  category    String?
-  length      String?
-  duration    String?
-  difficulty  String?
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    title       String
+    description String
+    //imageSrc    String
+    createdAt   DateTime @default(now())
+    published   Boolean?
+    authorId    String   @db.ObjectId
+    lats        Float[]
+    lngs        Float[]
+    elevations  Float[]
+    category    String
+    length      String?
+    duration    String?
+    difficulty  String
 
-  author User @relation(fields: [authorId], references: [id])
+    author User @relation(fields: [authorId], references: [id])
 }

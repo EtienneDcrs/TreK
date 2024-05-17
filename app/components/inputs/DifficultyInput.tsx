@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 interface DifficultyInputProps {
-    onClick: (value:string)=>void;
+    onClick: (value: string) => void;
     label: string;
     selected?: boolean;
     color: string;
@@ -11,34 +11,38 @@ const DifficultyInput: React.FC<DifficultyInputProps> = ({
     onClick,
     label,
     selected,
-    color
+    color,
 }) => {
-
-    var borderColor = 'border-neutral-300';
-    var bgColor = 'bg-neutral-100';
+    var borderColor = "border-neutral-300";
+    var bgColor = "bg-neutral-100";
+    var hoverColor = "hover:border-neutral-300";
 
     switch (color) {
-        case 'green':
-            borderColor = 'border-[green]';
-            bgColor = 'bg-[#ecfccb]';
+        case "green":
+            borderColor = "border-[green]";
+            hoverColor = "hover:border-[green]";
+            bgColor = "bg-[#ecfccb]";
             break;
-        case 'yellow':
-            borderColor = 'border-[yellow]';
-            bgColor = 'bg-[#fef9c3]';
+        case "yellow":
+            borderColor = "border-[yellow]";
+            hoverColor = "hover:border-[yellow]";
+            bgColor = "bg-[#fef9c3]";
             break;
-        case 'orange':
-            borderColor = 'border-[#f59e0b]';
-            bgColor = 'bg-[#ffedd5]';
+        case "orange":
+            borderColor = "border-[#f59e0b]";
+            hoverColor = "hover:border-[#f59e0b]";
+            bgColor = "bg-[#ffedd5]";
             break;
-        case 'red':
-            borderColor = 'border-[#dc2626]';
-            bgColor = 'bg-[#fee2e2]';
+        case "red":
+            borderColor = "border-[#dc2626]";
+            hoverColor = "hover:border-[#dc2626]";
+            bgColor = "bg-[#fee2e2]";
             break;
     }
 
     return (
         <div
-            onClick={()=>onClick(label)}
+            onClick={() => onClick(label)}
             className={`
                 rounded-xl
                 border-2
@@ -50,18 +54,15 @@ const DifficultyInput: React.FC<DifficultyInputProps> = ({
                 opacity-50
                 transition
                 cursor-pointer
-                hover:${borderColor}
-                ${selected ? borderColor : 'border-neutral-300'}
-                ${selected ? bgColor : 'bg-neutral-100'}
+                ${hoverColor}
+                ${selected ? borderColor : "border-neutral-300"}
+                ${selected ? bgColor : "bg-neutral-100"}
 
             `}
         >
-            <div className="font-semibold">
-                {label}
-            </div>
+            <div className="font-semibold">{label}</div>
         </div>
     );
 };
 
 export default DifficultyInput;
-    

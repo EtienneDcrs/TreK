@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
                     >
                         <div className="flex flex-row justify-between items-center gap-4">
                             <Logo />
-                            <NavItem />
+                            <NavItem currentUser={currentUser} />
                         </div>
 
                         <div className="flex flex-row items-center">

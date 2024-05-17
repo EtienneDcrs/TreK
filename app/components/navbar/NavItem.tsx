@@ -1,15 +1,44 @@
-'use client';
+"use client";
 
 import { useState, useCallback } from "react";
 import MenuItem from "./MenuItem";
+import { useRouter, useSearchParams } from "next/navigation";
+import qs from "query-string";
+import { getCurrentUser } from "@/app/actions/getCurrentUser";
 
-const NavItem = () => {
+interface NavItemProps {
+    currentUser: any;
+}
 
+const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
-    },[ isOpen, setIsOpen]);
+    }, [isOpen, setIsOpen]);
+
+    const router = useRouter();
+    const params = useSearchParams();
+    const currentUserId = currentUser?.id;
+    const handleMyPosts = useCallback(() => {
+        let currentQuery = {};
+        if (params) {
+            currentQuery = qs.parse(params.toString());
+        }
+        const updatedQuery: any = {
+            ...currentQuery,
+            user: currentUserId,
+        };
+
+        const url = qs.stringifyUrl(
+            {
+                url: "/",
+                query: updatedQuery,
+            },
+            { skipNull: true }
+        );
+        router.push(url);
+    }, [currentUserId, params, router]);
 
     return (
         <div
@@ -35,6 +64,9 @@ const NavItem = () => {
                 "
             >
                 <div
+                    onClick={() => {
+                        router.push("/");
+                    }}
                     className="
                         text-sm
                         font-semibold
@@ -53,6 +85,7 @@ const NavItem = () => {
                     Toutes les randos
                 </div>
                 <div
+                    onClick={handleMyPosts}
                     className="
                         hidden
                         sm:flex
@@ -127,19 +160,16 @@ const NavItem = () => {
                             border-[1px]
                         "
                     >
-                        <div
-                            className="flex flex-col cursor-pointer"
-                        >
+                        <div className="flex flex-col cursor-pointer">
                             <>
-                                <MenuItem 
-                                    onClick={() => console.log("Clicked")}
+                                <MenuItem
+                                    onClick={handleMyPosts}
                                     label="Mes randos"
                                     className={"border-b-[1px] "}
-                                    />
-                                <MenuItem 
+                                />
+                                <MenuItem
                                     onClick={() => console.log("Clicked")}
                                     label="Mes favoris"
-
                                 />
                             </>
                         </div>
