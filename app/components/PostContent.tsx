@@ -62,7 +62,7 @@ const PostContent: React.FC<PostContentProps> = ({ post, currentUser }) => {
                     <div
                         className={`
                         ${post.difficulty === "Facile" && "bg-green-300"}
-                        ${post.difficulty === "Moyen" && "bg-yellow-300"}
+                        ${post.difficulty === "Moyen" && "bg-yellow-200"}
                         ${post.difficulty === "Difficile" && "bg-orange-300"}
                         ${post.difficulty === "Expert" && "bg-red-400"}
                         ${post.difficulty === "Facile" && "border-green-500"}

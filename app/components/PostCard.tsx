@@ -2,6 +2,8 @@
 import { Post } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { SafePost } from "../types";
+import { IconType } from "react-icons";
+import { categories } from "./modals/PostModal";
 
 interface PostCardProps {
     data: SafePost;
@@ -10,25 +12,60 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
     const router = useRouter();
+    const category = categories.find((c) => c.label === data.category);
+    const Icon: IconType | undefined = category?.icon;
     return (
         <div
             onClick={() => {
                 router.push(`/posts/${data.id}`);
             }}
             className="
+                flex flex-col
+                justify-start items-center
+                p-3
                 cursor-pointer 
-                h-28 
+                h-[20vh]
                 rounded-md
                 gap-2
                 w-full
                 border-2
                 "
         >
-            {data.title}
+            <div className="text-l font-semibold text-center">{data.title}</div>
+            <div className="flex flex-row justify-evenly items-center w-full ">
+                <div className="flex flex-row items-center justify-center">
+                    {Icon && <Icon size={26} />}
+                    {category?.label}
+                </div>
+                <div
+                    className="flex flex-row 
+                    justify-center items-center 
+                    gap-2
+                    "
+                >
+                    <div
+                        className={`
+                        ${data.difficulty === "Facile" && "bg-green-300"}
+                        ${data.difficulty === "Moyen" && "bg-yellow-200"}
+                        ${data.difficulty === "Difficile" && "bg-orange-300"}
+                        ${data.difficulty === "Expert" && "bg-red-400"}
+                        ${data.difficulty === "Facile" && "border-green-500"}
+                        ${data.difficulty === "Moyen" && "border-yellow-400"}
+                        ${
+                            data.difficulty === "Difficile" &&
+                            "border-orange-500"
+                        }
+                        ${data.difficulty === "Expert" && "border-red-500"}
+                        p-3
+                        border-2
+                        rounded-full
+                    `}
+                    ></div>
+                    <div>{data.difficulty}</div>
+                </div>
+            </div>
+            {/* <div>{data.description}</div> */}
             <br />
-            {data.description}
-            <br />
-            {data.category}
         </div>
     );
 };

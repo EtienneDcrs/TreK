@@ -25,7 +25,6 @@ const MapComponent: React.FC<MapProps> = ({ id, polylines }) => {
             zoom: 6,
             layers: [baseLayer],
         });
-        console.log(polylines);
         // Add polyline to map
         const routes = [];
         for (let polyline of polylines) {

@@ -42,7 +42,6 @@ const MapPost: React.FC<MapPostProps> = ({ id, polyline }) => {
             zoom: 6,
             layers: [baseLayer],
         });
-        console.log(polyline);
         // Add polyline to map
         if (!polyline) {
             return;

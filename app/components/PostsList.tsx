@@ -27,7 +27,6 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
             (post: SafePost) => post.difficulty === difficulty
         );
     }
-    console.log(posts);
     if (posts.length == 0) {
         return <EmptyState showReset />;
     }
