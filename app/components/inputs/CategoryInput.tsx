@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { on } from "events";
 import { IconType } from "react-icons";
 
 interface CategoryInputProps {
-    onClick: (value:string)=>void;
+    onClick: (value: string) => void;
     label: string;
     selected?: boolean;
     icon: IconType;
@@ -14,13 +13,11 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
     onClick,
     label,
     selected,
-    icon: Icon
+    icon: Icon,
 }) => {
-
-
     return (
         <div
-            onClick={()=>onClick(label)}
+            onClick={() => onClick(label)}
             className={`
                 rounded-xl
                 border-2
@@ -32,17 +29,14 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
                 hover:border-black
                 transition
                 cursor-pointer
-                ${selected ? 'border-black' : 'border-neutral-300'}
+                ${selected ? "border-black" : "border-neutral-300"}
 
             `}
         >
-            <Icon size={30}/>
-            <div className="font-semibold">
-                {label}
-            </div>
+            <Icon size={30} />
+            <div className="font-semibold">{label}</div>
         </div>
     );
 };
 
 export default CategoryInput;
-    
