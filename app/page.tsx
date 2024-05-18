@@ -5,19 +5,23 @@ import PostsList from "./components/PostsList";
 import getPosts from "./actions/getPosts";
 import { getCurrentUser } from "./actions/getCurrentUser";
 import Filters from "./components/filters/Filters";
+import Script from "next/script";
+import getPolylines from "./actions/getPolylines";
 
 export default async function Home() {
     const posts = await getPosts();
     const currentUser = await getCurrentUser();
+    const polylines = await getPolylines();
     // const [coordinates, setCoordinates] = useState<[number, number][]>([]);
     // const [center, setCenter] = useState<[number, number]>([
     //     46.9119382485954, 2.2651793849164115,
     // ]); //[43.68169106,3.84768334]
 
     return (
-        <Container>
-            <div
-                className="
+        <>
+            <Container>
+                <div
+                    className="
                     fixed
                     inset-0 
                     bg-gray-200
@@ -28,9 +32,9 @@ export default async function Home() {
                     pt-20
                     px-4
                     "
-            >
-                <div
-                    className="
+                >
+                    <div
+                        className="
                         flex
                         flex-col
                         md:flex-row
@@ -42,9 +46,9 @@ export default async function Home() {
                         w-full
                         h-[85vh]
                         "
-                >
-                    <div
-                        className="                        
+                    >
+                        <div
+                            className="                        
                             rounded-md
                             w-full
                             h-3/5
@@ -54,9 +58,9 @@ export default async function Home() {
                             flex-col
                             gap-2
                                 "
-                    >
-                        <div
-                            className="
+                        >
+                            <div
+                                className="
                                 bg-white
                                 p-4
                                 md:py-4
@@ -69,16 +73,16 @@ export default async function Home() {
                                 flex-row
                                 items-center
                                 "
-                        >
-                            {/* <FileInput
+                            >
+                                {/* <FileInput
                                 title="Upload a file"
                                 acceptedFileTypes=".gpx, .kml"
                                 // onChange={() => {}}
                             /> */}
-                            <Filters />
-                        </div>
-                        <div
-                            className="bg-white
+                                <Filters />
+                            </div>
+                            <div
+                                className="bg-white
                                 p-4
                                 rounded-md
                                 shadow-lg
@@ -86,13 +90,14 @@ export default async function Home() {
                                 h-full
                                 md:h-5/6
                                 "
-                        >
-                            <Map id="map" />
+                            >
+                                <Map id="map" polylines={polylines} />
+                            </div>
                         </div>
+                        <PostsList currentUser={currentUser} posts={posts} />
                     </div>
-                    <PostsList currentUser={currentUser} posts={posts} />
                 </div>
-            </div>
-        </Container>
+            </Container>
+        </>
     );
 }

@@ -4,7 +4,7 @@ interface IParams {
     postId?: string;
 }
 
-export default async function getPostById(
+export default async function getPolylineById(
     params: IParams
 ) {
     try {
@@ -22,15 +22,12 @@ export default async function getPostById(
             return null;
         }
 
+        const polyline:[number,number][] = [];
+        for (let i = 0; i < post.lats.length; i++) {
+            polyline.push([post.lats[i], post.lngs[i]]);
+        }
         return {
-            ...post,
-            createdAt: post.createdAt.toISOString(),
-            user:{
-                ...post.author,
-                createdAt: post.author.createdAt.toISOString(),
-                updatedAt: post.author.updatedAt.toISOString(),
-                
-            }
+            polyline
         };
 
     }catch (error:any) {

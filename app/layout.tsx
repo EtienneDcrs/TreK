@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
-//import "/leaflet.css";
 import Navbar from "./components/navbar/Navbar";
 import RegisterModal from "./components/modals/RegisterModal";
-import PageBody from "./components/PageBody";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
 import { getCurrentUser } from "./actions/getCurrentUser";
 import PostModal from "./components/modals/PostModal";
-import Script from "next/script";
 
 export const metadata: Metadata = {
     title: "Rando App",
@@ -34,9 +31,6 @@ export default async function RootLayout({
                 <Navbar currentUser={currentUser} />
 
                 <div>{children}</div>
-
-                <Script src="./script.js" />
-                <script src="./leaflet.js"></script>
             </body>
         </html>
     );

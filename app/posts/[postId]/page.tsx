@@ -1,8 +1,9 @@
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
+import getPolylineById from "@/app/actions/getPolylineById";
 import getPostById from "@/app/actions/getPostById";
 import Container from "@/app/components/Container";
 import EmptyState from "@/app/components/filters/EmptyState";
-import Map from "@/app/components/map/Map";
+import MapPost from "@/app/components/map/MapPost";
 import PostsContent from "@/app/components/PostContent";
 
 interface IParams {
@@ -12,14 +13,17 @@ interface IParams {
 const PostPage = async ({ params }: { params: IParams }) => {
     const post = await getPostById(params);
     const currentUser = await getCurrentUser();
+    const polyline = await getPolylineById(params);
+    console.log(polyline);
 
     if (!post) {
         return <EmptyState showReset />;
     }
     return (
-        <Container>
-            <div
-                className="
+        <>
+            <Container>
+                <div
+                    className="
                         fixed
                         inset-0 
                         bg-gray-200
@@ -30,9 +34,9 @@ const PostPage = async ({ params }: { params: IParams }) => {
                         pt-20
                         px-4
                         "
-            >
-                <div
-                    className="
+                >
+                    <div
+                        className="
                             flex
                             flex-col
                             md:flex-row
@@ -44,9 +48,9 @@ const PostPage = async ({ params }: { params: IParams }) => {
                             w-full
                             h-[85vh]
                             "
-                >
-                    <div
-                        className="                        
+                    >
+                        <div
+                            className="                        
                                 rounded-md
                                 w-full
                                 md:w-1/2
@@ -55,23 +59,27 @@ const PostPage = async ({ params }: { params: IParams }) => {
                                 flex-col
                                 gap-2
                                     "
-                    >
-                        <div
-                            className="bg-white
+                        >
+                            <div
+                                className="bg-white
                                     p-4
                                     rounded-md
                                     shadow-lg
                                     w-full
                                     h-full
                                     "
-                        >
-                            <Map id="map" />
+                            >
+                                <MapPost
+                                    id="post-map"
+                                    polyline={polyline?.polyline}
+                                />
+                            </div>
                         </div>
+                        <PostsContent currentUser={currentUser} post={post} />
                     </div>
-                    <PostsContent currentUser={currentUser} post={post} />
                 </div>
-            </div>
-        </Container>
+            </Container>
+        </>
     );
 };
 

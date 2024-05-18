@@ -227,7 +227,8 @@ const PostModal = () => {
                         onChange={handleFileChange}
                     />
                     <div className="w-full">
-                        <Map id="map2" polyline={polyline} center={center} />
+                        {/* <Map id="map2" /> */}
+                        map
                     </div>
                 </div>
             </div>
