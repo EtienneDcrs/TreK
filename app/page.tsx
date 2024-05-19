@@ -1,17 +1,19 @@
 import Container from "./components/Container";
-import FileInput from "./components/inputs/FileInput";
 import Map from "./components/map/Map";
 import PostsList from "./components/PostsList";
 import getPosts from "./actions/getPosts";
 import { getCurrentUser } from "./actions/getCurrentUser";
 import Filters from "./components/filters/Filters";
-import Script from "next/script";
 import getPolylines from "./actions/getPolylines";
+import { useSearchParams } from "next/navigation";
+import getPolylinesByFilters from "./actions/getPolylinesByFilters";
 
 export default async function Home() {
     const posts = await getPosts();
     const currentUser = await getCurrentUser();
     const polylines = await getPolylines();
+    //let polylines = params?.polylines;
+
     // const [coordinates, setCoordinates] = useState<[number, number][]>([]);
     // const [center, setCenter] = useState<[number, number]>([
     //     46.9119382485954, 2.2651793849164115,

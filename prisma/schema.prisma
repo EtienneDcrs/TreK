@@ -58,7 +58,7 @@ model Post {
     lngs        Float[]
     elevations  Float[]
     category    String
-    length      String?
+    length      Float
     duration    String?
     difficulty  String
 

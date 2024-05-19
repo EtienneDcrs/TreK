@@ -4,7 +4,7 @@ import getPostById from "@/app/actions/getPostById";
 import Container from "@/app/components/Container";
 import EmptyState from "@/app/components/filters/EmptyState";
 import MapPost from "@/app/components/map/MapPost";
-import PostsContent from "@/app/components/PostContent";
+import PostContent from "@/app/components/PostContent";
 
 interface IParams {
     postId?: string;
@@ -14,7 +14,6 @@ const PostPage = async ({ params }: { params: IParams }) => {
     const post = await getPostById(params);
     const currentUser = await getCurrentUser();
     const polyline = await getPolylineById(params);
-    console.log(polyline);
 
     if (!post) {
         return <EmptyState showReset />;
@@ -75,7 +74,7 @@ const PostPage = async ({ params }: { params: IParams }) => {
                                 />
                             </div>
                         </div>
-                        <PostsContent currentUser={currentUser} post={post} />
+                        <PostContent currentUser={currentUser} post={post} />
                     </div>
                 </div>
             </Container>

@@ -54,14 +54,22 @@ export function getCoordinatesFromKML(file: File): Promise<{ lat: number[], lng:
                 }
 
                 // Assuming the coordinates are stored in a specific format within the KML file
-                const coordinates = result.kml.Document[0].Placemark[0].LineString[0].coordinates[0].split(' ');
-
+                const coordinates = result.kml.Document[0].Placemark[0].LineString[0].coordinates[0].replace(/(\n)/gm, "n").replace(/(\s)/gm, "").split("n");
+                if(coordinates[0] === ''){
+                    coordinates.shift();
+                }
+                if (coordinates[coordinates.length - 1] === '') {
+                    coordinates.pop();
+                }
+                 // Remove the first empty element
+                console.log(coordinates);
                 coordinates.forEach((coord: string) => {
                     const [lng, lat, ele] = coord.split(',');
                     latlngList.lat.push(parseFloat(lat));
                     latlngList.lng.push(parseFloat(lng));
                     latlngList.ele.push(parseFloat(ele));
                 });
+                console.log(latlngList);
 
                 resolve(latlngList);
             });

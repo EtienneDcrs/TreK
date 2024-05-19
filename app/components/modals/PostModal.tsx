@@ -9,7 +9,7 @@ import Input from "../inputs/Input";
 import Heading from "../Heading";
 import FileInput from "../inputs/FileInput";
 import CategoryInput from "../inputs/CategoryInput";
-import Map from "../map/Map";
+import DifficultyInput from "../inputs/DifficultyInput";
 import {
     getCoordinatesFromGPX,
     getCoordinatesFromKML,
@@ -20,8 +20,7 @@ import { FaMountain, FaUmbrellaBeach } from "react-icons/fa";
 import { MdForest } from "react-icons/md";
 import { GiBoatFishing, GiCaveEntrance, GiWindmill } from "react-icons/gi";
 import { FaMountainCity, FaQuestion } from "react-icons/fa6";
-import DifficultyInput from "../inputs/DifficultyInput";
-import Script from "next/script";
+import { getRouteLength } from "@/app/actions/getRouteLength";
 
 enum STEPS {
     FILE = 0,
@@ -121,7 +120,7 @@ const PostModal = () => {
             lngs: [],
             elevations: [],
             category: "",
-            length: "",
+            length: 0,
             duration: "",
             difficulty: "",
         },
@@ -160,6 +159,8 @@ const PostModal = () => {
                 ele.push(coords.ele[i]);
             }
         }
+        const length = getRouteLength(polyline);
+        setCustomValue("length", length);
         setCustomValue("lats", lat);
         setCustomValue("lngs", lng);
         setCustomValue("elevations", ele);
@@ -197,12 +198,14 @@ const PostModal = () => {
 
         axios
             .post("api/posts", data)
-            .then(() => {
+            .then((response) => {
+                const postId = response.data.id;
                 toast.success("Post Created !");
+                postModal.onClose();
+                setStep(STEPS.FILE);
                 router.refresh();
                 reset();
-                setStep(STEPS.FILE);
-                postModal.onClose();
+                router.push(`/posts/${postId}`);
             })
             .catch(() => {
                 toast.error("Something went wrong");

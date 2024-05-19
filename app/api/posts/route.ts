@@ -23,6 +23,7 @@ export async function POST(
         lats,
         lngs,
         elevations,
+        length,
     } = body;
 
     Object.keys(body).forEach((key) => {
@@ -41,7 +42,7 @@ export async function POST(
             lngs,
             elevations,
             category,
-            length: "10km",
+            length,
             duration: "2h",
             difficulty,
 

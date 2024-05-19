@@ -2,11 +2,8 @@
 
 import { IconType } from "react-icons";
 import { SafePost } from "../types";
-import EmptyState from "./filters/EmptyState";
 import Heading from "./Heading";
 import { categories } from "./modals/PostModal";
-import PostCard from "./PostCard";
-import { useSearchParams } from "next/navigation";
 
 interface PostContentProps {
     post: SafePost;
@@ -14,10 +11,10 @@ interface PostContentProps {
 }
 
 const PostContent: React.FC<PostContentProps> = ({ post, currentUser }) => {
-    const params = useSearchParams();
     const category = categories.find((c) => c.label === post.category);
     const Icon: IconType | undefined = category?.icon;
-
+    const coords: [number, number][] = [];
+    console.log(coords);
     return (
         <div
             className="
@@ -51,6 +48,20 @@ const PostContent: React.FC<PostContentProps> = ({ post, currentUser }) => {
                 >
                     <div>{Icon && <Icon size={36} />}</div>
                     <div>{category?.label}</div>
+                </div>
+                <div className="h-full">
+                    <div
+                        className="flex flex-col 
+                        justify-center items-center 
+                        p-2
+                        pt-4
+                        gap-3
+                        h-full
+                        "
+                    >
+                        <div>{post.length.toFixed(2)} km</div>
+                        <div>Distance</div>
+                    </div>
                 </div>
                 <div
                     className="flex flex-col 

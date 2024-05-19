@@ -16,13 +16,13 @@ interface MapProps {
     polylines: [number, number][][];
 }
 
-const MapComponent: React.FC<MapProps> = ({ id, polylines }) => {
+const Map: React.FC<MapProps> = ({ id, polylines }) => {
     const mapRef = useRef<L.Map | null>(null);
     let map = mapRef.current;
     useEffect(() => {
         map = L.map(id, {
             center: [46.9119382485954, 2.2651793849164115],
-            zoom: 6,
+            zoom: 5,
             layers: [baseLayer],
         });
         // Add polyline to map
@@ -38,7 +38,6 @@ const MapComponent: React.FC<MapProps> = ({ id, polylines }) => {
                 routes.push(route);
             }
         }
-
         // //Ajoute les markers
         // var start = polyline[0];
         // var end = polyline[polyline.length - 1];
@@ -56,4 +55,4 @@ const MapComponent: React.FC<MapProps> = ({ id, polylines }) => {
     return <div id={id} />;
 };
 
-export default MapComponent;
+export default Map;
