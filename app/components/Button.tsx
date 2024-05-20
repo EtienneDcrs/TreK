@@ -33,13 +33,13 @@ const Button: React.FC<ButtonProps> = ({
                 hover:opacity-80
                 hover:shadow-lg
                 w-full
-                ${outline ? "bg-white" : "bg-black"}
+                font-semibold
+                ${outline && !bgColor ? "bg-white" : "bg-black"}
                 ${outline ? "border-black" : "border-black"}
                 ${outline ? "text-black" : "text-white"}
                 ${bgColor ? bgColor : ""}
                 ${small ? "py-1" : "py-3"}
                 ${small ? "text-sm" : "text-md"}
-                ${small ? "font-light" : "font-semibold"}
                 ${small ? "border-[1px]" : "border-2"}
             
             `}

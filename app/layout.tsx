@@ -9,8 +9,8 @@ import { getCurrentUser } from "./actions/getCurrentUser";
 import PostModal from "./components/modals/PostModal";
 
 export const metadata: Metadata = {
-    title: "Rando App",
-    description: "appli de rando",
+    title: "My Rando App",
+    description: "application de randonnée",
 };
 
 const font = Nunito({ subsets: ["latin"] });
@@ -22,7 +22,7 @@ export default async function RootLayout({
 }) {
     const currentUser = await getCurrentUser();
     return (
-        <html lang="en">
+        <html lang="fr">
             <body className="flex flex-col font-sans">
                 <ToasterProvider />
                 <PostModal />

@@ -5,25 +5,22 @@ import getPosts from "./actions/getPosts";
 import { getCurrentUser } from "./actions/getCurrentUser";
 import Filters from "./components/filters/Filters";
 import getPolylines from "./actions/getPolylines";
-import { useSearchParams } from "next/navigation";
-import getPolylinesByFilters from "./actions/getPolylinesByFilters";
+import { getAdminidtrators } from "./actions/getAdministrators";
 
 export default async function Home() {
     const posts = await getPosts();
     const currentUser = await getCurrentUser();
     const polylines = await getPolylines();
-    //let polylines = params?.polylines;
-
-    // const [coordinates, setCoordinates] = useState<[number, number][]>([]);
-    // const [center, setCenter] = useState<[number, number]>([
-    //     46.9119382485954, 2.2651793849164115,
-    // ]); //[43.68169106,3.84768334]
+    const admins = await getAdminidtrators();
+    let isAdmin = false;
+    if (currentUser) {
+        isAdmin = admins.includes(currentUser?.id);
+    }
 
     return (
-        <>
-            <Container>
-                <div
-                    className="
+        <Container>
+            <div
+                className="
                     fixed
                     inset-0 
                     bg-gray-200
@@ -34,9 +31,9 @@ export default async function Home() {
                     pt-20
                     px-4
                     "
-                >
-                    <div
-                        className="
+            >
+                <div
+                    className="
                         flex
                         flex-col
                         md:flex-row
@@ -48,9 +45,9 @@ export default async function Home() {
                         w-full
                         h-[85vh]
                         "
-                    >
-                        <div
-                            className="                        
+                >
+                    <div
+                        className="                        
                             rounded-md
                             w-full
                             h-3/5
@@ -60,9 +57,9 @@ export default async function Home() {
                             flex-col
                             gap-2
                                 "
-                        >
-                            <div
-                                className="
+                    >
+                        <div
+                            className="
                                 bg-white
                                 p-4
                                 md:py-4
@@ -75,16 +72,11 @@ export default async function Home() {
                                 flex-row
                                 items-center
                                 "
-                            >
-                                {/* <FileInput
-                                title="Upload a file"
-                                acceptedFileTypes=".gpx, .kml"
-                                // onChange={() => {}}
-                            /> */}
-                                <Filters />
-                            </div>
-                            <div
-                                className="bg-white
+                        >
+                            <Filters />
+                        </div>
+                        <div
+                            className="bg-white
                                 p-4
                                 rounded-md
                                 shadow-lg
@@ -92,14 +84,17 @@ export default async function Home() {
                                 h-full
                                 md:h-5/6
                                 "
-                            >
-                                <Map id="map" polylines={polylines} />
-                            </div>
+                        >
+                            <Map id="map" polylines={polylines} />
                         </div>
-                        <PostsList currentUser={currentUser} posts={posts} />
                     </div>
+                    <PostsList
+                        currentUser={currentUser}
+                        posts={posts}
+                        isAdmin={isAdmin}
+                    />
                 </div>
-            </Container>
-        </>
+            </div>
+        </Container>
     );
 }

@@ -6,7 +6,7 @@ export async function getAdminidtrators(){
         const admins = await prisma.administrator.findMany();
         const adminsId = [];
         for (let admin of admins) {
-            adminsId.push(admin.id);
+            adminsId.push(admin.userId);
         }
         return adminsId;
 

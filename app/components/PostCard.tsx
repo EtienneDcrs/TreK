@@ -1,5 +1,4 @@
 "use client";
-import { Post } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { SafePost } from "../types";
 import { IconType } from "react-icons";
@@ -10,15 +9,16 @@ import DeleteButton from "./DeleteButton";
 interface PostCardProps {
     data: SafePost;
     currentUser: any;
+    isAdmin?: boolean;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
+const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
     const router = useRouter();
     const category = categories.find((c) => c.label === data.category);
     const Icon: IconType | undefined = category?.icon;
     return (
         <div>
-            {data.authorId === currentUser?.id && (
+            {(data.authorId === currentUser?.id || isAdmin) && (
                 <DeleteButton postId={data.id} currentUser={currentUser} />
             )}
             <FavoriteButton postId={data.id} currentUser={currentUser} />
@@ -42,7 +42,7 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
                     {data.title}
                 </div>
                 <div className="flex flex-row justify-evenly items-center w-full ">
-                    <div className="flex flex-row items-center justify-center">
+                    <div className="flex flex-row items-center justify-center gap-2">
                         {Icon && <Icon size={26} />}
                         {category?.label}
                     </div>

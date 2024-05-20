@@ -27,7 +27,19 @@ const Map: React.FC<MapProps> = ({ id, polylines }) => {
         });
         // Add polyline to map
         const routes = [];
+
         for (let polyline of polylines) {
+            if (polyline.length > 1000) {
+                // supprime les points intermédiaires pour ne garder que 1000 points
+                let new_polyline: [number, number][] = [];
+                const step = Math.floor(polyline.length / 1000);
+                for (let i = 0; i < polyline.length; i++) {
+                    if (i % step == 0) {
+                        new_polyline.push(polyline[i]);
+                    }
+                }
+                polyline = new_polyline;
+            }
             if (polyline) {
                 let route = L.polyline(polyline, {
                     color: "blue",
@@ -38,12 +50,10 @@ const Map: React.FC<MapProps> = ({ id, polylines }) => {
                 routes.push(route);
             }
         }
-        // //Ajoute les markers
-        // var start = polyline[0];
-        // var end = polyline[polyline.length - 1];
-        // const start_marker = L.marker(start, { icon: start_icon }).addTo(map);
-        // const end_marker = L.marker(end, { icon: end_icon }).addTo(map);
-
+        // Fit map to bounds of all routes
+        if (routes.length > 0) {
+            map?.fitBounds(L.featureGroup(routes).getBounds());
+        }
         // Cleanup on unmount
         return () => {
             if (map) {

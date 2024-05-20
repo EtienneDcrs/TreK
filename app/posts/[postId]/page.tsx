@@ -1,3 +1,4 @@
+import { getAdminidtrators } from "@/app/actions/getAdministrators";
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import getPolylineById from "@/app/actions/getPolylineById";
 import getPostById from "@/app/actions/getPostById";
@@ -14,6 +15,11 @@ const PostPage = async ({ params }: { params: IParams }) => {
     const post = await getPostById(params);
     const currentUser = await getCurrentUser();
     const polyline = await getPolylineById(params);
+    const admins = await getAdminidtrators();
+    let isAdmin = false;
+    if (currentUser) {
+        isAdmin = admins.includes(currentUser?.id);
+    }
 
     if (!post) {
         return <EmptyState showReset />;
@@ -74,7 +80,11 @@ const PostPage = async ({ params }: { params: IParams }) => {
                                 />
                             </div>
                         </div>
-                        <PostContent currentUser={currentUser} post={post} />
+                        <PostContent
+                            currentUser={currentUser}
+                            post={post}
+                            isAdmin={isAdmin}
+                        />
                     </div>
                 </div>
             </Container>

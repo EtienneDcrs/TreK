@@ -8,9 +8,14 @@ import { useSearchParams } from "next/navigation";
 interface PostsListProps {
     posts: any[];
     currentUser: any;
+    isAdmin?: boolean;
 }
 
-const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
+const PostsList: React.FC<PostsListProps> = ({
+    posts,
+    currentUser,
+    isAdmin,
+}) => {
     const params = useSearchParams();
     const category = params?.get("category");
     const user = params?.get("user");
@@ -64,6 +69,7 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
                             key={post.id}
                             currentUser={currentUser}
                             data={post}
+                            isAdmin={isAdmin}
                         />
                     );
                 })}

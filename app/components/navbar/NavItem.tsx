@@ -5,6 +5,7 @@ import MenuItem from "./MenuItem";
 import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 interface NavItemProps {
     currentUser: any;
@@ -12,7 +13,7 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const loginModal = useLoginModal();
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
     }, [isOpen, setIsOpen]);
@@ -20,7 +21,12 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
     const router = useRouter();
     const params = useSearchParams();
     const currentUserId = currentUser?.id;
+
     const handleMyPosts = useCallback(() => {
+        if (!currentUser) {
+            loginModal.onOpen();
+            return;
+        }
         let currentQuery = {};
         if (params) {
             currentQuery = qs.parse(params.toString());
@@ -40,6 +46,10 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
     }, [currentUserId, params, router]);
 
     const handleMyFavorites = useCallback(() => {
+        if (!currentUser) {
+            loginModal.onOpen();
+            return;
+        }
         let currentQuery = {};
         if (params) {
             currentQuery = qs.parse(params.toString());

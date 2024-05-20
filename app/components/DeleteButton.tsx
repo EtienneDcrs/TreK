@@ -21,6 +21,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ postId, currentUser }) => {
         }
         try {
             await axios.delete(`/api/posts/${postId}`);
+            router.push("/");
             router.refresh();
             toast.success("Post supprimé");
         } catch (error) {
