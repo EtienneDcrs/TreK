@@ -1,22 +1,18 @@
-'use client';
+"use client";
 
-import { Field, FieldError, FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
-interface InputProps{
+interface InputProps {
     id: string;
     label: string;
     type?: string;
     disabled?: boolean;
     required?: boolean;
     register: UseFormRegister<FieldValues>;
-    errors: FieldErrors; 
-
-   
-
-    
+    errors: FieldErrors;
 }
 
-const Input:React.FC<InputProps> = ({
+const Input: React.FC<InputProps> = ({
     id,
     label,
     type = "text",
@@ -25,7 +21,6 @@ const Input:React.FC<InputProps> = ({
     register,
     errors,
 }) => {
-
     return (
         <div className="w-full relative">
             <input
@@ -49,7 +44,11 @@ const Input:React.FC<InputProps> = ({
                     disabled:opacity-70
                     disabled:cursor-not-allowed
                     ${errors[id] ? "border-red-500" : "border-neutral-300"}
-                    ${errors[id] ? "focus:border-red-500" : "focus:border-black"}
+                    ${
+                        errors[id]
+                            ? "focus:border-red-500"
+                            : "focus:border-black"
+                    }
                 `}
             />
             <label
@@ -73,8 +72,7 @@ const Input:React.FC<InputProps> = ({
                 {label}
             </label>
         </div>
-
     );
 };
 
-export default Input
+export default Input;

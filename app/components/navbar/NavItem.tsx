@@ -26,8 +26,26 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
             currentQuery = qs.parse(params.toString());
         }
         const updatedQuery: any = {
-            ...currentQuery,
             user: currentUserId,
+        };
+
+        const url = qs.stringifyUrl(
+            {
+                url: "/",
+                query: updatedQuery,
+            },
+            { skipNull: true }
+        );
+        router.push(url);
+    }, [currentUserId, params, router]);
+
+    const handleMyFavorites = useCallback(() => {
+        let currentQuery = {};
+        if (params) {
+            currentQuery = qs.parse(params.toString());
+        }
+        const updatedQuery: any = {
+            favorite: true,
         };
 
         const url = qs.stringifyUrl(
@@ -106,6 +124,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                     Mes randos
                 </div>
                 <div
+                    onClick={handleMyFavorites}
                     className="
                         hidden
                         sm:flex
@@ -168,7 +187,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                                     className={"border-b-[1px] "}
                                 />
                                 <MenuItem
-                                    onClick={() => console.log("Clicked")}
+                                    onClick={handleMyFavorites}
                                     label="Mes favoris"
                                 />
                             </>

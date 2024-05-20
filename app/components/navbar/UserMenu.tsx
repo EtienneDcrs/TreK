@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
@@ -9,24 +9,23 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import usePostModal from "@/app/hooks/usePostModal";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
+import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null;
+}
 
-};
-
-
-const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const postModal = usePostModal();
     const [isOpen, setIsOpen] = useState(false);
-
+    const router = useRouter();
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
-    },[ isOpen, setIsOpen]);
+    }, [isOpen, setIsOpen]);
 
-    return(
+    return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
                 <div
@@ -63,39 +62,45 @@ const UserMenu:React.FC<UserMenuProps> = ({currentUser}) => {
                             border-[1px]
                         "
                     >
-                        <div
-                            className="flex flex-col cursor-pointer"
-                        >
+                        <div className="flex flex-col cursor-pointer">
                             {currentUser ? (
                                 <>
-                                    <MenuItem 
-                                        onClick={() => console.log("Mon compte")}
+                                    <MenuItem
+                                        onClick={() =>
+                                            console.log("Mon compte")
+                                        }
                                         label="Votre compte"
                                         className="border-b-[1px]"
                                     />
-                                    <MenuItem 
-                                        onClick={() => console.log("Paramètres")}
+                                    <MenuItem
+                                        onClick={() =>
+                                            console.log("Paramètres")
+                                        }
                                         label="Paramètres"
                                         className="border-b-[1px]"
                                     />
-                                    <MenuItem 
+                                    <MenuItem
                                         onClick={postModal.onOpen}
                                         label="Créez une randonnée"
                                         className="border-b-[1px]"
                                     />
-                                    <MenuItem 
-                                        onClick={() => {signOut()}}
+                                    <MenuItem
+                                        onClick={() => {
+                                            console.log("Déconnexion");
+                                            router.push("/");
+                                            signOut();
+                                        }}
                                         label="Se déconnecter"
                                     />
                                 </>
-                            ) : (     
+                            ) : (
                                 <>
-                                    <MenuItem 
+                                    <MenuItem
                                         onClick={loginModal.onOpen}
                                         label="Login"
                                         className="border-b-[1px]"
                                     />
-                                    <MenuItem 
+                                    <MenuItem
                                         onClick={registerModal.onOpen}
                                         label="Sign up"
                                     />

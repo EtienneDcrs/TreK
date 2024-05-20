@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { IconType } from "react-icons";
 
@@ -8,20 +8,20 @@ interface ButtonProps {
     disabled?: boolean;
     outline?: boolean;
     small?: boolean;
-    icon?:IconType;
-
+    icon?: IconType;
+    bgColor?: string;
 }
 
-const Button: React.FC<ButtonProps>  = ({
+const Button: React.FC<ButtonProps> = ({
     label,
     onClick,
     disabled,
     outline,
     small,
-    icon:Icon,
+    icon: Icon,
+    bgColor,
 }) => {
-
-    return(
+    return (
         <button
             onClick={onClick}
             disabled={disabled}
@@ -31,17 +31,18 @@ const Button: React.FC<ButtonProps>  = ({
                 disabled:cursor-not-allowed
                 rounded-lg
                 hover:opacity-80
+                hover:shadow-lg
                 w-full
                 ${outline ? "bg-white" : "bg-black"}
                 ${outline ? "border-black" : "border-black"}
                 ${outline ? "text-black" : "text-white"}
+                ${bgColor ? bgColor : ""}
                 ${small ? "py-1" : "py-3"}
                 ${small ? "text-sm" : "text-md"}
                 ${small ? "font-light" : "font-semibold"}
                 ${small ? "border-[1px]" : "border-2"}
             
             `}
-
         >
             {Icon && (
                 <Icon
@@ -54,7 +55,6 @@ const Button: React.FC<ButtonProps>  = ({
             )}
             {label}
         </button>
-
     );
 };
 

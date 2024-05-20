@@ -115,13 +115,11 @@ const PostModal = () => {
         defaultValues: {
             title: "",
             description: "",
-            published: false,
             lats: [],
             lngs: [],
             elevations: [],
             category: "",
             length: 0,
-            duration: "",
             difficulty: "",
         },
     });

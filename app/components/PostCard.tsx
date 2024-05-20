@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { SafePost } from "../types";
 import { IconType } from "react-icons";
 import { categories } from "./modals/PostModal";
+import FavoriteButton from "./FavoriteButton";
+import DeleteButton from "./DeleteButton";
 
 interface PostCardProps {
     data: SafePost;
@@ -15,11 +17,16 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
     const category = categories.find((c) => c.label === data.category);
     const Icon: IconType | undefined = category?.icon;
     return (
-        <div
-            onClick={() => {
-                router.push(`/posts/${data.id}`);
-            }}
-            className="
+        <div>
+            {data.authorId === currentUser?.id && (
+                <DeleteButton postId={data.id} currentUser={currentUser} />
+            )}
+            <FavoriteButton postId={data.id} currentUser={currentUser} />
+            <div
+                onClick={() => {
+                    router.push(`/posts/${data.id}`);
+                }}
+                className="
                 flex flex-col
                 justify-start items-center
                 p-3
@@ -30,21 +37,23 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
                 w-full
                 border-2
                 "
-        >
-            <div className="text-l font-semibold text-center">{data.title}</div>
-            <div className="flex flex-row justify-evenly items-center w-full ">
-                <div className="flex flex-row items-center justify-center">
-                    {Icon && <Icon size={26} />}
-                    {category?.label}
+            >
+                <div className="text-l font-semibold text-center">
+                    {data.title}
                 </div>
-                <div
-                    className="flex flex-row 
+                <div className="flex flex-row justify-evenly items-center w-full ">
+                    <div className="flex flex-row items-center justify-center">
+                        {Icon && <Icon size={26} />}
+                        {category?.label}
+                    </div>
+                    <div
+                        className="flex flex-row 
                     justify-center items-center 
                     gap-2
                     "
-                >
-                    <div
-                        className={`
+                    >
+                        <div
+                            className={`
                         ${data.difficulty === "Facile" && "bg-green-300"}
                         ${data.difficulty === "Moyen" && "bg-yellow-200"}
                         ${data.difficulty === "Difficile" && "bg-orange-300"}
@@ -60,12 +69,13 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser }) => {
                         border-2
                         rounded-full
                     `}
-                    ></div>
-                    <div>{data.difficulty}</div>
+                        ></div>
+                        <div>{data.difficulty}</div>
+                    </div>
                 </div>
+                {/* <div>{data.description}</div> */}
+                <br />
             </div>
-            {/* <div>{data.description}</div> */}
-            <br />
         </div>
     );
 };

@@ -36,14 +36,12 @@ export async function POST(
         data: {
             title,
             description,
-            published: false,
             authorId: currentUser.id,
             lats,
             lngs,
             elevations,
             category,
             length,
-            duration: "2h",
             difficulty,
 
         }   

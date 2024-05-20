@@ -15,6 +15,7 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
     const category = params?.get("category");
     const user = params?.get("user");
     const difficulty = params?.get("difficulty");
+    const favorite = params?.get("favorite");
 
     if (category) {
         posts = posts.filter((post: SafePost) => post.category === category);
@@ -25,6 +26,11 @@ const PostsList: React.FC<PostsListProps> = ({ posts, currentUser }) => {
     if (difficulty) {
         posts = posts.filter(
             (post: SafePost) => post.difficulty === difficulty
+        );
+    }
+    if (favorite) {
+        posts = posts.filter((post: SafePost) =>
+            currentUser.favoriteIds.includes(post.id)
         );
     }
     if (posts.length == 0) {

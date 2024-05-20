@@ -14,52 +14,37 @@ datasource db {
 }
 
 model User {
-    id             String    @id @default(auto()) @map("_id") @db.ObjectId
-    name           String?
-    email          String    @unique
-    emailVerified  DateTime?
-    image          String?
+    id             String   @id @default(auto()) @map("_id") @db.ObjectId
+    name           String
+    email          String   @unique
     hashedPassword String?
-    createdAt      DateTime  @default(now())
-    updatedAt      DateTime  @updatedAt
-    favoriteIds    String[]  @db.ObjectId
-    accounts       Account[]
-    posts          Post[]
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    favoriteIds    String[] @db.ObjectId
+
+    posts         Post[]
+    Administrator Administrator[]
 }
 
-model Account {
-    id                String  @id @default(auto()) @map("_id") @db.ObjectId
-    userId            String  @db.ObjectId
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? @db.String
-    access_token      String? @db.String // accessToken
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? @db.String
-    session_state     String?
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
+model Administrator {
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId        String   @db.ObjectId
+    modifiedPosts String[] @db.ObjectId
+    deletedPosts  Int
+    user          User     @relation(fields: [userId], references: [id])
 }
 
 model Post {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     title       String
     description String
-    //imageSrc    String
     createdAt   DateTime @default(now())
-    published   Boolean?
     authorId    String   @db.ObjectId
     lats        Float[]
     lngs        Float[]
     elevations  Float[]
     category    String
     length      Float
-    duration    String?
     difficulty  String
 
     author User @relation(fields: [authorId], references: [id])
