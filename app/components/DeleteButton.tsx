@@ -5,13 +5,20 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Button from "./Button";
+import io, { Socket } from "socket.io-client"; // Importation de socket.io-client
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 interface DeleteButtonProps {
+    socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
     postId: string;
     currentUser?: SafeUser | null;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ postId, currentUser }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({
+    postId,
+    currentUser,
+    socket,
+}) => {
     const router = useRouter();
     const [isConfirming, setIsConfirming] = useState(false);
 
@@ -20,7 +27,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ postId, currentUser }) => {
             return;
         }
         try {
-            await axios.delete(`/api/posts/${postId}`);
+            socket?.emit("deletePost", postId);
             router.push("/");
             router.refresh();
             toast.success("Post supprimé");

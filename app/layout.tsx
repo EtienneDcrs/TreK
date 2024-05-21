@@ -25,7 +25,7 @@ export default async function RootLayout({
         <html lang="fr">
             <body className="flex flex-col font-sans">
                 <ToasterProvider />
-                <PostModal />
+                {/* <PostModal /> */}
                 <LoginModal />
                 <RegisterModal />
                 <Navbar currentUser={currentUser} />

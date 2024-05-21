@@ -5,21 +5,33 @@ import { IconType } from "react-icons";
 import { categories } from "./modals/PostModal";
 import FavoriteButton from "./FavoriteButton";
 import DeleteButton from "./DeleteButton";
+import { Socket } from "socket.io-client";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 interface PostCardProps {
     data: SafePost;
     currentUser: any;
     isAdmin?: boolean;
+    socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
+const PostCard: React.FC<PostCardProps> = ({
+    data,
+    currentUser,
+    isAdmin,
+    socket,
+}) => {
     const router = useRouter();
     const category = categories.find((c) => c.label === data.category);
     const Icon: IconType | undefined = category?.icon;
     return (
         <div>
             {(data.authorId === currentUser?.id || isAdmin) && (
-                <DeleteButton postId={data.id} currentUser={currentUser} />
+                <DeleteButton
+                    socket={socket}
+                    postId={data.id}
+                    currentUser={currentUser}
+                />
             )}
             <FavoriteButton postId={data.id} currentUser={currentUser} />
             <div

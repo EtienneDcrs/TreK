@@ -3,7 +3,7 @@
 import axios from "axios";
 import usePostModal from "@/app/hooks/usePostModal";
 import { useMemo, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
@@ -21,8 +21,9 @@ import { MdForest } from "react-icons/md";
 import { GiBoatFishing, GiCaveEntrance, GiWindmill } from "react-icons/gi";
 import { FaMountainCity, FaQuestion } from "react-icons/fa6";
 import { getRouteLength } from "@/app/actions/getRouteLength";
-import Map from "../map/Map";
-import MapPost from "../map/MapPost";
+
+import { Socket } from "socket.io-client"; // Importation de socket.io-client
+import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 enum STEPS {
     FILE = 0,
@@ -94,7 +95,11 @@ export const difficulties = [
     },
 ];
 
-const PostModal = () => {
+interface PostModalProps {
+    socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+}
+
+const PostModal: React.FC<PostModalProps> = ({ socket }) => {
     const postModal = usePostModal();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -197,32 +202,32 @@ const PostModal = () => {
         }
         setIsLoading(true);
 
-        axios
-            .post("api/posts", data)
-            .then((response) => {
-                const postId = response.data.id;
-                toast.success("Post Created !");
-                setStep(STEPS.FILE);
-                reset();
-                router.refresh();
-                postModal.onClose();
-                //router.push(`/posts/${postId}`);
-            })
-            .catch(() => {
-                toast.error("Something went wrong");
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-
         // axios
-        //     .post("http://localhost:3001/route", data)
+        //     .post("api/posts", data)
         //     .then((response) => {
-        //         console.log(response.data);
+        //         const postId = response.data.id;
+        //         toast.success("Post Created !");
+        //         setStep(STEPS.FILE);
+        //         reset();
+        //         router.refresh();
+        //         postModal.onClose();
+        //         //router.push(`/posts/${postId}`);
         //     })
-        //     .catch((error) => {
-        //         console.error("There was an error!", error);
+        //     .catch(() => {
+        //         toast.error("Something went wrong");
+        //     })
+        //     .finally(() => {
+        //         setIsLoading(false);
         //     });
+
+        socket?.emit("newPost", data);
+        console.log("New post emitted:", data);
+        toast.success("Post Created !");
+        setStep(STEPS.FILE);
+        reset();
+        router.refresh();
+        postModal.onClose();
+        setIsLoading(false);
     };
 
     let bodyContent = (

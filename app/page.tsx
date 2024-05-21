@@ -8,7 +8,7 @@ import getPolylines from "./actions/getPolylines";
 import { getAdminidtrators } from "./actions/getAdministrators";
 
 export default async function Home() {
-    const posts = await getPosts();
+    //const posts = await getPosts();
     const currentUser = await getCurrentUser();
     const polylines = await getPolylines();
     const admins = await getAdminidtrators();
@@ -90,7 +90,7 @@ export default async function Home() {
                     </div>
                     <PostsList
                         currentUser={currentUser}
-                        posts={posts}
+                        //posts={posts}
                         isAdmin={isAdmin}
                     />
                 </div>

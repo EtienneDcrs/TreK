@@ -1,46 +1,82 @@
-const express = require("express");
+// server.js
+
 const http = require("http");
-const socketIo = require("socket.io");
-const cors = require("cors");
+const { Server } = require("socket.io");
+const { PrismaClient } = require("@prisma/client");
+const { rest } = require("lodash");
 
-const app = express();
-app.use(cors());
+const prisma = new PrismaClient();
+const server = http.createServer();
 
-const server = http.createServer(app);
+// ADD cors option to allow cross-origin requests
 
-const io = socketIo(server, {
+const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
         methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
-        credentials: true,
     },
 });
 
-app.post("/route", (req, res) => {
-    const newPost = req.body;
+io.on("connection", async (socket) => {
+    console.log("User connected");
+    let { user } = socket.handshake.query;
+    //socket.join(contentId);
+    if (user) user = JSON.parse(user);
+    let restorePosts = await prisma.post.findMany();
+    //console.log("restorePosts", restorePosts);
+    io.emit("restorePosts", restorePosts);
 
-    // Ajoutez le nouveau post à votre base de données ici
-    console.log(req.body);
-    // Émettez l'événement 'newPost' avec le nouveau post
-    io.emit("newPost", newPost);
+    socket.on("newPost", async (newPost) => {
+        try {
+            console.log("newPost", newPost);
+            // Enregistrer le nouveau Post dans la base de données avec Prisma
+            await prisma.Post.create({
+                data: {
+                    title: newPost.title,
+                    description: newPost.description,
+                    authorId: user.id,
+                    lats: newPost.lats,
+                    lngs: newPost.lngs,
+                    elevations: newPost.elevations,
+                    category: newPost.category,
+                    length: newPost.length,
+                    difficulty: newPost.difficulty,
+                },
+            });
 
-    res.json(newPost);
-});
+            // Envoyer le nouveau Post à tous les clients connectés
+            io.emit("newPost", { ...newPost, user });
+        } catch (error) {
+            console.error("Error saving Post:", error);
+        }
+    });
 
-io.on("connection", (socket) => {
-    console.log("Client connected");
+    socket.on("deletePost", async (postId) => {
+        try {
+            console.log("deletePost", postId);
+            // Enregistrer le nouveau Post dans la base de données avec Prisma
+
+            if (!postId || typeof postId !== "string") {
+                throw new Error("Invalid Id");
+            }
+
+            await prisma.Post.delete({
+                where: { id: postId },
+            });
+            const newPosts = await prisma.post.findMany();
+            // Envoyer les posts à tous les clients connectés
+            io.emit("restorePosts", newPosts);
+        } catch (error) {
+            console.error("Error deleting Post:", error);
+        }
+    });
 
     socket.on("disconnect", () => {
-        console.log("Client disconnected");
-    });
-
-    socket.on("newPost", (post) => {
-        io.emit("newPost", post);
+        console.log("User disconnected");
     });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 server.listen(PORT, () => {
-    console.log(`WebSocket server listening on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
