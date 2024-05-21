@@ -1,3 +1,50 @@
+/*"use client";
+
+interface PostsListProps {
+    currentUser: any;
+    posts: any[];
+    isAdmin?: boolean;
+}
+import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
+
+function PostsList() {
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        const socket = io("http://localhost:3001");
+
+        // Fetch initial posts
+        fetch("http://localhost:3001/posts")
+            .then((response) => response.json())
+            .then((data) => {
+                setPosts(data);
+            });
+
+        // Listen for new posts
+        socket.on("newPost", (newPost) => {
+            setPosts((prevPosts) => [...prevPosts, newPost]);
+        });
+
+        // Clean up on unmount
+        return () => {
+            socket.off("newPost");
+        };
+    }, []);
+
+    // Render posts
+    return (
+        <div>
+            {posts.map((post) => (
+                <div key={post.id}>{post.title}</div>
+            ))}
+        </div>
+    );
+}
+
+export default PostsList;
+/*
+*/
 "use client";
 
 import { SafePost } from "../types";
@@ -50,7 +97,9 @@ const PostsList: React.FC<PostsListProps> = ({
                 rounded-md
                 shadow-lg
                 w-full
-                md:w-1/2
+                md:w-2/5
+                lg:w-1/2
+                h-2/5
                 md:h-full
                 gap-2
                 overflow-y-auto
@@ -59,7 +108,7 @@ const PostsList: React.FC<PostsListProps> = ({
             <div
                 className="
                 grid grid-cols-1
-                lg:grid-cols-2
+                2xl:grid-cols-2
                 gap-4
             "
             >

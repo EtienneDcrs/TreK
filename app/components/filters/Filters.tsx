@@ -13,7 +13,7 @@ const Filters: React.FC<FiltersProps> = ({}) => {
     const category = params?.get("category");
     const difficulty = params?.get("difficulty");
     return (
-        <div className="flex flex-row justify-evenly items-center gap-2 w-full h-full ">
+        <div className="flex flex-row justify-evenly items-center gap-2 w-full ">
             <div
                 className="
                     grid
@@ -23,7 +23,8 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                     gap-1
                     p-2
                     border-2 rounded-md
-                    w-1/3 h-full
+                    w-1/3
+                    h-full
                 "
             >
                 {categories.map((item) => (

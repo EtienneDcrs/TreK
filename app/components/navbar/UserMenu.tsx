@@ -66,9 +66,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                             {currentUser ? (
                                 <>
                                     <MenuItem
-                                        onClick={() =>
-                                            console.log("Mon compte")
-                                        }
+                                        onClick={() => router.push("/account")}
                                         label="Votre compte"
                                         className="border-b-[1px]"
                                     />

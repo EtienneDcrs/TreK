@@ -29,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
                         </div>
 
                         <div className="flex flex-row items-center">
-                            <Searchbar />
+                            {/* <Searchbar /> */}
                             <UserMenu currentUser={currentUser} />
                         </div>
                     </div>

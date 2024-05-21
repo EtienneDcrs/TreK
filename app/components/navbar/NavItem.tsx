@@ -102,7 +102,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                         flex
                         items-center
                         h-full
-                        px-6
+                        px-2
                         md:px-3
                         lg:px-6
                         rounded-l-full
@@ -115,12 +115,11 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                 <div
                     onClick={handleMyPosts}
                     className="
-                        hidden
-                        sm:flex
+                        flex
                         text-sm
                         font-semibold
                         whitespace-nowrap
-                        px-6
+                        px-2
                         md:px-3
                         lg:px-6
                         border-x-[1px]
@@ -136,74 +135,23 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                 <div
                     onClick={handleMyFavorites}
                     className="
-                        hidden
-                        sm:flex
-                        text-sm
-                        font-semibold
-                        whitespace-nowrap
-                        px-6
-                        md:px-3
-                        lg:px-6
-                        border-x-[1px]
-                        h-full
-                        items-center
-                        hover:text-blue-500
-                        hover:shadow-md
-
+                    text-sm
+                    font-semibold
+                    whitespace-nowrap
+                    flex
+                    items-center
+                    h-full
+                    px-2
+                    md:px-3
+                    lg:px-6
+                    rounded-r-full
+                    hover:text-blue-500
+                    hover:shadow-md
+                    border-l-[1px]
                     "
                 >
                     Mes favoris
                 </div>
-                <div
-                    onClick={toggleOpen}
-                    className="
-                        text-sm
-                        font-semibold
-                        whitespace-nowrap
-                        flex
-                        items-center
-                        h-full
-                        px-6
-                        md:px-3
-                        lg:px-6
-                        rounded-r-full
-                        hover:text-blue-500
-                        hover:shadow-md
-                        border-l-[1px]
-                    "
-                >
-                    Autre
-                </div>
-                {isOpen && (
-                    <div
-                        className="
-                            absolute
-                            rounded-xl
-                            shadow-md
-                            bg-white
-                            w-[200px]                            
-                            overflow-hidden
-                            top-[82px]
-                            text-sm
-                            sm:hidden
-                            border-[1px]
-                        "
-                    >
-                        <div className="flex flex-col cursor-pointer">
-                            <>
-                                <MenuItem
-                                    onClick={handleMyPosts}
-                                    label="Mes randos"
-                                    className={"border-b-[1px] "}
-                                />
-                                <MenuItem
-                                    onClick={handleMyFavorites}
-                                    label="Mes favoris"
-                                />
-                            </>
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );

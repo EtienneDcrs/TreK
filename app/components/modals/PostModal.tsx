@@ -21,9 +21,12 @@ import { MdForest } from "react-icons/md";
 import { GiBoatFishing, GiCaveEntrance, GiWindmill } from "react-icons/gi";
 import { FaMountainCity, FaQuestion } from "react-icons/fa6";
 import { getRouteLength } from "@/app/actions/getRouteLength";
+import Map from "../map/Map";
+import MapPost from "../map/MapPost";
 
 enum STEPS {
     FILE = 0,
+    //FILEDISPLAY = 1,
     CATEGORY = 1,
     DIFFICULTY = 2,
     DESCRIPTION = 3,
@@ -199,11 +202,11 @@ const PostModal = () => {
             .then((response) => {
                 const postId = response.data.id;
                 toast.success("Post Created !");
-                postModal.onClose();
                 setStep(STEPS.FILE);
-                router.refresh();
                 reset();
-                router.push(`/posts/${postId}`);
+                router.refresh();
+                postModal.onClose();
+                //router.push(`/posts/${postId}`);
             })
             .catch(() => {
                 toast.error("Something went wrong");
@@ -211,6 +214,15 @@ const PostModal = () => {
             .finally(() => {
                 setIsLoading(false);
             });
+
+        // axios
+        //     .post("http://localhost:3001/route", data)
+        //     .then((response) => {
+        //         console.log(response.data);
+        //     })
+        //     .catch((error) => {
+        //         console.error("There was an error!", error);
+        //     });
     };
 
     let bodyContent = (
@@ -227,15 +239,31 @@ const PostModal = () => {
                         className="centered"
                         onChange={handleFileChange}
                     />
-                    <div className="w-full">
-                        {/* <Map id="map2" /> */}
-                        map
-                    </div>
+                    <div className="w-full">map not yet available</div>
                 </div>
             </div>
         </div>
     );
-
+    // if (step === STEPS.FILEDISPLAY) {
+    //     bodyContent = (
+    //         <div>
+    //             <div className="flex flex-col gap-4">
+    //                 <Heading
+    //                     title="Partagez une nouvelle randonnée !"
+    //                     subtitle="Confirmez le tracé de votre randonnée"
+    //                 />
+    //                 <div className="flex flex-col items-center gap-4">
+    //                     <div>Visualisez votre parcours</div>
+    //                     <div className="w-full">
+    //                         {polyline.length > 0 && (
+    //                             <MapPost id="map2" polyline={polyline} />
+    //                         )}
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // }
     if (step === STEPS.CATEGORY) {
         bodyContent = (
             <div className="flex flex-col gap-4">

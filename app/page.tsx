@@ -43,7 +43,7 @@ export default async function Home() {
                         rounded-md
                         mt-2
                         w-full
-                        h-[85vh]
+                        h-[88vh]
                         "
                 >
                     <div
@@ -51,7 +51,8 @@ export default async function Home() {
                             rounded-md
                             w-full
                             h-3/5
-                            md:w-1/2
+                            md:w-3/5
+                            lg:w-1/2
                             md:h-full
                             flex
                             flex-col
@@ -62,15 +63,15 @@ export default async function Home() {
                             className="
                                 bg-white
                                 p-4
-                                md:py-4
                                 rounded-md
                                 shadow-lg
                                 w-full
-                                h-1/6
-                                md:h-1/5
+                                h-1/4
+                                md:h-1/6
                                 flex
                                 flex-row
                                 items-center
+                                overflow-y-auto
                                 "
                         >
                             <Filters />
@@ -82,7 +83,6 @@ export default async function Home() {
                                 shadow-lg
                                 w-full
                                 h-full
-                                md:h-5/6
                                 "
                         >
                             <Map id="map" polylines={polylines} />
