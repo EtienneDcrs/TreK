@@ -21,7 +21,6 @@ const PostContent: React.FC<PostContentProps> = ({
     const category = categories.find((c) => c.label === post.category);
     const Icon: IconType | undefined = category?.icon;
     const coords: [number, number][] = [];
-    console.log(coords);
 
     return (
         <div

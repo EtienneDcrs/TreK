@@ -38,7 +38,6 @@ const useFavorite = ({ postId, currentUser }: IUserFavorite) => {
             if (hasFavorited) {
                 request = () => axios.delete(`/api/favorites/${postId}`);
             } else {
-                console.log("postid", postId);
                 request = () => axios.post(`/api/favorites/${postId}`);
             }
 

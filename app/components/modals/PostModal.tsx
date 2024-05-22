@@ -29,7 +29,6 @@ import { SafeUser } from "@/app/types";
 
 enum STEPS {
     FILE = 0,
-    //FILEDISPLAY = 1,
     CATEGORY = 1,
     DIFFICULTY = 2,
     DESCRIPTION = 3,
@@ -152,9 +151,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        console.log("New file selected");
         const file = event.target.files![0];
-        console.log(file);
         if (!file) {
             return;
         } else if (file.name.split(".").pop() === "gpx") {
@@ -211,26 +208,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
         }
         setIsLoading(true);
 
-        // axios
-        //     .post("api/posts", data)
-        //     .then((response) => {
-        //         const postId = response.data.id;
-        //         toast.success("Post Created !");
-        //         setStep(STEPS.FILE);
-        //         reset();
-        //         router.refresh();
-        //         postModal.onClose();
-        //         //router.push(`/posts/${postId}`);
-        //     })
-        //     .catch(() => {
-        //         toast.error("Something went wrong");
-        //     })
-        //     .finally(() => {
-        //         setIsLoading(false);
-        //     });
-
         socket?.emit("newPost", data);
-        console.log("New post emitted:", data);
         toast.success("Post Created !");
         setStep(STEPS.FILE);
         reset();
@@ -258,26 +236,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
             </div>
         </div>
     );
-    // if (step === STEPS.FILEDISPLAY) {
-    //     bodyContent = (
-    //         <div>
-    //             <div className="flex flex-col gap-4">
-    //                 <Heading
-    //                     title="Partagez une nouvelle randonnée !"
-    //                     subtitle="Confirmez le tracé de votre randonnée"
-    //                 />
-    //                 <div className="flex flex-col items-center gap-4">
-    //                     <div>Visualisez votre parcours</div>
-    //                     <div className="w-full">
-    //                         {polyline.length > 0 && (
-    //                             <MapPost id="map2" polyline={polyline} />
-    //                         )}
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // }
+
     if (step === STEPS.CATEGORY) {
         bodyContent = (
             <div className="flex flex-col gap-4">

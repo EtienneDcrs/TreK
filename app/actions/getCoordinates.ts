@@ -62,14 +62,12 @@ export function getCoordinatesFromKML(file: File): Promise<{ lat: number[], lng:
                     coordinates.pop();
                 }
                  // Remove the first empty element
-                console.log(coordinates);
                 coordinates.forEach((coord: string) => {
                     const [lng, lat, ele] = coord.split(',');
                     latlngList.lat.push(parseFloat(lat));
                     latlngList.lng.push(parseFloat(lng));
                     latlngList.ele.push(parseFloat(ele));
                 });
-                console.log(latlngList);
 
                 resolve(latlngList);
             });

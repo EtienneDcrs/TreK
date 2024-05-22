@@ -71,9 +71,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                                         className="border-b-[1px]"
                                     />
                                     <MenuItem
-                                        onClick={() =>
-                                            console.log("Paramètres")
-                                        }
+                                        onClick={() => {}}
                                         label="Paramètres"
                                         className="border-b-[1px]"
                                     />

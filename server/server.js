@@ -18,11 +18,10 @@ const io = new Server(server, {
 });
 
 io.on("connection", async (socket) => {
-    console.log("User connected");
+    //console.log("User connected");
     //let { user } = socket.handshake.query;
     //socket.join(contentId);
     let restorePosts = await prisma.post.findMany();
-    //console.log("restorePosts", restorePosts);
     io.emit("restorePosts", restorePosts);
 
     socket.on("newPost", async (newPost) => {
@@ -72,7 +71,7 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("disconnect", () => {
-        console.log("User disconnected");
+        //console.log("User disconnected");
     });
 });
 

@@ -11,13 +11,11 @@ export async function POST (
     {params}:{params:IParams}
 ){
     const currentUser = await getCurrentUser();
-    console.log("currentUser", currentUser);
     if (!currentUser) {
         return NextResponse.error();
     }
 
     const { postId } = params;
-    console.log("postId", postId);
     if (!postId || typeof postId !== "string") {
         throw new Error("Invalid Id");
     }
