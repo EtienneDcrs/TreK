@@ -130,7 +130,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
                 .substring(0, 24),
             title: "",
             description: "",
-            authorId: currentUser.id,
+            authorId: currentUser?.id,
             lats: [],
             lngs: [],
             elevations: [],

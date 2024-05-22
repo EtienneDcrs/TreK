@@ -49,15 +49,15 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
             setDisplayedPosts(posts);
         });
 
-        s.on("newPost", (post: Post) => {
-            setPosts((prevPosts) => {
-                const newPosts = [...prevPosts, post];
-                return Array.from(
-                    new Set(newPosts.map((c) => JSON.stringify(c)))
-                ).map((c) => JSON.parse(c));
-            }); // Ajouter le nouveau post à la liste des posts
-            setDisplayedPosts(posts);
-        });
+        // s.on("newPost", (post: Post) => {
+        //     setPosts((prevPosts) => {
+        //         const newPosts = [...prevPosts, post];
+        //         return Array.from(
+        //             new Set(newPosts.map((c) => JSON.stringify(c)))
+        //         ).map((c) => JSON.parse(c));
+        //     }); // Ajouter le nouveau post à la liste des posts
+        //     setDisplayedPosts(posts);
+        // });
 
         return () => {
             if (socket) socket.disconnect(); // Déconnexion du serveur de sockets lorsque le composant est démonté
@@ -72,14 +72,14 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 posts.filter((post: SafePost) => post.category === category)
             );
         }
-        if (user) {
-            setDisplayedPosts(
-                posts.filter((post: SafePost) => post.authorId === user)
-            );
-        }
         if (difficulty) {
             setDisplayedPosts(
                 posts.filter((post: SafePost) => post.difficulty === difficulty)
+            );
+        }
+        if (user) {
+            setDisplayedPosts(
+                posts.filter((post: SafePost) => post.authorId === user)
             );
         }
         if (favorite) {
@@ -89,7 +89,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 )
             );
         }
-    }, [category, user, difficulty, favorite]);
+    }, [category, user, difficulty, favorite, params, posts]);
 
     // Render posts
     return (

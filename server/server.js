@@ -44,7 +44,8 @@ io.on("connection", async (socket) => {
             });
 
             // Envoyer le nouveau Post à tous les clients connectés
-            io.emit("newPost", { ...newPost });
+            posts = await prisma.post.findMany();
+            io.emit("restorePosts", posts);
         } catch (error) {
             console.error("Error saving Post:", error);
         }
