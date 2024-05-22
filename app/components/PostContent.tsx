@@ -22,6 +22,7 @@ const PostContent: React.FC<PostContentProps> = ({
     const Icon: IconType | undefined = category?.icon;
     const coords: [number, number][] = [];
     console.log(coords);
+
     return (
         <div
             className="

@@ -3,10 +3,11 @@ import { SafePost } from "../types";
 import EmptyState from "./filters/EmptyState";
 import PostCard from "./PostCard";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client"; // Importation de socket.io-client
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import PostModal from "./modals/PostModal";
+import { set } from "react-hook-form";
 
 interface PostsListProps {
     currentUser: any;
@@ -28,46 +29,74 @@ interface Post {
 
 const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     const [posts, setPosts] = useState<SafePost[]>([]);
+    const [displayedPosts, setDisplayedPosts] = useState<SafePost[]>([]);
     const [socket, setSocket] =
         useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
-
+    const params = useSearchParams();
+    const category = params?.get("category");
+    const user = params?.get("user");
+    const difficulty = params?.get("difficulty");
+    const favorite = params?.get("favorite");
     // Connexion au serveur de sockets
     useEffect(() => {
-        if (currentUser) {
-            const s = socket
-                ? socket
-                : io("http://" + window.location.host.split(":")[0] + ":3001", {
-                      query: {
-                          user: JSON.stringify(currentUser),
-                      }, // Envoyer le user au serveur de sockets au
-                  });
-            setSocket(s);
+        const s = socket
+            ? socket
+            : io("http://" + window.location.host.split(":")[0] + ":3001");
+        setSocket(s);
 
-            s.on("restorePosts", (posts: SafePost[]) => {
-                setPosts(posts); // Restaurer les commentaires précédents
-                // console.log('Posts restored:', posts);
-            });
+        s.on("restorePosts", (posts: SafePost[]) => {
+            setPosts(posts); // Restaurer les commentaires précédents
+            // console.log('Posts restored:', posts);
+            setDisplayedPosts(posts);
+        });
 
-            s.on("newPost", (post: Post) => {
-                console.log("New post received:", posts, post);
-                setPosts((prevPosts) => {
-                    const newPosts = [...prevPosts, post];
-                    return Array.from(
-                        new Set(newPosts.map((c) => JSON.stringify(c)))
-                    ).map((c) => JSON.parse(c));
-                }); // Ajouter le nouveau post à la liste des posts
-            });
-        }
+        s.on("newPost", (post: Post) => {
+            console.log("New post received:", posts, post);
+            setPosts((prevPosts) => {
+                const newPosts = [...prevPosts, post];
+                return Array.from(
+                    new Set(newPosts.map((c) => JSON.stringify(c)))
+                ).map((c) => JSON.parse(c));
+            }); // Ajouter le nouveau post à la liste des posts
+            setDisplayedPosts(posts);
+        });
 
         return () => {
             if (socket) socket.disconnect(); // Déconnexion du serveur de sockets lorsque le composant est démonté
         };
     }, []);
 
+    // Filtrer les posts
+    useEffect(() => {
+        setDisplayedPosts(posts);
+        if (category) {
+            setDisplayedPosts(
+                posts.filter((post: SafePost) => post.category === category)
+            );
+        }
+        if (user) {
+            setDisplayedPosts(
+                posts.filter((post: SafePost) => post.authorId === user)
+            );
+        }
+        if (difficulty) {
+            setDisplayedPosts(
+                posts.filter((post: SafePost) => post.difficulty === difficulty)
+            );
+        }
+        if (favorite) {
+            setDisplayedPosts(
+                posts.filter((post: SafePost) =>
+                    currentUser.favoriteIds.includes(post.id)
+                )
+            );
+        }
+    }, [category, user, difficulty, favorite]);
+
     // Render posts
     return (
         <>
-            <PostModal socket={socket} />
+            <PostModal currentUser={currentUser} socket={socket} />
             <div
                 className="
                 bg-white
@@ -90,11 +119,10 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 gap-4
             "
                 >
-                    {posts.map((post: SafePost) => {
+                    {displayedPosts.map((post: SafePost, index) => {
                         return (
                             <PostCard
-                                socket={socket}
-                                key={post.id}
+                                key={index}
                                 currentUser={currentUser}
                                 data={post}
                                 isAdmin={isAdmin}

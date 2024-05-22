@@ -1,26 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeUser } from "../types";
 import { IoTrashBinOutline, IoTrashBinSharp } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import axios from "axios";
 import Button from "./Button";
 import io, { Socket } from "socket.io-client"; // Importation de socket.io-client
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 
 interface DeleteButtonProps {
-    socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
     postId: string;
     currentUser?: SafeUser | null;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({
-    postId,
-    currentUser,
-    socket,
-}) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ postId, currentUser }) => {
     const router = useRouter();
     const [isConfirming, setIsConfirming] = useState(false);
+    const [socket, setSocket] =
+        useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
+
+    useEffect(() => {
+        const s = socket
+            ? socket
+            : io("http://" + window.location.host.split(":")[0] + ":3001");
+        setSocket(s);
+        return () => {
+            if (socket) socket.disconnect(); // Déconnexion du serveur de sockets lorsque le composant est démonté
+        };
+    }, []);
 
     const handleDelete = async () => {
         if (!currentUser) {

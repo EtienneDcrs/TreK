@@ -19,9 +19,8 @@ const io = new Server(server, {
 
 io.on("connection", async (socket) => {
     console.log("User connected");
-    let { user } = socket.handshake.query;
+    //let { user } = socket.handshake.query;
     //socket.join(contentId);
-    if (user) user = JSON.parse(user);
     let restorePosts = await prisma.post.findMany();
     //console.log("restorePosts", restorePosts);
     io.emit("restorePosts", restorePosts);
@@ -32,9 +31,10 @@ io.on("connection", async (socket) => {
             // Enregistrer le nouveau Post dans la base de données avec Prisma
             await prisma.Post.create({
                 data: {
+                    id: newPost.id,
                     title: newPost.title,
                     description: newPost.description,
-                    authorId: user.id,
+                    authorId: newPost.authorId,
                     lats: newPost.lats,
                     lngs: newPost.lngs,
                     elevations: newPost.elevations,
@@ -45,7 +45,7 @@ io.on("connection", async (socket) => {
             });
 
             // Envoyer le nouveau Post à tous les clients connectés
-            io.emit("newPost", { ...newPost, user });
+            io.emit("newPost", { ...newPost });
         } catch (error) {
             console.error("Error saving Post:", error);
         }

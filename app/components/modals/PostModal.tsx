@@ -24,6 +24,8 @@ import { getRouteLength } from "@/app/actions/getRouteLength";
 
 import { Socket } from "socket.io-client"; // Importation de socket.io-client
 import { DefaultEventsMap } from "@socket.io/component-emitter";
+import { getCurrentUser } from "@/app/actions/getCurrentUser";
+import { SafeUser } from "@/app/types";
 
 enum STEPS {
     FILE = 0,
@@ -97,9 +99,10 @@ export const difficulties = [
 
 interface PostModalProps {
     socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+    currentUser: SafeUser;
 }
 
-const PostModal: React.FC<PostModalProps> = ({ socket }) => {
+const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
     const postModal = usePostModal();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -121,8 +124,14 @@ const PostModal: React.FC<PostModalProps> = ({ socket }) => {
         reset,
     } = useForm<FieldValues>({
         defaultValues: {
+            id: crypto
+                .randomUUID()
+                .toString()
+                .replace(/-/g, "")
+                .substring(0, 24),
             title: "",
             description: "",
+            authorId: currentUser.id,
             lats: [],
             lngs: [],
             elevations: [],
