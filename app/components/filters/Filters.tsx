@@ -3,13 +3,12 @@
 import { useSearchParams } from "next/navigation";
 import CategoryBox from "./CategoryBox";
 import { categories, difficulties } from "../modals/PostModal";
-import { IconType } from "react-icons";
 import DifficultyBox from "./DifficultyBox";
 
 interface FiltersProps {}
 
 const Filters: React.FC<FiltersProps> = ({}) => {
-    const params = useSearchParams();
+    const params = useSearchParams(); // get the search params (from the URL)
     const category = params?.get("category");
     const difficulty = params?.get("difficulty");
     return (
@@ -27,18 +26,22 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                     h-full
                 "
             >
-                {categories.map((item) => (
-                    <div
-                        key={item.label}
-                        className="flex flex-col items-center"
-                    >
-                        <CategoryBox
-                            label={item.label}
-                            icon={item.icon}
-                            selected={item.label === category}
-                        />
-                    </div>
-                ))}
+                {categories.map(
+                    (
+                        item // map through the categories to display them
+                    ) => (
+                        <div
+                            key={item.label}
+                            className="flex flex-col items-center"
+                        >
+                            <CategoryBox // display the category box, with the label and icon
+                                label={item.label}
+                                icon={item.icon}
+                                selected={item.label === category}
+                            />
+                        </div>
+                    )
+                )}
             </div>
             <div
                 className="
@@ -52,18 +55,22 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                     w-1/3 h-full
                 "
             >
-                {difficulties.map((item) => (
-                    <div
-                        key={item.label}
-                        className="flex flex-col items-center"
-                    >
-                        <DifficultyBox
-                            label={item.label}
-                            color={item.color}
-                            selected={item.label === difficulty}
-                        />
-                    </div>
-                ))}
+                {difficulties.map(
+                    (
+                        item // map through the difficulties to display them
+                    ) => (
+                        <div
+                            key={item.label}
+                            className="flex flex-col items-center"
+                        >
+                            <DifficultyBox // display the difficulty box, with the label and color
+                                label={item.label}
+                                color={item.color}
+                                selected={item.label === difficulty}
+                            />
+                        </div>
+                    )
+                )}
             </div>
             <div
                 className="

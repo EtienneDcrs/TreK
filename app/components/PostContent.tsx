@@ -20,7 +20,6 @@ const PostContent: React.FC<PostContentProps> = ({
 }) => {
     const category = categories.find((c) => c.label === post.category);
     const Icon: IconType | undefined = category?.icon;
-    const coords: [number, number][] = [];
 
     return (
         <div
@@ -38,9 +37,11 @@ const PostContent: React.FC<PostContentProps> = ({
                 "
         >
             <div>
+                {/* Display the delete button if the user is the post's author or an admin */}
                 {(post.authorId === currentUser?.id || isAdmin) && (
                     <DeleteButton postId={post.id} currentUser={currentUser} />
                 )}
+                {/* Display the favorite button */}
                 <FavoriteButton postId={post.id} currentUser={currentUser} />
                 <Heading title={post.title} center />
             </div>
@@ -59,7 +60,8 @@ const PostContent: React.FC<PostContentProps> = ({
                     gap-2
                     "
                 >
-                    <div>{Icon && <Icon size={36} />}</div>
+                    <div>{Icon && <Icon size={36} />}</div>{" "}
+                    {/* Display the category icon */}
                     <div>{category?.label}</div>
                 </div>
                 <div className="h-full">
@@ -72,7 +74,8 @@ const PostContent: React.FC<PostContentProps> = ({
                         h-full
                         "
                     >
-                        <div>{post.length.toFixed(2)} km</div>
+                        {/* Display the length of the route */}
+                        <div>{post.length.toFixed(2)} km</div>{" "}
                         <div>Distance</div>
                     </div>
                 </div>
@@ -83,7 +86,7 @@ const PostContent: React.FC<PostContentProps> = ({
                     gap-2
                     "
                 >
-                    <div
+                    <div // Display the difficulty badge with the corresponding color
                         className={`
                         ${post.difficulty === "Facile" && "bg-green-300"}
                         ${post.difficulty === "Moyen" && "bg-yellow-200"}
@@ -117,6 +120,7 @@ const PostContent: React.FC<PostContentProps> = ({
                 gap-3
                 h-full"
             >
+                {/* Display the description of the post */}
                 <div className="text-xl font-semibold">
                     Description de la randonnée
                 </div>

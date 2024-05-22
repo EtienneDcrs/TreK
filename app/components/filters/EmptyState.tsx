@@ -11,7 +11,7 @@ interface EmptyStateProps {
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({
-    title = "Pas de correspondance",
+    title = "Pas de correspondance", // default title if no title is provided
     subtitle = "Essayez de changer vos critères de recherche",
     showReset,
 }) => {
@@ -33,11 +33,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
         >
             <Heading center title={title} subtitle={subtitle} />
             <div className="w-48 mt-4">
-                {showReset && (
+                {showReset && ( // if showReset is true, display the button
                     <Button
                         outline
                         label="Supprimer les filtres"
-                        onClick={() => router.push("/")}
+                        onClick={() => router.push("/")} // redirect to the main page
                     />
                 )}
             </div>

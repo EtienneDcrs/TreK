@@ -1,19 +1,22 @@
 "use client";
 
-import { SafeUser } from "../types";
-import { IoIosStarOutline, IoMdStar } from "react-icons/io";
+import { IoIosStarOutline } from "react-icons/io";
 import { MdOutlineStar } from "react-icons/md";
+
 import useFavorite from "../hooks/useFavorite";
+import { SafeUser } from "../types";
 
 interface FavoriteButtonProps {
     postId: string;
     currentUser?: SafeUser | null;
 }
 
+// Button component for favoriting a post
 const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     postId,
     currentUser,
 }) => {
+    // Custom hook to handle favoriting/unfavoriting a post
     const { hasFavorited, toggleFavorite } = useFavorite({
         postId,
         currentUser,
@@ -24,7 +27,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
             onClick={toggleFavorite}
             className="relative hover opacity-80 transition cursor-pointer"
         >
-            <IoIosStarOutline
+            <IoIosStarOutline // outlined gray icon
                 size={24}
                 className="
                     fill-gray-400 
@@ -33,7 +36,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
                     right-[6px]
                     z-10"
             />
-            <MdOutlineStar
+            <MdOutlineStar // yellow star icon if favorited
                 size={23}
                 className={`
                     absolute

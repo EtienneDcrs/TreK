@@ -19,27 +19,29 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     const router = useRouter();
     const params = useSearchParams();
 
+    // function that push the new URL with the updated category on click
     const handleClick = useCallback(() => {
         let currentQuery = {};
         if (params) {
-            currentQuery = qs.parse(params.toString());
+            currentQuery = qs.parse(params.toString()); // parse the search params
         }
         const updatedQuery: any = {
             ...currentQuery,
-            category: label,
+            category: label, // update the query with the new category
         };
         if (params?.get("category") === label) {
-            delete updatedQuery.category;
+            delete updatedQuery.category; // toggle off the category if already selected
         }
 
         const url = qs.stringifyUrl(
+            // create the new URL with the updated query
             {
                 url: "/",
                 query: updatedQuery,
             },
             { skipNull: true }
         );
-        router.push(url);
+        router.push(url); // redirect to the new URL
     }, [label, params, router]);
 
     return (
@@ -59,7 +61,6 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
             `}
         >
             <Icon size={20} />
-            {/* <div className="text-xs font-light text-neutral-500">{label}</div> */}
         </div>
     );
 };

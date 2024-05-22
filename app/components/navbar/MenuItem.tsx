@@ -1,19 +1,14 @@
-'use client';
-
+"use client";
 
 interface MenuItemProps {
     onClick: () => void;
-    label:String;
-    className?:String;
+    label: String;
+    className?: String;
 }
 
-const MenuItem:React.FC<MenuItemProps> = ({
-    onClick,
-    label,
-    className
-}) => {
-
-    return(
+// component for each menu item in the navbar
+const MenuItem: React.FC<MenuItemProps> = ({ onClick, label, className }) => {
+    return (
         <div
             onClick={onClick}
             className={`
@@ -24,12 +19,10 @@ const MenuItem:React.FC<MenuItemProps> = ({
                 transition
                 font-semibold
                 `}
-            
-        >  
+        >
             {label}
         </div>
     );
 };
 
 export default MenuItem;
-

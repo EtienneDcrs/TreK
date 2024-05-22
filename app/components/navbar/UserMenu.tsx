@@ -1,15 +1,16 @@
 "use client";
 
-import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
 import { useCallback } from "react";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { AiOutlineMenu } from "react-icons/ai";
+
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import usePostModal from "@/app/hooks/usePostModal";
-import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
-import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
     currentUser?: SafeUser | null;
@@ -22,7 +23,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
     const toggleOpen = useCallback(() => {
-        setIsOpen((value) => !value);
+        setIsOpen((value) => !value); // Toggle the state of the menu (open/close)
     }, [isOpen, setIsOpen]);
 
     return (
@@ -45,9 +46,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                         transition
                     "
                 >
-                    <AiOutlineMenu />
+                    <AiOutlineMenu /> {/* Hamburger button */}
                 </div>
-                {isOpen && (
+                {isOpen && ( // Display the menu if the state is open
                     <div
                         className="
                             absolute
@@ -66,24 +67,25 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                             {currentUser ? (
                                 <>
                                     <MenuItem
-                                        onClick={() => router.push("/account")}
+                                        onClick={() => router.push("/account")} // Redirect to the account page
                                         label="Votre compte"
                                         className="border-b-[1px]"
                                     />
                                     <MenuItem
-                                        onClick={() => {}}
+                                        onClick={() => {}} // No settings page yet
                                         label="Paramètres"
                                         className="border-b-[1px]"
                                     />
                                     <MenuItem
-                                        onClick={postModal.onOpen}
+                                        onClick={postModal.onOpen} // Open the post modal to create a post
                                         label="Créez une randonnée"
                                         className="border-b-[1px]"
                                     />
                                     <MenuItem
                                         onClick={() => {
+                                            // Sign out the user
                                             console.log("Déconnexion");
-                                            router.push("/");
+                                            router.push("/"); // Redirect to the home page
                                             signOut();
                                         }}
                                         label="Se déconnecter"
@@ -91,6 +93,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                                 </>
                             ) : (
                                 <>
+                                    {" "}
+                                    {/* If the user is not logged in */}
                                     <MenuItem
                                         onClick={loginModal.onOpen}
                                         label="Login"

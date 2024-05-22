@@ -21,7 +21,9 @@ const DifficultyBox: React.FC<DifficultyBoxProps> = ({
     var bgColor = "white";
     var hoverColor = "hover:border-neutral-300";
 
-    switch (color) {
+    switch (
+        color // switch statement to determine the color of the border and background
+    ) {
         case "green":
             borderColor = "border-[green]";
             hoverColor = "hover:border-[green]";
@@ -43,27 +45,32 @@ const DifficultyBox: React.FC<DifficultyBoxProps> = ({
             bgColor = "bg-[#fee2e2]";
             break;
     }
+
+    // function that push the new URL with the updated difficulty on click
     const handleClick = useCallback(() => {
         let currentQuery = {};
         if (params) {
-            currentQuery = qs.parse(params.toString());
+            currentQuery = qs.parse(params.toString()); // parse the search params
         }
         const updatedQuery: any = {
+            // update the query with the new difficulty
             ...currentQuery,
             difficulty: label,
         };
         if (params?.get("difficulty") === label) {
+            // toggle off the difficulty if already selected
             delete updatedQuery.difficulty;
         }
 
         const url = qs.stringifyUrl(
+            // put the updated query in the URL
             {
                 url: "/",
                 query: updatedQuery,
             },
-            { skipNull: true }
+            { skipNull: true } // skip null values
         );
-        router.push(url);
+        router.push(url); // redirect to the new URL
     }, [label, params, router]);
 
     return (
@@ -78,12 +85,11 @@ const DifficultyBox: React.FC<DifficultyBoxProps> = ({
                 hover:opacity-80
                 w-full
                 border-2
-                ${hoverColor}
+                ${hoverColor} 
                 ${selected ? borderColor : "border-neutral-200"}
                 ${selected ? bgColor : "bg-white"}
             `}
         >
-            {/* <Icon size={20} /> */}
             <div className="text-sm font-light text-neutral-500">{label}</div>
         </div>
     );

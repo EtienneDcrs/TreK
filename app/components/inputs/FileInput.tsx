@@ -3,7 +3,7 @@
 import { on } from "events";
 
 interface FileInputProps {
-    onChange?: any; //(event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: any; // function that will be called when the file input changes
     title: string;
     acceptedFileTypes?: string;
     className?: string;
@@ -15,15 +15,10 @@ const FileInput: React.FC<FileInputProps> = ({
     acceptedFileTypes,
     className,
 }) => {
-    // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const files = event.target.files;
-    //     //onChange(files);
-    // };
-
     return (
         <div className={`${className} p-2`}>
             <label
-                htmlFor="fileInput"
+                htmlFor="fileInput" // link the label to the input
                 className="cursor-pointer bg-gray-400 shadow-md hover:shadow-lg rounded-md px-2 py-1 text-sm font-semibold text-neutral-900 hover:text-white"
             >
                 {title}
@@ -33,7 +28,7 @@ const FileInput: React.FC<FileInputProps> = ({
                 type="file"
                 id="fileInput"
                 accept={acceptedFileTypes}
-                className="hidden"
+                className="hidden" // hide the input to style the label
             />
         </div>
     );

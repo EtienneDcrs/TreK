@@ -3,19 +3,19 @@
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
-    id: string;
-    label: string;
+    id: string; // id of the input
+    label: string; // label to display
     type?: string;
     disabled?: boolean;
     required?: boolean;
-    register: UseFormRegister<FieldValues>;
-    errors: FieldErrors;
+    register: UseFormRegister<FieldValues>; // register function from react-hook-form
+    errors: FieldErrors; // errors object from react-hook-form
 }
 
 const Input: React.FC<InputProps> = ({
     id,
     label,
-    type = "text",
+    type = "text", // by default, the input type is text
     disabled,
     required,
     register,
@@ -27,7 +27,7 @@ const Input: React.FC<InputProps> = ({
                 id={id}
                 disabled={disabled}
                 type={type}
-                {...register(id, { required })}
+                {...register(id, { required })} // register the input with the required validation
                 placeholder=" "
                 className={`
                     peer

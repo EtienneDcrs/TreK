@@ -1,30 +1,33 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { SafePost } from "../types";
 import { IconType } from "react-icons";
-import { categories } from "./modals/PostModal";
+
+import { categories } from "./modals/PostModal"; // Import the categories from the PostModal component
 import FavoriteButton from "./FavoriteButton";
 import DeleteButton from "./DeleteButton";
+import { SafePost } from "../types";
 
 interface PostCardProps {
     data: SafePost;
     currentUser: any;
-    isAdmin?: boolean;
+    isAdmin?: boolean; // Optional prop to check if the user is an admin
 }
 
 const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
     const router = useRouter();
-    const category = categories.find((c) => c.label === data.category);
+    const category = categories.find((c) => c.label === data.category); // Find the category based on the post's category
     const Icon: IconType | undefined = category?.icon;
     return (
         <div>
+            {/* Display the delete button if the user is the post's author or an admin */}
             {(data.authorId === currentUser?.id || isAdmin) && (
                 <DeleteButton postId={data.id} currentUser={currentUser} />
             )}
+            {/* Display the favorite button */}
             <FavoriteButton postId={data.id} currentUser={currentUser} />
             <div
                 onClick={() => {
-                    router.push(`/posts/${data.id}`);
+                    router.push(`/posts/${data.id}`); // Redirect to the post page on click
                 }}
                 className="
                 flex flex-col
@@ -43,7 +46,8 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
                 </div>
                 <div className="flex flex-row justify-evenly items-center w-full ">
                     <div className="flex flex-row items-center justify-center gap-2">
-                        {Icon && <Icon size={26} />}
+                        {Icon && <Icon size={26} />}{" "}
+                        {/* Display the category icon */}
                         {category?.label}
                     </div>
                     <div
@@ -52,7 +56,7 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
                     gap-2
                     "
                     >
-                        <div
+                        <div // Display the difficulty badge with the corresponding color
                             className={`
                         ${data.difficulty === "Facile" && "bg-green-300"}
                         ${data.difficulty === "Moyen" && "bg-yellow-200"}

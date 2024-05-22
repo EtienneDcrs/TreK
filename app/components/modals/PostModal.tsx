@@ -1,32 +1,33 @@
 "use client";
 
-import axios from "axios";
-import usePostModal from "@/app/hooks/usePostModal";
 import { useMemo, useState } from "react";
-import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Socket } from "socket.io-client"; // Importation de socket.io-client
+import { DefaultEventsMap } from "@socket.io/component-emitter";
+
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
 import FileInput from "../inputs/FileInput";
 import CategoryInput from "../inputs/CategoryInput";
 import DifficultyInput from "../inputs/DifficultyInput";
+import usePostModal from "@/app/hooks/usePostModal";
 import {
     getCoordinatesFromGPX,
     getCoordinatesFromKML,
 } from "@/app/actions/getCoordinates";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { getRouteLength } from "@/app/actions/getRouteLength";
+import { SafeUser } from "@/app/types";
+
+// import the icons for the categories
 import { FaMountain, FaUmbrellaBeach } from "react-icons/fa";
 import { MdForest } from "react-icons/md";
 import { GiBoatFishing, GiCaveEntrance, GiWindmill } from "react-icons/gi";
 import { FaMountainCity, FaQuestion } from "react-icons/fa6";
-import { getRouteLength } from "@/app/actions/getRouteLength";
 
-import { Socket } from "socket.io-client"; // Importation de socket.io-client
-import { DefaultEventsMap } from "@socket.io/component-emitter";
-import { getCurrentUser } from "@/app/actions/getCurrentUser";
-import { SafeUser } from "@/app/types";
-
+// Enum for the steps of the modal
 enum STEPS {
     FILE = 0,
     CATEGORY = 1,
@@ -34,6 +35,7 @@ enum STEPS {
     DESCRIPTION = 3,
 }
 
+// Array of categories
 export const categories = [
     {
         label: "Montagne",
@@ -41,7 +43,7 @@ export const categories = [
         icon: FaMountain,
     },
     {
-        label: "Forêt", // Foret
+        label: "Forêt",
         descritpion: "Randonnée en forêt",
         icon: MdForest,
     },
@@ -77,6 +79,7 @@ export const categories = [
     },
 ];
 
+// Array of difficulties
 export const difficulties = [
     {
         label: "Facile",
@@ -102,14 +105,13 @@ interface PostModalProps {
 }
 
 const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [step, setStep] = useState(STEPS.FILE); // State for the step of the modal
     const postModal = usePostModal();
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
-    const [step, setStep] = useState(STEPS.FILE);
-    const [center, setCenter] = useState<[number, number]>([
-        46.9119382485954, 2.2651793849164115,
-    ]); //[43.68169106,3.84768334]
     const polyline: [number, number][] = [];
+    // Arrays to store the coordinates and elevation
+    // Will be used to calculate the length of the route
     const lat: number[] = [];
     const lng: number[] = [];
     const ele: number[] = [];
@@ -123,11 +125,11 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
         reset,
     } = useForm<FieldValues>({
         defaultValues: {
-            id: crypto
+            id: crypto // create an id for the post
                 .randomUUID()
                 .toString()
-                .replace(/-/g, "")
-                .substring(0, 24),
+                .replace(/-/g, "") // remove the dashes and keep only the first
+                .substring(0, 24), // 24 characters to fit the MongoDB ObjectId
             title: "",
             description: "",
             authorId: currentUser?.id,
@@ -140,6 +142,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
         },
     });
 
+    // Function to set the value of a custom field
     const setCustomValue = (name: string, value: any) => {
         setValue(name, value, {
             shouldDirty: true,
@@ -151,27 +154,35 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        const file = event.target.files![0];
-        if (!file) {
-            return;
-        } else if (file.name.split(".").pop() === "gpx") {
-            const coords = await getCoordinatesFromGPX(file);
+        // Function to handle the file change
+        const file = event.target.files![0]; // force unwrap the file bc we know it exists
+
+        if (file.name.split(".").pop() === "gpx") {
+            // check if the file is a GPX file
+            const coords = await getCoordinatesFromGPX(file); // get the coordinates from the GPX file
             for (let i = 0; i < coords.lat.length; i++) {
+                // loop through the coordinates to create a polyline
                 polyline.push([coords.lat[i], coords.lng[i]]);
+                // and store the latitude, longitude and elevation
                 lat.push(coords.lat[i]);
                 lng.push(coords.lng[i]);
                 ele.push(coords.ele[i]);
             }
         } else if (file.name.split(".").pop() === "kml") {
-            const coords = await getCoordinatesFromKML(file);
+            // check if the file is a KML file
+            const coords = await getCoordinatesFromKML(file); // get the coordinates from the KML file
             for (let i = 0; i < coords.lat.length; i++) {
+                // loop through the coordinates to create a polyline
                 polyline.push([coords.lat[i], coords.lng[i]]);
+                // and store the latitude, longitude and elevation
                 lat.push(coords.lat[i]);
                 lng.push(coords.lng[i]);
                 ele.push(coords.ele[i]);
             }
         }
-        const length = getRouteLength(polyline);
+
+        const length = getRouteLength(polyline); // calculate the length of the route
+        // set the values of the custom fields
         setCustomValue("length", length);
         setCustomValue("lats", lat);
         setCustomValue("lngs", lng);
@@ -179,13 +190,16 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
     };
 
     const onNext = () => {
+        // go to the next step
         setStep((value) => value + 1);
     };
     const onPrev = () => {
+        // go to the previous step
         setStep((value) => value - 1);
     };
 
     const actionLabel = useMemo(() => {
+        // if it's the last step, change the label to "Create"
         if (step === STEPS.DESCRIPTION) {
             return "Create";
         }
@@ -193,6 +207,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
     }, [step]);
 
     const secondaryActionLabel = useMemo(() => {
+        // if it's the first step, don't display the secondary action (back button)
         if (step === STEPS.FILE) {
             return undefined;
         }
@@ -203,16 +218,23 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
     const difficulty = watch("difficulty");
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        // if it's not the last step, go to the next step
         if (step !== STEPS.DESCRIPTION) {
             return onNext();
         }
         setIsLoading(true);
 
-        socket?.emit("newPost", data);
-        toast.success("Post Created !");
-        setStep(STEPS.FILE);
+        // send the data to the server via socket.io
+        try {
+            socket?.emit("newPost", data);
+            toast.success("Post créé !");
+            router.refresh();
+        } catch (error) {
+            toast.error("Une erreur s'est produite");
+        }
+
         reset();
-        router.refresh();
+        setStep(STEPS.FILE); // reset the step to the first one
         postModal.onClose();
         setIsLoading(false);
     };
@@ -227,7 +249,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
                 <div className="flex flex-col items-center gap-4">
                     <FileInput
                         title="Ajouter un parcours"
-                        acceptedFileTypes=".gpx , .kml"
+                        acceptedFileTypes=".gpx , .kml" // accept only GPX and KML files
                         className="centered"
                         onChange={handleFileChange}
                     />
@@ -253,18 +275,22 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
                     max-h-[50vh]
                     overflow-y-auto"
                 >
-                    {categories.map((item) => (
-                        <div key={item.label} className="col-span-1">
-                            <CategoryInput
-                                onClick={(category) => {
-                                    setCustomValue("category", category);
-                                }}
-                                selected={category === item.label}
-                                label={item.label}
-                                icon={item.icon}
-                            />
-                        </div>
-                    ))}
+                    {categories.map(
+                        (
+                            item // loop through the categories to display them
+                        ) => (
+                            <div key={item.label} className="col-span-1">
+                                <CategoryInput
+                                    onClick={(category) => {
+                                        setCustomValue("category", category);
+                                    }}
+                                    selected={category === item.label}
+                                    label={item.label}
+                                    icon={item.icon}
+                                />
+                            </div>
+                        )
+                    )}
                 </div>
             </div>
         );
@@ -285,18 +311,25 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
                     max-h-[50vh]
                     overflow-y-auto"
                 >
-                    {difficulties.map((item) => (
-                        <div key={item.label} className="col-span-1">
-                            <DifficultyInput
-                                onClick={(difficulty) => {
-                                    setCustomValue("difficulty", difficulty);
-                                }}
-                                selected={difficulty === item.label}
-                                label={item.label}
-                                color={item.color}
-                            />
-                        </div>
-                    ))}
+                    {difficulties.map(
+                        (
+                            item // loop through the difficulties to display them
+                        ) => (
+                            <div key={item.label} className="col-span-1">
+                                <DifficultyInput
+                                    onClick={(difficulty) => {
+                                        setCustomValue(
+                                            "difficulty",
+                                            difficulty
+                                        );
+                                    }}
+                                    selected={difficulty === item.label}
+                                    label={item.label}
+                                    color={item.color}
+                                />
+                            </div>
+                        )
+                    )}
                 </div>
             </div>
         );
@@ -338,7 +371,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
             onSubmit={handleSubmit(onSubmit)}
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
-            secondaryAction={step === STEPS.FILE ? undefined : onPrev}
+            secondaryAction={step === STEPS.FILE ? undefined : onPrev} // if it's the first step, don't display the secondary action
             title="Create a new post"
             body={bodyContent}
         />

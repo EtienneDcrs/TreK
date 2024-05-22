@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import MenuItem from "./MenuItem";
 import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
-import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import useLoginModal from "@/app/hooks/useLoginModal";
 
 interface NavItemProps {
@@ -12,19 +10,15 @@ interface NavItemProps {
 }
 
 const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
-    const [isOpen, setIsOpen] = useState(false);
     const loginModal = useLoginModal();
-    const toggleOpen = useCallback(() => {
-        setIsOpen((value) => !value);
-    }, [isOpen, setIsOpen]);
-
     const router = useRouter();
-    const params = useSearchParams();
+    const params = useSearchParams(); // Get the search params from the URL
     const currentUserId = currentUser?.id;
 
+    // Function to handle the "Mes randos" button
     const handleMyPosts = useCallback(() => {
         if (!currentUser) {
-            loginModal.onOpen();
+            loginModal.onOpen(); // Open the login modal if the user is not logged in
             return;
         }
         let currentQuery = {};
@@ -32,40 +26,41 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
             currentQuery = qs.parse(params.toString());
         }
         const updatedQuery: any = {
-            user: currentUserId,
+            user: currentUserId, // Filter the posts by the current user
         };
 
         const url = qs.stringifyUrl(
             {
                 url: "/",
-                query: updatedQuery,
+                query: updatedQuery, // Update the query params
             },
             { skipNull: true }
         );
-        router.push(url);
+        router.push(url); // Redirect to the updated URL
     }, [currentUserId, params, router]);
 
+    // Function to handle the "Mes favoris" button
     const handleMyFavorites = useCallback(() => {
         if (!currentUser) {
-            loginModal.onOpen();
+            loginModal.onOpen(); // Open the login modal if the user is not logged in
             return;
         }
         let currentQuery = {};
         if (params) {
-            currentQuery = qs.parse(params.toString());
+            currentQuery = qs.parse(params.toString()); // Parse the current query params
         }
         const updatedQuery: any = {
-            favorite: true,
+            favorite: true, // Filter the posts by the favorite posts
         };
 
         const url = qs.stringifyUrl(
             {
                 url: "/",
-                query: updatedQuery,
+                query: updatedQuery, // Update the query params
             },
             { skipNull: true }
         );
-        router.push(url);
+        router.push(url); // Redirect to the updated URL
     }, [currentUserId, params, router]);
 
     return (
@@ -93,7 +88,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
             >
                 <div
                     onClick={() => {
-                        router.push("/");
+                        router.push("/"); // Redirect to the home page
                     }}
                     className="
                         text-sm

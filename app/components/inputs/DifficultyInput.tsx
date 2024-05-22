@@ -17,7 +17,9 @@ const DifficultyInput: React.FC<DifficultyInputProps> = ({
     var bgColor = "bg-neutral-100";
     var hoverColor = "hover:border-neutral-300";
 
-    switch (color) {
+    switch (
+        color // switch statement to determine the color of the border and background
+    ) {
         case "green":
             borderColor = "border-[green]";
             hoverColor = "hover:border-[green]";
@@ -42,7 +44,7 @@ const DifficultyInput: React.FC<DifficultyInputProps> = ({
 
     return (
         <div
-            onClick={() => onClick(label)}
+            onClick={() => onClick(label)} // call the onClick function with the label as argument
             className={`
                 rounded-xl
                 border-2

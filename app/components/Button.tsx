@@ -12,6 +12,7 @@ interface ButtonProps {
     bgColor?: string;
 }
 
+// Model for the button component
 const Button: React.FC<ButtonProps> = ({
     label,
     onClick,
@@ -44,7 +45,7 @@ const Button: React.FC<ButtonProps> = ({
             
             `}
         >
-            {Icon && (
+            {Icon && ( // Display the icon if it exists
                 <Icon
                     size={24}
                     className="

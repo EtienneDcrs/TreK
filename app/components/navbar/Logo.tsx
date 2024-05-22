@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+// component that renders the logo
 const Logo = () => {
     const router = useRouter();
 
     return (
         <Image
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/")} // Redirect to home page
             alt="logo"
             className="block cursor-pointer"
             height="50"
