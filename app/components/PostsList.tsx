@@ -46,12 +46,10 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
 
         s.on("restorePosts", (posts: SafePost[]) => {
             setPosts(posts); // Restaurer les commentaires précédents
-            // console.log('Posts restored:', posts);
             setDisplayedPosts(posts);
         });
 
         s.on("newPost", (post: Post) => {
-            console.log("New post received:", posts, post);
             setPosts((prevPosts) => {
                 const newPosts = [...prevPosts, post];
                 return Array.from(

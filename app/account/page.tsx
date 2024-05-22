@@ -72,7 +72,7 @@ const AccountPage = async () => {
                         <Heading title="Vos publications" />
                         <PostsList
                             currentUser={currentUser}
-                            posts={userPosts}
+                            //posts={userPosts}
                             isAdmin={isAdmin}
                         />
                     </div>
@@ -89,7 +89,7 @@ const AccountPage = async () => {
                         <Heading title="Vos favoris" />
                         <PostsList
                             currentUser={currentUser}
-                            posts={favPosts}
+                            //posts={favPosts}
                             isAdmin={isAdmin}
                         />
                     </div>
