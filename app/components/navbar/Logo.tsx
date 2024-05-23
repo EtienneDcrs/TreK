@@ -11,10 +11,10 @@ const Logo = () => {
         <Image
             onClick={() => router.push("/")} // Redirect to home page
             alt="logo"
-            className="block cursor-pointer"
+            className="block cursor-pointer rounded-full"
             height="50"
             width="50"
-            src="/images/logo.png"
+            src="/images/TreK.png"
         />
     );
 };
