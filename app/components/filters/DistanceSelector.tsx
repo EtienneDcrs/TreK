@@ -38,7 +38,7 @@ const DistanceSelector = () => {
             );
             router.push(url); // redirect to the new URL
         },
-        [minDistance, maxDistance, params, router]
+        [params, router]
     );
 
     const handleMinChange = (event: any) => {

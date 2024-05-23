@@ -55,7 +55,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
         return () => {
             if (socket) socket.disconnect(); // disconnect the socket when the component unmounts
         };
-    }, []);
+    }, [socket]);
 
     // filter the posts based on the filters parameters
     useEffect(() => {
@@ -82,7 +82,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 )
             );
         }
-    }, [category, user, difficulty, favorite, params, posts]); // re-run the effect when the filters parameters change
+    }, [category, user, difficulty, favorite, params, posts, currentUser]); // re-run the effect when the filters parameters change
 
     // Render posts
     return (

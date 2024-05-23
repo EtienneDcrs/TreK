@@ -27,7 +27,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ postId, currentUser }) => {
         return () => {
             if (socket) socket.disconnect(); // disconnect the socket when the component unmounts
         };
-    }, []);
+    }, [socket]);
 
     // Function to handle the deletion of the post
     const handleDelete = async () => {

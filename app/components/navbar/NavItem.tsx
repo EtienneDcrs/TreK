@@ -61,7 +61,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
             { skipNull: true }
         );
         router.push(url); // Redirect to the updated URL
-    }, [currentUserId, params, router, currentUser, loginModal]);
+    }, [params, router, currentUser, loginModal]);
 
     return (
         <div
