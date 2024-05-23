@@ -22,57 +22,61 @@ interface MapProps {
 // Map component that displays a map with the given polylines (used in the main page)
 const Map: React.FC<MapProps> = ({ id, polylines }) => {
     const mapRef = useRef<L.Map | null>(null); // create a reference to the map
-    let map = mapRef.current;
+
     useEffect(() => {
-        map = L.map(id, {
-            // create a new map with the given id, center, zoom level and layer
-            center: [46.9119382485954, 2.2651793849164115],
-            zoom: 5,
-            layers: [baseLayer],
-        });
+        if (!mapRef.current) {
+            const map = L.map(id, {
+                // create a new map with the given id, center, zoom level and layer
+                center: [46.9119382485954, 2.2651793849164115],
+                zoom: 5,
+                layers: [baseLayer],
+            });
+            mapRef.current = map;
 
-        // Add polyline to map
-        const routes = [];
-        for (let polyline of polylines) {
-            // Remove intermediate points to keep only 1000 points not to overload the map
-            if (polyline.length > 1000) {
-                let new_polyline: [number, number][] = [];
-                const step = Math.floor(polyline.length / 1000);
-                for (let i = 0; i < polyline.length; i++) {
-                    if (i % step == 0) {
-                        new_polyline.push(polyline[i]);
+            // Add polyline to map
+            const routes: L.Polyline<any>[] = [];
+            for (let polyline of polylines) {
+                // Remove intermediate points to keep only 1000 points not to overload the map
+                if (polyline.length > 1000) {
+                    let new_polyline: [number, number][] = [];
+                    const step = Math.floor(polyline.length / 1000);
+                    for (let i = 0; i < polyline.length; i++) {
+                        if (i % step === 0) {
+                            new_polyline.push(polyline[i]);
+                        }
                     }
+                    polyline = new_polyline;
                 }
-                polyline = new_polyline;
+
+                if (polyline) {
+                    let route = L.polyline(polyline, {
+                        // create a new polyline with the given points
+                        color: "blue",
+                    }).addTo(map); // add the polyline to the map
+
+                    route.on("click", () => {
+                        // fit the map to the bounds of the route on click
+                        map.fitBounds(route.getBounds());
+                    });
+
+                    routes.push(route); // add the route to the routes array
+                }
             }
 
-            if (polyline) {
-                let route = L.polyline(polyline, {
-                    // create a new polyline with the given points
-                    color: "blue",
-                }).addTo(map); //add the polyline to the map
-
-                route.on("click", () => {
-                    // fit the map to the bounds of the route on click
-                    map?.fitBounds(route.getBounds());
-                });
-
-                routes.push(route); // add the route to the routes array
+            // Fit map to bounds of all routes
+            if (routes.length > 0) {
+                map.fitBounds(L.featureGroup(routes).getBounds());
             }
-        }
-
-        // Fit map to bounds of all routes
-        if (routes.length > 0) {
-            map?.fitBounds(L.featureGroup(routes).getBounds());
         }
 
         // Cleanup on unmount (remove the map)
         return () => {
-            if (map) {
-                map.remove();
+            if (mapRef.current) {
+                mapRef.current.remove();
+                mapRef.current = null;
             }
         };
-    }, []); // Empty dependency array means this effect runs once on mount and cleanup on unmount
+    }, [id, polylines]); // Dependency array to trigger effect when id or polylines change
 
     return <div id={id} />; // return the div with the given id to render the map
 };

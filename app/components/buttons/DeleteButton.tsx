@@ -5,7 +5,7 @@ import { IoTrashBinOutline } from "react-icons/io5";
 import io, { Socket } from "socket.io-client"; // import the socket.io client
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 
-import { SafeUser } from "../types";
+import { SafeUser } from "../../types";
 import Button from "./Button";
 
 interface DeleteButtonProps {

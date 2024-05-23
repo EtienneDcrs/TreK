@@ -1,11 +1,11 @@
 "use client";
 
 import { IconType } from "react-icons";
-import { SafePost } from "../types";
-import Heading from "./Heading";
-import { categories } from "./modals/PostModal";
-import DeleteButton from "./DeleteButton";
-import FavoriteButton from "./FavoriteButton";
+import { SafePost } from "../../types";
+import Heading from "../Heading";
+import { categories } from "../modals/PostModal";
+import DeleteButton from "../buttons/DeleteButton";
+import FavoriteButton from "../buttons/FavoriteButton";
 
 interface PostContentProps {
     post: SafePost;

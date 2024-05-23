@@ -1,6 +1,6 @@
 import Container from "./components/Container";
 import Map from "./components/map/Map";
-import PostsList from "./components/PostsList";
+import PostsList from "./components/post/PostsList";
 import Filters from "./components/filters/Filters";
 import getPolylines from "./actions/getPolylines";
 import { getCurrentUser } from "./actions/getCurrentUser";

@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
-import Button from "../Button";
+import Button from "../buttons/Button";
 
 interface ModalProps {
     isOpen: boolean;
@@ -44,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({
         setTimeout(() => {
             onClose();
         }, 300); // 300ms for the animation to finish
-    }, [onClose]);
+    }, [onClose, disabled]);
 
     const handleSubmit = useCallback(() => {
         if (disabled) {

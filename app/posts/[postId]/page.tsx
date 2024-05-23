@@ -5,7 +5,7 @@ import getPostById from "@/app/actions/getPostById";
 import Container from "@/app/components/Container";
 import EmptyState from "@/app/components/filters/EmptyState";
 import MapPost from "@/app/components/map/MapPost";
-import PostContent from "@/app/components/PostContent";
+import PostContent from "@/app/components/post/PostContent";
 
 interface IParams {
     postId?: string;

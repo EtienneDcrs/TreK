@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import Container from "@/app/components/Container";
 import Heading from "../components/Heading";
 import getPostsByUser from "../actions/getPostsByUser";
-import PostsList from "../components/PostsList";
+import PostsList from "../components/post/PostsList";
 import getPosts from "../actions/getPosts";
 import { SafePost } from "../types";
 

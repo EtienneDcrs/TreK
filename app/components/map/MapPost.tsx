@@ -41,44 +41,42 @@ interface MapPostProps {
 // Map component that displays a map with the given polyline (used in the post page)
 const MapPost: React.FC<MapPostProps> = ({ id, polyline }) => {
     const mapRef = useRef<L.Map | null>(null); // create a reference to the map
-    let map = mapRef.current;
-    useEffect(() => {
-        map = L.map(id, {
-            // create a new map with the given id, center, zoom level and layer
-            center: [46.9119382485954, 2.2651793849164115],
-            zoom: 6,
-            layers: [baseLayer],
-        });
 
-        if (!polyline) {
-            return;
+    useEffect(() => {
+        if (!mapRef.current) {
+            const map = L.map(id, {
+                center: [46.9119382485954, 2.2651793849164115],
+                zoom: 6,
+                layers: [baseLayer],
+            });
+            mapRef.current = map;
+
+            if (!polyline) {
+                return;
+            }
+
+            const route = L.polyline(polyline, {
+                color: "blue",
+            }).addTo(map);
+            map.fitBounds(route.getBounds());
+
+            route.on("click", () => {
+                map.fitBounds(route.getBounds());
+            });
+
+            const start = polyline[0]; // first point of the polyline
+            const end = polyline[polyline.length - 1]; // last point of the polyline
+            L.marker(start, { icon: start_icon }).addTo(map);
+            L.marker(end, { icon: end_icon }).addTo(map);
         }
 
-        // Add polyline to map
-        const route = L.polyline(polyline, {
-            // create a new polyline with the given points
-            color: "blue",
-        }).addTo(map);
-        map.fitBounds(route.getBounds()); // fit the map to the bounds of this route
-
-        route.on("click", () => {
-            // fit the map to the bounds of the route on click
-            map?.fitBounds(route.getBounds());
-        });
-
-        // Add markers for start and end of the route
-        var start = polyline[0]; // first point of the polyline
-        var end = polyline[polyline.length - 1]; // last point of the polyline
-        L.marker(start, { icon: start_icon }).addTo(map);
-        L.marker(end, { icon: end_icon }).addTo(map);
-
-        // Cleanup on unmount (remove the map)
         return () => {
-            if (map) {
-                map.remove();
+            if (mapRef.current) {
+                mapRef.current.remove();
+                mapRef.current = null;
             }
         };
-    }, []); // Empty dependency array means this effect runs once on mount and cleanup on unmount
+    }, [id, polyline]); // Dependency array to trigger effect when id or polyline change
 
     return <div id={id} />; // return the div that will contain the map
 };

@@ -2,10 +2,10 @@
 import { useRouter } from "next/navigation";
 import { IconType } from "react-icons";
 
-import { categories } from "./modals/PostModal"; // Import the categories from the PostModal component
-import FavoriteButton from "./FavoriteButton";
-import DeleteButton from "./DeleteButton";
-import { SafePost } from "../types";
+import { categories } from "../modals/PostModal"; // Import the categories from the PostModal component
+import FavoriteButton from "../buttons/FavoriteButton";
+import DeleteButton from "../buttons/DeleteButton";
+import { SafePost } from "../../types";
 
 interface PostCardProps {
     data: SafePost;

@@ -1,12 +1,12 @@
 "use client";
-import { SafePost } from "../types";
-import EmptyState from "./filters/EmptyState";
+import { SafePost } from "../../types";
+import EmptyState from "../filters/EmptyState";
 import PostCard from "./PostCard";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client"; // Importation de socket.io-client
 import { DefaultEventsMap } from "@socket.io/component-emitter";
-import PostModal from "./modals/PostModal";
+import PostModal from "../modals/PostModal";
 
 interface PostsListProps {
     currentUser: any;

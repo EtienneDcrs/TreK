@@ -37,7 +37,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
             { skipNull: true }
         );
         router.push(url); // Redirect to the updated URL
-    }, [currentUserId, params, router]);
+    }, [currentUserId, params, router, currentUser, loginModal]);
 
     // Function to handle the "Mes favoris" button
     const handleMyFavorites = useCallback(() => {
@@ -61,7 +61,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
             { skipNull: true }
         );
         router.push(url); // Redirect to the updated URL
-    }, [currentUserId, params, router]);
+    }, [currentUserId, params, router, currentUser, loginModal]);
 
     return (
         <div

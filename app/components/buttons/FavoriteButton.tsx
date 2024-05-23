@@ -3,8 +3,8 @@
 import { IoIosStarOutline } from "react-icons/io";
 import { MdOutlineStar } from "react-icons/md";
 
-import useFavorite from "../hooks/useFavorite";
-import { SafeUser } from "../types";
+import useFavorite from "../../hooks/useFavorite";
+import { SafeUser } from "../../types";
 
 interface FavoriteButtonProps {
     postId: string;

@@ -24,7 +24,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     const router = useRouter();
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value); // Toggle the state of the menu (open/close)
-    }, [isOpen, setIsOpen]);
+    }, [setIsOpen]);
 
     return (
         <div className="relative">
