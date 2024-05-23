@@ -5,15 +5,17 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "websockets": "node ./server/server.js"
+    "prod:next": "next start",
+    "prod:server": "node ./server/server.js",
+    "start": "concurrently \"npm run prod:next\" \"npm run prod:server\"",
+    "lint": "next lint"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
     "@prisma/client": "^5.13.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "leaflet": "^1.9.4",
     "next": "14.2.2",

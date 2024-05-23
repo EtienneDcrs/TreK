@@ -10,7 +10,7 @@ import RegisterModal from "./components/modals/RegisterModal";
 import LoginModal from "./components/modals/LoginModal";
 
 export const metadata: Metadata = {
-    title: "TreK",
+    title: "TR≡K",
     description: "application de randonnée",
 };
 
