@@ -14,7 +14,7 @@ const Logo = () => {
             className="block cursor-pointer rounded-full h-full"
             height="40"
             width="80"
-            src="/images/TreK.PNG"
+            src="/images/TreK.png"
         />
     );
 };
