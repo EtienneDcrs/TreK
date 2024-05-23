@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import { getAdminidtrators } from "@/app/actions/getAdministrators";
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import Container from "@/app/components/Container";
@@ -6,6 +7,7 @@ import getPostsByUser from "../actions/getPostsByUser";
 import PostsList from "../components/post/PostsList";
 import getPosts from "../actions/getPosts";
 import { SafePost } from "../types";
+import Loading from "../components/Loading";
 
 const AccountPage = async () => {
     const currentUser = await getCurrentUser();
@@ -21,82 +23,80 @@ const AccountPage = async () => {
     }
 
     return (
-        <>
-            <Container>
+        <Container>
+            <div
+                className="
+                    fixed
+                    inset-0 
+                    bg-gray-200
+                    bg-opacity-50
+                    flex flex-col
+                    justify-start
+                    items-center
+                    pt-20
+                    px-4
+                    gap-12
+                "
+            >
                 <div
                     className="
-                        fixed
-                        inset-0 
-                        bg-gray-200
-                        bg-opacity-50
-                        flex flex-col
+                        flex
+                        flex-col
                         justify-start
                         items-center
-                        pt-20
-                        px-4
-                        gap-12
-                        "
+                        bg-white
+                        shadow-lg
+                        rounded-md
+                        mt-2
+                        p-8
+                        w-2/3
+                        h-auto
+                        overflow-y-auto
+                    "
                 >
-                    <div
-                        className="
-                            flex
-                            flex-col
-                            justify-start
-                            items-center
-                            bg-white
-                            shadow-lg
-                            rounded-md
-                            mt-2
-                            p-8
-                            w-2/3
-                            h-auto
-                            overflow-y-auto
-                            "
-                    >
-                        <Heading
-                            title="Votre compte"
-                            subtitle={`Bienvenue ${currentUser?.name}`}
-                            center
-                        />
-                    </div>
-                    <div
-                        className="
-                            rounded-md
-                            w-2/3
-                            h-auto
-                            flex
-                            flex-col
-                            gap-2
-                            "
-                    >
-                        <Heading title="Vos publications" />
-                        <PostsList
-                            currentUser={currentUser}
-                            //posts={userPosts}
-                            isAdmin={isAdmin}
-                        />
-                    </div>
-                    <div
-                        className="
-                            rounded-md
-                            w-2/3
-                            h-auto
-                            flex
-                            flex-col
-                            gap-2
-                            "
-                    >
-                        <Heading title="Vos favoris" />
-                        <PostsList
-                            currentUser={currentUser}
-                            //posts={favPosts}
-                            isAdmin={isAdmin}
-                        />
-                    </div>
+                    <Heading
+                        title="Votre compte"
+                        subtitle={`Bienvenue ${currentUser?.name}`}
+                        center
+                    />
                 </div>
-            </Container>
-        </>
+                <div
+                    className="
+                        rounded-md
+                        w-2/3
+                        h-auto
+                        flex
+                        flex-col
+                        gap-2
+                    "
+                >
+                    <Heading title="Vos publications" />
+                    <PostsList currentUser={currentUser} isAdmin={isAdmin} />
+                </div>
+                <div
+                    className="
+                        rounded-md
+                        w-2/3
+                        h-auto
+                        flex
+                        flex-col
+                        gap-2
+                    "
+                >
+                    <Heading title="Vos favoris" />
+                    <PostsList currentUser={currentUser} isAdmin={isAdmin} />
+                </div>
+            </div>
+        </Container>
     );
 };
 
-export default AccountPage;
+const AccountPageWithSuspense = () => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <AccountPage />
+        </Suspense>
+    );
+};
+
+export default AccountPageWithSuspense;
