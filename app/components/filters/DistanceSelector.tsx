@@ -1,7 +1,8 @@
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import qs from "query-string";
-import React, { useCallback, useState } from "react";
+import React, { Suspense, useCallback, useState } from "react";
+import Loading from "../Loading";
 
 const DistanceSelector = () => {
     const router = useRouter();
@@ -86,4 +87,12 @@ const DistanceSelector = () => {
     );
 };
 
-export default DistanceSelector;
+const DistanceSelectorWithSuspense = () => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <DistanceSelector />
+        </Suspense>
+    );
+};
+
+export default DistanceSelectorWithSuspense;

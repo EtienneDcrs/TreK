@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import Loading from "../Loading";
 
 interface NavItemProps {
     currentUser: any;
@@ -152,4 +153,12 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
     );
 };
 
-export default NavItem;
+const NavItemWithSuspense: React.FC<NavItemProps> = ({ currentUser }) => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <NavItem currentUser={currentUser} />
+        </Suspense>
+    );
+};
+
+export default NavItemWithSuspense;

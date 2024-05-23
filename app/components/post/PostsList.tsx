@@ -3,10 +3,11 @@ import { SafePost } from "../../types";
 import EmptyState from "../filters/EmptyState";
 import PostCard from "./PostCard";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client"; // Importation de socket.io-client
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import PostModal from "../modals/PostModal";
+import Loading from "../Loading";
 
 interface PostsListProps {
     currentUser: any;
@@ -126,4 +127,15 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     );
 };
 
-export default PostsList;
+const PostsListWithSuspense: React.FC<PostsListProps> = ({
+    currentUser,
+    isAdmin,
+}) => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <PostsList currentUser={currentUser} isAdmin={isAdmin} />
+        </Suspense>
+    );
+};
+
+export default PostsListWithSuspense;

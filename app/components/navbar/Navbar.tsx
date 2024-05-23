@@ -1,6 +1,6 @@
 import Container from "../Container";
 import Logo from "./Logo";
-import NavItem from "./NavItem";
+import NavItemWithSuspense from "./NavItem";
 import UserMenu from "./UserMenu";
 import { SafeUser } from "@/app/types";
 
@@ -24,7 +24,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
                     >
                         <div className="flex flex-row justify-between items-center gap-4">
                             <Logo /> {/* display the logo */}
-                            <NavItem currentUser={currentUser} />{" "}
+                            <NavItemWithSuspense
+                                currentUser={currentUser}
+                            />{" "}
                             {/* display the nav items */}
                         </div>
 

@@ -1,10 +1,12 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import CategoryBox from "./CategoryBox";
 import { categories, difficulties } from "../modals/PostModal";
-import DifficultyBox from "./DifficultyBox";
-import DistanceSelector from "./DistanceSelector";
+import CategoryBoxWithSuspense from "./CategoryBox";
+import { Suspense } from "react";
+import Loading from "../Loading";
+import DifficultyBoxWithSuspense from "./DifficultyBox";
+import DistanceSelectorWithSuspense from "./DistanceSelector";
 
 interface FiltersProps {}
 
@@ -35,7 +37,7 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                             key={item.label}
                             className="flex flex-col items-center"
                         >
-                            <CategoryBox // display the category box, with the label and icon
+                            <CategoryBoxWithSuspense // display the category box, with the label and icon
                                 label={item.label}
                                 icon={item.icon}
                                 selected={item.label === category}
@@ -64,7 +66,7 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                             key={item.label}
                             className="flex flex-col items-center"
                         >
-                            <DifficultyBox // display the difficulty box, with the label and color
+                            <DifficultyBoxWithSuspense // display the difficulty box, with the label and color
                                 label={item.label}
                                 color={item.color}
                                 selected={item.label === difficulty}
@@ -83,9 +85,18 @@ const Filters: React.FC<FiltersProps> = ({}) => {
                  w-1/3 h-full
                 "
             >
-                <DistanceSelector />
+                <DistanceSelectorWithSuspense />
             </div>
         </div>
     );
 };
-export default Filters;
+
+const FiltersWithSuspense: React.FC<FiltersProps> = ({}) => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <Filters />
+        </Suspense>
+    );
+};
+
+export default FiltersWithSuspense;

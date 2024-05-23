@@ -3,7 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconType } from "react-icons";
 import qs from "query-string";
-import { useCallback } from "react";
+import { Suspense, useCallback } from "react";
+import Loading from "../Loading";
 
 interface CategoryBoxProps {
     label: string;
@@ -65,4 +66,16 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     );
 };
 
-export default CategoryBox;
+const CategoryBoxWithSuspense: React.FC<CategoryBoxProps> = ({
+    label,
+    selected,
+    icon,
+}) => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <CategoryBox label={label} selected={selected} icon={icon} />
+        </Suspense>
+    );
+};
+
+export default CategoryBoxWithSuspense;

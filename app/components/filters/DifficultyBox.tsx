@@ -2,7 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
-import { useCallback } from "react";
+import { Suspense, useCallback } from "react";
+import Loading from "../Loading";
 
 interface DifficultyBoxProps {
     label: string;
@@ -95,4 +96,16 @@ const DifficultyBox: React.FC<DifficultyBoxProps> = ({
     );
 };
 
-export default DifficultyBox;
+const DifficultyBoxWithSuspense: React.FC<DifficultyBoxProps> = ({
+    label,
+    selected,
+    color,
+}) => {
+    return (
+        <Suspense fallback={<Loading />}>
+            <DifficultyBox label={label} selected={selected} color={color} />
+        </Suspense>
+    );
+};
+
+export default DifficultyBoxWithSuspense;
