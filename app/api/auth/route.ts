@@ -1,13 +1,12 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth from "next-auth";
-import { AuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
+import NextAuthHandler from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/app/libs/prismadb";
-import { NextApiHandler } from "next";
+import bcrypt from "bcrypt";
 
-// authentication options for NextAuth
-export const authOptions: AuthOptions = {
+// Define authentication options for NextAuth
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -54,6 +53,7 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-const handler: NextApiHandler = (req, res) => NextAuth(req, res, authOptions);
+// Export the handler for both GET and POST requests
+const handler = NextAuthHandler(authOptions);
 
 export { handler as GET, handler as POST };
