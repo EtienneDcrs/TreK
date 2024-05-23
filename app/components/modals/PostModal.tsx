@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Socket } from "socket.io-client"; // Importation de socket.io-client
 import { DefaultEventsMap } from "@socket.io/component-emitter";
+import { v4 as uuidv4 } from "uuid"; // Importation de uuid
 
 import Modal from "./Modal";
 import Input from "../inputs/Input";
@@ -125,11 +126,12 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
         reset,
     } = useForm<FieldValues>({
         defaultValues: {
-            id: crypto // create an id for the post
-                .randomUUID()
-                .toString()
-                .replace(/-/g, "") // remove the dashes and keep only the first
-                .substring(0, 24), // 24 characters to fit the MongoDB ObjectId
+            id: uuidv4(),
+            //crypto // create an id for the post
+            //.randomUUID()
+            //.toString()
+            //.replace(/-/g, "") // remove the dashes and keep only the first
+            //.substring(0, 24), // 24 characters to fit the MongoDB ObjectId
             title: "",
             description: "",
             authorId: currentUser?.id,
