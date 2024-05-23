@@ -10,9 +10,8 @@ export type SafePost = Omit<
 
 export type SafeUser = Omit<
     User,
-    'createdAt' | 'updatedAt' | 'emailVerified'
+    'createdAt' | 'updatedAt'
 > & {
     createdAt: string;
     updatedAt: string;
-    emailVerified: string | null;
 };
