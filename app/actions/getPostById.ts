@@ -4,6 +4,7 @@ interface IParams {
     postId?: string;
 }
 
+// Function to get the post by post ID
 export default async function getPostById(
     params: IParams
 ) {
@@ -29,7 +30,6 @@ export default async function getPostById(
                 ...post.author,
                 createdAt: post.author.createdAt.toISOString(),
                 updatedAt: post.author.updatedAt.toISOString(),
-                
             }
         };
 

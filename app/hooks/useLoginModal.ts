@@ -6,6 +6,7 @@ interface LoginModalStore {
     onClose: () => void;
 }
 
+// hook to manage login modal state
 const useLoginModal = create<LoginModalStore>((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),

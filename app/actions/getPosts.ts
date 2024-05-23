@@ -1,14 +1,15 @@
 import prisma from "@/app/libs/prismadb";
 
+// Function to get all the posts
 export default async function getPosts() {
     try {
         const posts = await prisma.post.findMany({
-            orderBy: {
+            orderBy: { // sort the posts by createdAt in descending order
                 createdAt: 'desc',
             },
         });
 
-        const safePost = posts.map((post) => ({
+        const safePost = posts.map((post) => ({ // convert the createdAt to string
             ...post,
             createdAt: post.createdAt.toISOString(),
         }));

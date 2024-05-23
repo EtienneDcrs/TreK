@@ -8,7 +8,7 @@ export async function POST(
     const currentUser = await getCurrentUser();
 
     if(!currentUser){
-        // revnoie le status 401 Unauthorized
+        // Return a 401 Unauthorized response
         return new Response(null, {
             status: 401,
         });
@@ -32,6 +32,7 @@ export async function POST(
         }
     });
 
+    // Create a new post in the database
     const post = await prisma.post.create({
         data: {
             title,

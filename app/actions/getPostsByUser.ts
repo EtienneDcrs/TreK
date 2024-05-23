@@ -4,6 +4,7 @@ interface IParams {
     userId?: string;
 }
 
+// Function to get the posts by author ID
 export default async function getPostsByUser(
     params: IParams
 ) {

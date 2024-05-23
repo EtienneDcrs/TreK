@@ -6,6 +6,7 @@ interface PostModalStore {
     onClose: () => void;
 }
 
+// hook to manage post modal state
 const usePostModal = create<PostModalStore>((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),

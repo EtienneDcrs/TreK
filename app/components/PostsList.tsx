@@ -106,7 +106,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 <div
                     className="
                 grid grid-cols-1
-                2xl:grid-cols-2
+                xl:grid-cols-2
                 gap-4
             "
                 >

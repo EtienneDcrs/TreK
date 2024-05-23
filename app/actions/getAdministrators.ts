@@ -1,6 +1,7 @@
 
 import prisma from "@/app/libs/prismadb";
- 
+
+// get all the administrators user id from the database
 export async function getAdminidtrators(){
     try {
         const admins = await prisma.administrator.findMany();

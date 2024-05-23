@@ -17,6 +17,10 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
     const router = useRouter();
     const category = categories.find((c) => c.label === data.category); // Find the category based on the post's category
     const Icon: IconType | undefined = category?.icon;
+    // const wrappedDescription =
+    //     data.description.length > 100
+    //         ? data.description.slice(0, 100) + "... Voir plus "
+    //         : data.description; // Wrap the description if it's too long
     return (
         <div>
             {/* Display the delete button if the user is the post's author or an admin */}
@@ -34,7 +38,10 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
                 justify-start items-center
                 p-3
                 cursor-pointer 
-                h-[20vh]
+                h-[26.9vh]
+                md:h-[24.9vh]
+                lg:h-[20.9vh]
+                xl:h-[24.9vh]
                 rounded-md
                 gap-2
                 w-full
@@ -77,8 +84,19 @@ const PostCard: React.FC<PostCardProps> = ({ data, currentUser, isAdmin }) => {
                         <div>{data.difficulty}</div>
                     </div>
                 </div>
-                {/* <div>{data.description}</div> */}
-                <br />
+                <div
+                    className="
+                        text-md
+                        md:text-sm
+                        lg:text-md
+                        text-justify
+                        w-full
+                        mt-2
+                        overflow-hidden
+                        "
+                >
+                    {data.description}
+                </div>
             </div>
         </div>
     );

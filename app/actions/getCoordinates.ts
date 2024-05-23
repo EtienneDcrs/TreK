@@ -1,7 +1,8 @@
 import xml2js from 'xml2js';
 
+// Function to extract the coordinates from a GPX file
 export function getCoordinatesFromGPX(file: File): Promise<{ lat: number[], lng: number[], ele: number[] }> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => { // Create a promise
         const reader = new FileReader();
         reader.onload = (event) => {
             const data = event.target?.result as string;
@@ -12,6 +13,7 @@ export function getCoordinatesFromGPX(file: File): Promise<{ lat: number[], lng:
             const parser = new xml2js.Parser();
 
             parser.parseString(data, (err: any, result: any) => {
+                // If there is an error, reject the promise
                 if (err) {
                     reject(err);
                     return;
@@ -26,18 +28,19 @@ export function getCoordinatesFromGPX(file: File): Promise<{ lat: number[], lng:
                     latlngList.ele.push(parseFloat(coord.ele[0]));
                 });
 
-                resolve(latlngList);
+                resolve(latlngList); // Resolve the promise with the extracted coordinates
             });
         };
-        reader.onerror = (event) => {
+        reader.onerror = (event) => { // If there is an error reading the file, reject the promise
             reject(new Error(`File could not be read: ${event.target?.error}`));
         };
         reader.readAsText(file);
     });
 }
 
+// Function to extract the coordinates from a KML file
 export function getCoordinatesFromKML(file: File): Promise<{ lat: number[], lng: number[], ele: number[] }> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => { // Create a promise
         const reader = new FileReader();
         reader.onload = (event) => {
             const data = event.target?.result as string;
@@ -48,7 +51,7 @@ export function getCoordinatesFromKML(file: File): Promise<{ lat: number[], lng:
             const parser = new xml2js.Parser();
 
             parser.parseString(data, (err: any, result: any) => {
-                if (err) {
+                if (err) { // If there is an error, reject the promise
                     reject(err);
                     return;
                 }
@@ -56,10 +59,10 @@ export function getCoordinatesFromKML(file: File): Promise<{ lat: number[], lng:
                 // Assuming the coordinates are stored in a specific format within the KML file
                 const coordinates = result.kml.Document[0].Placemark[0].LineString[0].coordinates[0].replace(/(\n)/gm, "n").replace(/(\s)/gm, "").split("n");
                 if(coordinates[0] === ''){
-                    coordinates.shift();
+                    coordinates.shift(); // Remove the first empty element
                 }
                 if (coordinates[coordinates.length - 1] === '') {
-                    coordinates.pop();
+                    coordinates.pop(); // Remove the last empty element
                 }
                  // Remove the first empty element
                 coordinates.forEach((coord: string) => {
@@ -69,7 +72,7 @@ export function getCoordinatesFromKML(file: File): Promise<{ lat: number[], lng:
                     latlngList.ele.push(parseFloat(ele));
                 });
 
-                resolve(latlngList);
+                resolve(latlngList); // Resolve the promise with the extracted coordinates
             });
         };
         reader.onerror = (event) => {

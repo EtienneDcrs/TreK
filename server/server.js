@@ -1,15 +1,13 @@
 // server.js
 
 const http = require("http");
-const { Server } = require("socket.io");
+const { Server } = require("socket.io"); //import server class from socket.io
 const { PrismaClient } = require("@prisma/client");
-const { rest } = require("lodash");
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(); //instanciate prisma client
 const server = http.createServer();
 
-// ADD cors option to allow cross-origin requests
-
+// Add cors option to allow cross-origin requests
 const io = new Server(server, {
     cors: {
         origin: "*",
@@ -17,17 +15,17 @@ const io = new Server(server, {
     },
 });
 
+// Manage socket.io connections
 io.on("connection", async (socket) => {
-    //console.log("User connected");
-    //let { user } = socket.handshake.query;
-    //socket.join(contentId);
-    let restorePosts = await prisma.post.findMany();
-    io.emit("restorePosts", restorePosts);
+    console.log("User connected");
+    let restorePosts = await prisma.post.findMany(); //get all posts from database
+    io.emit("restorePosts", restorePosts); // send all posts to the client
 
     socket.on("newPost", async (newPost) => {
+        // listen to newPost event
         try {
             console.log("newPost", newPost);
-            // Enregistrer le nouveau Post dans la base de données avec Prisma
+            // save new Post to the database using Prisma
             await prisma.Post.create({
                 data: {
                     id: newPost.id,
@@ -43,7 +41,7 @@ io.on("connection", async (socket) => {
                 },
             });
 
-            // Envoyer le nouveau Post à tous les clients connectés
+            // send all posts to all connected clients
             posts = await prisma.post.findMany();
             io.emit("restorePosts", posts);
         } catch (error) {
@@ -52,9 +50,9 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("deletePost", async (postId) => {
+        // delete post from database
         try {
             console.log("deletePost", postId);
-            // Enregistrer le nouveau Post dans la base de données avec Prisma
 
             if (!postId || typeof postId !== "string") {
                 throw new Error("Invalid Id");
@@ -63,8 +61,10 @@ io.on("connection", async (socket) => {
             await prisma.Post.delete({
                 where: { id: postId },
             });
+
+            // uptade posts with the new one
             const newPosts = await prisma.post.findMany();
-            // Envoyer les posts à tous les clients connectés
+            // send all posts to all connected clients
             io.emit("restorePosts", newPosts);
         } catch (error) {
             console.error("Error deleting Post:", error);
@@ -72,11 +72,12 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("disconnect", () => {
-        //console.log("User disconnected");
+        console.log("User disconnected");
     });
 });
 
 const PORT = 3001;
 server.listen(PORT, () => {
+    //start server on port 3001
     console.log(`Server running on port ${PORT}`);
 });

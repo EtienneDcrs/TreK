@@ -12,11 +12,12 @@ interface IUserFavorite {
     currentUser?: SafeUser | null;
 }
 
+// hook to manage the favorite feature
 const useFavorite = ({ postId, currentUser }: IUserFavorite) => {
     const router = useRouter();
     const loginModal = useLoginModal();
 
-    const hasFavorited = useMemo(() => {
+    const hasFavorited = useMemo(() => { // check if the post is in the user's favorites
         const list = currentUser?.favoriteIds || [];
 
         return list.includes(postId);
@@ -25,9 +26,9 @@ const useFavorite = ({ postId, currentUser }: IUserFavorite) => {
     const toggleFavorite = useCallback(async ( 
         e:React.MouseEvent<HTMLDivElement>
     ) => {
-        e.stopPropagation();
+        e.stopPropagation(); // prevent the click event from propagating to the parent element
 
-        if (!currentUser) {
+        if (!currentUser) { // if the user is not logged in, open the login modal
             loginModal.onOpen();
             return;
         }
@@ -35,9 +36,9 @@ const useFavorite = ({ postId, currentUser }: IUserFavorite) => {
         try {
             let request;
 
-            if (hasFavorited) {
+            if (hasFavorited) { // if the post is already in the user's favorites, remove it
                 request = () => axios.delete(`/api/favorites/${postId}`);
-            } else {
+            } else { // otherwise, add it
                 request = () => axios.post(`/api/favorites/${postId}`);
             }
 
@@ -54,7 +55,7 @@ const useFavorite = ({ postId, currentUser }: IUserFavorite) => {
         }
     }, [currentUser, hasFavorited, loginModal, postId, router]);
 
-    return { hasFavorited, toggleFavorite };
+    return { hasFavorited, toggleFavorite }; // return the hook's state and function
 
 };
 

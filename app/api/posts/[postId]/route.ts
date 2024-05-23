@@ -6,6 +6,7 @@ interface IParams {
     postId: string;
 }
 
+// define the DELETE methods for the post
 export async function DELETE (
     request:Request,
     {params}:{params:IParams}
@@ -22,11 +23,11 @@ export async function DELETE (
         throw new Error("Invalid Id");
     }
 
-    const post = await prisma.post.findUnique({
+    const post = await prisma.post.findUnique({ // find the post by ID
         where: { id: postId },
         select: { authorId: true },
     });
-    if (currentUser.id !== post?.authorId) {
+    if (currentUser.id !== post?.authorId) { 
         return NextResponse.error();
     }
 

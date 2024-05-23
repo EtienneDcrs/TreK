@@ -1,14 +1,12 @@
 import Container from "./components/Container";
 import Map from "./components/map/Map";
 import PostsList from "./components/PostsList";
-import getPosts from "./actions/getPosts";
-import { getCurrentUser } from "./actions/getCurrentUser";
 import Filters from "./components/filters/Filters";
 import getPolylines from "./actions/getPolylines";
+import { getCurrentUser } from "./actions/getCurrentUser";
 import { getAdminidtrators } from "./actions/getAdministrators";
 
 export default async function Home() {
-    //const posts = await getPosts();
     const currentUser = await getCurrentUser();
     const polylines = await getPolylines();
     const admins = await getAdminidtrators();
@@ -29,6 +27,7 @@ export default async function Home() {
                     justify-start
                     items-center
                     pt-20
+                    pb-2
                     px-4
                     "
             >
@@ -41,7 +40,7 @@ export default async function Home() {
                         items-center
                         gap-2
                         rounded-md
-                        mt-2
+                        mt-1
                         w-full
                         h-[88vh]
                         "
@@ -62,7 +61,7 @@ export default async function Home() {
                         <div
                             className="
                                 bg-white
-                                p-4
+                                p-3
                                 rounded-md
                                 shadow-lg
                                 w-full
@@ -70,15 +69,15 @@ export default async function Home() {
                                 md:h-1/6
                                 flex
                                 flex-row
+                                justify-evenly
                                 items-center
-                                overflow-y-auto
                                 "
                         >
                             <Filters />
                         </div>
                         <div
                             className="bg-white
-                                p-4
+                                p-3
                                 rounded-md
                                 shadow-lg
                                 w-full
@@ -88,11 +87,7 @@ export default async function Home() {
                             <Map id="map" polylines={polylines} />
                         </div>
                     </div>
-                    <PostsList
-                        currentUser={currentUser}
-                        //posts={posts}
-                        isAdmin={isAdmin}
-                    />
+                    <PostsList currentUser={currentUser} isAdmin={isAdmin} />
                 </div>
             </div>
         </Container>

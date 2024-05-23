@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+//import ToasterProvider from "./providers/ToasterProvider";
+import { Toaster } from "react-hot-toast";
+
 import "./globals.css";
+import { getCurrentUser } from "./actions/getCurrentUser";
 import Navbar from "./components/navbar/Navbar";
 import RegisterModal from "./components/modals/RegisterModal";
-import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
-import { getCurrentUser } from "./actions/getCurrentUser";
-import PostModal from "./components/modals/PostModal";
 
 export const metadata: Metadata = {
     title: "My Rando App",
@@ -24,7 +25,7 @@ export default async function RootLayout({
     return (
         <html lang="fr">
             <body className="flex flex-col font-sans">
-                <ToasterProvider />
+                <Toaster />
                 <LoginModal />
                 <RegisterModal />
                 <Navbar currentUser={currentUser} />

@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import CategoryBox from "./CategoryBox";
 import { categories, difficulties } from "../modals/PostModal";
 import DifficultyBox from "./DifficultyBox";
+import DistanceSelector from "./DistanceSelector";
 
 interface FiltersProps {}
 
@@ -75,14 +76,14 @@ const Filters: React.FC<FiltersProps> = ({}) => {
             <div
                 className="
                  flex flex-col 
-                 justify-center 
+                 justify-evenly 
                  items-center 
-                 gap-2 
                  border-2 rounded-md
+                 p-2
                  w-1/3 h-full
                 "
             >
-                Durée
+                <DistanceSelector />
             </div>
         </div>
     );

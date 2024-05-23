@@ -11,6 +11,7 @@ interface IParams {
     postId?: string;
 }
 
+// Page component for the full window post display
 const PostPage = async ({ params }: { params: IParams }) => {
     const post = await getPostById(params);
     const currentUser = await getCurrentUser();
@@ -18,7 +19,7 @@ const PostPage = async ({ params }: { params: IParams }) => {
     const admins = await getAdminidtrators();
     let isAdmin = false;
     if (currentUser) {
-        isAdmin = admins.includes(currentUser?.id);
+        isAdmin = admins.includes(currentUser?.id); // check if current user is an admin
     }
 
     if (!post) {
@@ -74,13 +75,13 @@ const PostPage = async ({ params }: { params: IParams }) => {
                                     h-full
                                     "
                             >
-                                <MapPost
+                                <MapPost // map component for this post page
                                     id="post-map"
                                     polyline={polyline?.polyline}
                                 />
                             </div>
                         </div>
-                        <PostContent
+                        <PostContent // content
                             currentUser={currentUser}
                             post={post}
                             isAdmin={isAdmin}

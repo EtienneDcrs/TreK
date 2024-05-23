@@ -1,5 +1,6 @@
 import prisma from "@/app/libs/prismadb";
 
+// Function to get all the polylines
 export default async function getPolylines() {
     try {
         const posts = await prisma.post.findMany();

@@ -6,6 +6,7 @@ interface IParams {
     postId: string;
 }
 
+// define the POST and DELETE methods
 export async function POST (
     request:Request,
     {params}:{params:IParams}
@@ -24,7 +25,7 @@ export async function POST (
     let favoriteIds = [...currentUser.favoriteIds || []];
     favoriteIds.push(postId);
 
-    const user = await prisma.user.update({
+    const user = await prisma.user.update({ // update the user favoriteIds
         where: { id: currentUser.id },
         data: {
             favoriteIds,
@@ -53,7 +54,7 @@ export async function DELETE (
     let favoriteIds = [...currentUser.favoriteIds || []];
     favoriteIds = favoriteIds.filter((id) => id !== postId);
 
-    const user = await prisma.user.update({
+    const user = await prisma.user.update({ // update the user favoriteIds
         where: { id: currentUser.id },
         data: {
             favoriteIds,

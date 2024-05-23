@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt"
 import prisma from "@/app/libs/prismadb"
 
+// authentication options for NextAuth
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
@@ -14,8 +15,8 @@ export const authOptions: AuthOptions = {
                 email: { label: "email", type: "text" },
                 password: { label: "password", type: "password" },
             },
-            async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) {
+            async authorize(credentials) { // authorize function to check if the user exists in the database
+                if (!credentials?.email || !credentials?.password) { // check if the credentials are valid
                     throw new Error("Invalid credentials")
                 } 
 
@@ -25,10 +26,11 @@ export const authOptions: AuthOptions = {
                     },
                 })
 
-                if (!user || !user?.hashedPassword) {
+                if (!user || !user?.hashedPassword) { // check if the user exists in the database
                     throw new Error("Invalid credentials")
                 }
 
+                // check if the password is correct using bcrypt 
                 const isCorrectPassword = await bcrypt.compare(credentials.password, user.hashedPassword);
                 if (!isCorrectPassword) {
                     throw new Error("Invalid credentials");

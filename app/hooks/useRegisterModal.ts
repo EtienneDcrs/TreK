@@ -6,6 +6,7 @@ interface RegisterModalStore {
     onClose: () => void;
 }
 
+// hook to manage register modal state
 const useRegisterModal = create<RegisterModalStore>((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
