@@ -30,7 +30,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     useEffect(() => {
         const s = socket // if the socket exists, use it
             ? socket // otherwise, create a new socket connection to the server (3001 port)
-            : io(window.location.origin); //io("http://" + window.location.host.split(":")[0] + ":3001");
+            : io("http://" + window.location.host.split(":")[0] + ":3001");
         setSocket(s);
 
         // get the posts from the server
