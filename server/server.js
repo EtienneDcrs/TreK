@@ -26,7 +26,7 @@ io.on("connection", async (socket) => {
         try {
             console.log("newPost", newPost);
             // save new Post to the database using Prisma
-            await prisma.Post.create({
+            await prisma.post.create({
                 data: {
                     id: newPost.id,
                     title: newPost.title,
