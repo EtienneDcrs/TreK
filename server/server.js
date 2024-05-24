@@ -76,7 +76,7 @@ app.prepare().then(() => {
         });
     });
 
-    const PORT = 3000; //parseInt(process.env.PORT, 10) || 3000;
+    const PORT = 3001; //parseInt(process.env.PORT, 10) || 3000;
     server.listen(PORT, (err) => {
         if (err) throw err;
         console.log(`Server running on port :${PORT}`);
