@@ -76,7 +76,7 @@ io.on("connection", async (socket) => {
     });
 });
 
-const PORT = window.location.origin;
+const PORT = 3001;
 server.listen(PORT, () => {
     //start server on port 3001
     console.log(`Server running on port ${PORT}`);
