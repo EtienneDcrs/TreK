@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"npm run dev:next\" \"npm run dev:server\"",
+    "dev:next": "next dev",
+    "dev:sock": "node ./server/server.js",
     "build": "next build",
     "prod:next": "next start",
     "prod:server": "node ./server/server.js",
