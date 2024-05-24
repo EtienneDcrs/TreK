@@ -14,20 +14,6 @@ interface PostsListProps {
     isAdmin?: boolean;
 }
 
-// //unused interface
-// interface Post {
-//     id: String;
-//     title: String;
-//     description: String;
-//     authorId: String;
-//     lats: number[];
-//     lngs: number[];
-//     elevations: number[];
-//     category: String;
-//     length: number;
-//     difficulty: String;
-// }
-
 const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     const [posts, setPosts] = useState<SafePost[]>([]); // State to store the posts
     const [displayedPosts, setDisplayedPosts] = useState<SafePost[]>([]); // State to store the posts to display
@@ -44,7 +30,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     useEffect(() => {
         const s = socket // if the socket exists, use it
             ? socket // otherwise, create a new socket connection to the server (3001 port)
-            : io("http://" + window.location.host.split(":")[0] + ":3001");
+            : io(window.location.origin);
         setSocket(s);
 
         // get the posts from the server
