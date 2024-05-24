@@ -1,31 +1,27 @@
 // server.js
 
 const http = require("http");
-const { Server } = require("socket.io"); //import server class from socket.io
+const { Server } = require("socket.io");
 const { PrismaClient } = require("@prisma/client");
 
-const prisma = new PrismaClient(); //instanciate prisma client
+const prisma = new PrismaClient();
 const server = http.createServer();
 
-// Add cors option to allow cross-origin requests
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: process.env.WEB_ORIGIN,
         methods: ["GET", "POST"],
     },
 });
 
-// Manage socket.io connections
 io.on("connection", async (socket) => {
     console.log("User connected");
-    let restorePosts = await prisma.post.findMany(); //get all posts from database
-    io.emit("restorePosts", restorePosts); // send all posts to the client
+    let restorePosts = await prisma.post.findMany();
+    io.emit("restorePosts", restorePosts);
 
     socket.on("newPost", async (newPost) => {
-        // listen to newPost event
         try {
             console.log("newPost", newPost);
-            // save new Post to the database using Prisma
             await prisma.post.create({
                 data: {
                     id: newPost.id,
@@ -41,7 +37,6 @@ io.on("connection", async (socket) => {
                 },
             });
 
-            // send all posts to all connected clients
             posts = await prisma.post.findMany();
             io.emit("restorePosts", posts);
         } catch (error) {
@@ -50,7 +45,6 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("deletePost", async (postId) => {
-        // delete post from database
         try {
             console.log("deletePost", postId);
 
@@ -58,13 +52,11 @@ io.on("connection", async (socket) => {
                 throw new Error("Invalid Id");
             }
 
-            await prisma.post.delete({
+            await prisma.Post.delete({
                 where: { id: postId },
             });
 
-            // uptade posts with the new one
             const newPosts = await prisma.post.findMany();
-            // send all posts to all connected clients
             io.emit("restorePosts", newPosts);
         } catch (error) {
             console.error("Error deleting Post:", error);
@@ -76,8 +68,7 @@ io.on("connection", async (socket) => {
     });
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-    //start server on port 3001
     console.log(`Server running on port ${PORT}`);
 });
