@@ -25,11 +25,14 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     const user = params?.get("user");
     const difficulty = params?.get("difficulty");
     const favorite = params?.get("favorite");
+    const min = params?.get("min");
+    const max = params?.get("max");
 
     // connexion to the socket server
     useEffect(() => {
+        console.log("currentUser : ", currentUser);
         const s = socket // if the socket exists, use it
-            ? socket // otherwise, create a new socket connection to the server (3001 port)
+            ? socket // otherwise, create a new socket connection to the server
             : io("http://" + window.location.host);
         setSocket(s);
 
@@ -57,6 +60,16 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 posts.filter((post: SafePost) => post.difficulty === difficulty)
             );
         }
+        if (min) {
+            setDisplayedPosts(
+                posts.filter((post: SafePost) => post.length >= parseInt(min))
+            );
+        }
+        if (max) {
+            setDisplayedPosts(
+                posts.filter((post: SafePost) => post.length <= parseInt(max))
+            );
+        }
         if (user) {
             setDisplayedPosts(
                 posts.filter((post: SafePost) => post.authorId === user)
@@ -69,7 +82,17 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 )
             );
         }
-    }, [category, user, difficulty, favorite, params, posts, currentUser]); // re-run the effect when the filters parameters change
+    }, [
+        category,
+        user,
+        difficulty,
+        favorite,
+        params,
+        posts,
+        currentUser,
+        min,
+        max,
+    ]); // re-run the effect when the filters parameters change
 
     // Render posts
     return (
