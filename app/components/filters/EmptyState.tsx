@@ -25,7 +25,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({
                 shadow-lg
                 w-full
                 h-2/5
-                md:w-2/5
+                md:w-3/5
+                lg:w-1/2
                 md:h-full
                 flex flex-col
                 items-center
