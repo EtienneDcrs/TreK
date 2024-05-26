@@ -21,8 +21,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ postId, currentUser }) => {
 
     useEffect(() => {
         const s = socket // if the socket exists, use it
-            ? socket // otherwise, create a new socket connection to the server (3001 port)
-            : io("http://" + window.location.host.split(":")[0] + ":3001");
+            ? socket // otherwise, create a new socket connection to the server
+            : io("http://" + window.location.host);
         setSocket(s); // set the socket state to the new socket connection
         return () => {
             if (socket) socket.disconnect(); // disconnect the socket when the component unmounts

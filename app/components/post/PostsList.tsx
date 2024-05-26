@@ -113,6 +113,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 overflow-y-auto
                 "
             >
+                {displayedPosts.length === 0 && <EmptyState />}
                 <div
                     className="
                 grid grid-cols-1
@@ -120,8 +121,6 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 gap-4
             "
                 >
-                    {displayedPosts.length === 0 && <EmptyState />}
-
                     {displayedPosts.map((post: SafePost, index) => {
                         return (
                             <PostCard // display the post card
