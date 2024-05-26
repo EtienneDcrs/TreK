@@ -52,32 +52,42 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
         setDisplayedPosts(posts); // reset the displayed posts
         if (category) {
             setDisplayedPosts(
-                posts.filter((post: SafePost) => post.category === category)
+                displayedPosts.filter(
+                    (post: SafePost) => post.category === category
+                )
             );
         }
         if (difficulty) {
             setDisplayedPosts(
-                posts.filter((post: SafePost) => post.difficulty === difficulty)
+                displayedPosts.filter(
+                    (post: SafePost) => post.difficulty === difficulty
+                )
             );
         }
         if (min) {
             setDisplayedPosts(
-                posts.filter((post: SafePost) => post.length >= parseInt(min))
+                displayedPosts.filter(
+                    (post: SafePost) => post.length >= parseInt(min)
+                )
             );
         }
         if (max) {
             setDisplayedPosts(
-                posts.filter((post: SafePost) => post.length <= parseInt(max))
+                displayedPosts.filter(
+                    (post: SafePost) => post.length <= parseInt(max)
+                )
             );
         }
         if (user) {
             setDisplayedPosts(
-                posts.filter((post: SafePost) => post.authorId === user)
+                displayedPosts.filter(
+                    (post: SafePost) => post.authorId === user
+                )
             );
         }
         if (favorite) {
             setDisplayedPosts(
-                posts.filter((post: SafePost) =>
+                displayedPosts.filter((post: SafePost) =>
                     currentUser.favoriteIds.includes(post.id)
                 )
             );
