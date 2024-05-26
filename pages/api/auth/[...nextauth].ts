@@ -39,7 +39,8 @@ export const authOptions: AuthOptions = {
         }),
     ],
     pages: {
-        signIn: "/",
+        signIn: process.env.NEXTAUTH_URL + "/",
+        signOut: process.env.NEXTAUTH_URL + "/",
     },
     debug: process.env.NODE_ENV === "development",
     session: {
