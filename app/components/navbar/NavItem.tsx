@@ -144,7 +144,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                     rounded-r-full
                     hover:text-blue-500
                     hover:shadow-md
-                    border-l-[1px]
+                    sm:border-l-[1px]
                     "
                 >
                     Mes favoris
