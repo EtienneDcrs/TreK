@@ -103,6 +103,7 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                         lg:px-6
                         hidden
                         sm:flex
+                        sm:border-r-[1px]
                         hover:text-blue-500
                         hover:shadow-md
                     "
@@ -121,6 +122,8 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                         px-2
                         md:px-3
                         lg:px-6
+                        sm:border-x-[1px]
+                        border-r-[1px]
                         hover:text-blue-500
                         hover:shadow-md
 
