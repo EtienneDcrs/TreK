@@ -100,9 +100,11 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     return (
         <>
             <PostModal currentUser={currentUser} socket={socket} />
-            {displayedPosts.length === 0 && <EmptyState />}
-            <div
-                className="
+            {displayedPosts.length === 0 ? (
+                <EmptyState />
+            ) : (
+                <div
+                    className="
                 bg-white
                 p-4
                 rounded-md
@@ -115,26 +117,27 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 gap-2
                 overflow-y-auto
                 "
-            >
-                <div
-                    className="
+                >
+                    <div
+                        className="
                 grid grid-cols-1
                 xl:grid-cols-2
                 gap-4
             "
-                >
-                    {displayedPosts.map((post: SafePost, index) => {
-                        return (
-                            <PostCard // display the post card
-                                key={index}
-                                currentUser={currentUser}
-                                data={post}
-                                isAdmin={isAdmin}
-                            />
-                        );
-                    })}
+                    >
+                        {displayedPosts.map((post: SafePost, index) => {
+                            return (
+                                <PostCard // display the post card
+                                    key={index}
+                                    currentUser={currentUser}
+                                    data={post}
+                                    isAdmin={isAdmin}
+                                />
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
