@@ -82,6 +82,8 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 )
             );
         }
+        if (displayedPosts.length === 0) {
+        }
     }, [
         category,
         user,
@@ -94,9 +96,6 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
         max,
     ]); // re-run the effect when the filters parameters change
 
-    if (displayedPosts.length === 0) {
-        return <EmptyState />;
-    }
     // Render posts
     return (
         <>
