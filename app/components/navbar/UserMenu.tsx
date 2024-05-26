@@ -85,8 +85,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                                         onClick={() => {
                                             // Sign out the user
                                             console.log("Déconnexion");
-                                            router.push("/"); // Redirect to the home page
-                                            signOut();
+                                            signOut({
+                                                callbackUrl:
+                                                    "http://trek.cluster-ig3.igpolytech.fr/",
+                                            });
                                         }}
                                         label="Se déconnecter"
                                     />

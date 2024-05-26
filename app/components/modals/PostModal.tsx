@@ -134,7 +134,7 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
                 .substring(0, 24), // 24 characters to fit the MongoDB ObjectId
             title: "",
             description: "",
-            authorId: currentUser.id,
+            authorId: currentUser?.id,
             lats: [],
             lngs: [],
             elevations: [],

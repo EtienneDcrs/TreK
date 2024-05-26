@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node serve/server.js",
+    "dev": "node server/server.js",
     "build": "next build",
     "start": "node server/server.js",
     "lint": "next lint"
