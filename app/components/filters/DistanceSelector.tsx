@@ -66,7 +66,7 @@ const DistanceSelector = () => {
             <div className="flex flex-col items-center justify-around gap-1">
                 <label htmlFor="minDistance">km min:</label>
                 <input
-                    className="border-2 rounded-md w-16 h-6 px-2 py-1"
+                    className="border-2 rounded-md w-8 sm:w-16 h-6 px-2 py-1"
                     type="number"
                     id="minDistance"
                     value={minDistance}
@@ -76,7 +76,7 @@ const DistanceSelector = () => {
             <div className="flex flex-col items-center justify-around gap-1">
                 <label htmlFor="minDistance">km max:</label>
                 <input
-                    className="border-2 rounded-md w-16 h-6 px-2 py-1"
+                    className="border-2 rounded-md w-8 sm:w-16 h-6 px-2 py-1"
                     type="number"
                     id="maxDistance"
                     value={maxDistance}
