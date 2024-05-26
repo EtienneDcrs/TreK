@@ -71,11 +71,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                                         label="Votre compte"
                                         className="border-b-[1px]"
                                     />
-                                    <MenuItem
+                                    {/* <MenuItem
                                         onClick={() => {}} // No settings page yet
                                         label="Paramètres"
                                         className="border-b-[1px]"
-                                    />
+                                    /> */}
                                     <MenuItem
                                         onClick={postModal.onOpen} // Open the post modal to create a post
                                         label="Créez une randonnée"

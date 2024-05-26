@@ -100,6 +100,7 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     return (
         <>
             <PostModal currentUser={currentUser} socket={socket} />
+            {displayedPosts.length === 0 && <EmptyState />}
             <div
                 className="
                 bg-white
@@ -115,7 +116,6 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 overflow-y-auto
                 "
             >
-                {displayedPosts.length === 0 && <EmptyState />}
                 <div
                     className="
                 grid grid-cols-1

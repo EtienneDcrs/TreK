@@ -92,16 +92,17 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                         router.push("/"); // Redirect to the home page
                     }}
                     className="
+                        
                         text-sm
                         font-semibold
                         whitespace-nowrap
-                        flex
                         items-center
                         h-full
                         px-2
                         md:px-3
                         lg:px-6
-                        rounded-l-full
+                        hidden
+                        sm:flex
                         hover:text-blue-500
                         hover:shadow-md
                     "
@@ -115,12 +116,12 @@ const NavItem: React.FC<NavItemProps> = ({ currentUser }) => {
                         text-sm
                         font-semibold
                         whitespace-nowrap
+                        items-center
+                        h-full
                         px-2
                         md:px-3
                         lg:px-6
                         border-x-[1px]
-                        h-full
-                        items-center
                         hover:text-blue-500
                         hover:shadow-md
 
