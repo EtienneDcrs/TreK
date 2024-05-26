@@ -126,12 +126,12 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
         reset,
     } = useForm<FieldValues>({
         defaultValues: {
-            id: uuidv4(),
-            //crypto // create an id for the post
-            //.randomUUID()
-            //.toString()
-            //.replace(/-/g, "") // remove the dashes and keep only the first
-            //.substring(0, 24), // 24 characters to fit the MongoDB ObjectId
+            id: uuidv4()
+                //crypto // create an id for the post
+                //.randomUUID()
+                .toString()
+                .replace(/-/g, "") // remove the dashes and keep only the first
+                .substring(0, 24), // 24 characters to fit the MongoDB ObjectId
             title: "",
             description: "",
             authorId: currentUser.id,

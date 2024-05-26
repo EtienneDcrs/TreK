@@ -120,6 +120,8 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
                 gap-4
             "
                 >
+                    {displayedPosts.length === 0 && <EmptyState />}
+
                     {displayedPosts.map((post: SafePost, index) => {
                         return (
                             <PostCard // display the post card
