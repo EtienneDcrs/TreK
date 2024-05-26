@@ -5,7 +5,10 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt"
 import prisma from "@/app/libs/prismadb"
 
+const redirect = process.env.NEXTAUTH_URL ?? "http://trek.cluster-ig3.igpolytech.fr/"
+
 export const authOptions: AuthOptions = {
+    
     adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProvider({
@@ -39,8 +42,8 @@ export const authOptions: AuthOptions = {
         }),
     ],
     pages: {
-        signIn: process.env.NEXTAUTH_URL + "/",
-        signOut: process.env.NEXTAUTH_URL + "/",
+        signIn: redirect,
+        signOut: redirect,
     },
     debug: process.env.NODE_ENV === "development",
     session: {
