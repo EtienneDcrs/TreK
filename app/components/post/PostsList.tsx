@@ -30,7 +30,6 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
 
     // connexion to the socket server
     useEffect(() => {
-        console.log("currentUser : ", currentUser);
         const s = socket // if the socket exists, use it
             ? socket // otherwise, create a new socket connection to the server
             : io("http://" + window.location.host);
@@ -49,51 +48,39 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
 
     // filter the posts based on the filters parameters
     useEffect(() => {
-        setDisplayedPosts(posts); // reset the displayed posts
-        if (category) {
-            setDisplayedPosts(
-                displayedPosts.filter(
-                    (post: SafePost) => post.category === category
-                )
-            );
+        // get the filters parameters from the URL
+        const category = params?.get("category");
+        const user = params?.get("user");
+        const difficulty = params?.get("difficulty");
+        const favorite = params?.get("favorite");
+        const min = params?.get("min");
+        const max = params?.get("max");
+        const displayedPostsList = [];
+        for (let post of posts) {
+            let isDisplayed = true;
+            if (category && post.category !== category) {
+                isDisplayed = false;
+            }
+            if (difficulty && post.difficulty !== difficulty) {
+                isDisplayed = false;
+            }
+            if (min && post.length < parseInt(min)) {
+                isDisplayed = false;
+            }
+            if (max && post.length > parseInt(max)) {
+                isDisplayed = false;
+            }
+            if (user && post.authorId !== user) {
+                isDisplayed = false;
+            }
+            if (favorite && !currentUser.favoriteIds.includes(post.id)) {
+                isDisplayed = false;
+            }
+            if (isDisplayed) {
+                displayedPostsList.push(post);
+            }
         }
-        if (difficulty) {
-            setDisplayedPosts(
-                displayedPosts.filter(
-                    (post: SafePost) => post.difficulty === difficulty
-                )
-            );
-        }
-        if (min) {
-            setDisplayedPosts(
-                displayedPosts.filter(
-                    (post: SafePost) => post.length >= parseInt(min)
-                )
-            );
-        }
-        if (max) {
-            setDisplayedPosts(
-                displayedPosts.filter(
-                    (post: SafePost) => post.length <= parseInt(max)
-                )
-            );
-        }
-        if (user) {
-            setDisplayedPosts(
-                displayedPosts.filter(
-                    (post: SafePost) => post.authorId === user
-                )
-            );
-        }
-        if (favorite) {
-            setDisplayedPosts(
-                displayedPosts.filter((post: SafePost) =>
-                    currentUser.favoriteIds.includes(post.id)
-                )
-            );
-        }
-        if (displayedPosts.length === 0) {
-        }
+        setDisplayedPosts(displayedPostsList);
     }, [
         category,
         user,

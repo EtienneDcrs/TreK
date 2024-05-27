@@ -77,7 +77,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                                         className="border-b-[1px]"
                                     /> */}
                                     <MenuItem
-                                        onClick={postModal.onOpen} // Open the post modal to create a post
+                                        onClick={() => {
+                                            router.push("/");
+                                            postModal.onOpen;
+                                        }} // Open the post modal to create a post
                                         label="Créez une randonnée"
                                         className="border-b-[1px]"
                                     />

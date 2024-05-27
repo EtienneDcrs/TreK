@@ -23,9 +23,9 @@ const EmptyState: React.FC<EmptyStateProps> = ({
                 p-8
                 rounded-md
                 shadow-lg
-                w-full
                 h-2/5
-                md:w-3/5
+                w-full
+                md:w-2/5
                 lg:w-1/2
                 md:h-full
                 flex flex-col

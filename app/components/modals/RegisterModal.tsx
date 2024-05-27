@@ -35,9 +35,9 @@ const RegisterModal = () => {
         axios // make a POST request to the /api/register endpoint
             .post("/api/register", data) // pass the data to the request
             .then((response) => {
-                console.log(response);
+                toast.success("Registered successfully. Please login."); // display a success message using toast
                 setIsLoading(false);
-                registerModal.onClose();
+                toggle(); // toggle to the login modal
             })
             .catch((error) => {
                 // handle any errors
