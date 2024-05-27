@@ -124,7 +124,7 @@ const PostContent: React.FC<PostContentProps> = ({
                 <div className="text-xl font-semibold">
                     Description de la randonnée
                 </div>
-                <div className="text-justify text-md font-light w-full h-full overflow-y-auto ">
+                <div className="text-justify text-md font-light w-full h-full ">
                     {post.description}
                 </div>
             </div>

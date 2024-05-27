@@ -25,7 +25,12 @@ import { SafeUser } from "@/app/types";
 // import the icons for the categories
 import { FaMountain, FaUmbrellaBeach } from "react-icons/fa";
 import { MdForest } from "react-icons/md";
-import { GiBoatFishing, GiCaveEntrance, GiWindmill } from "react-icons/gi";
+import {
+    GiBoatFishing,
+    GiCaveEntrance,
+    GiRiver,
+    GiWindmill,
+} from "react-icons/gi";
 import { FaMountainCity, FaQuestion } from "react-icons/fa6";
 
 // Enum for the steps of the modal
@@ -64,14 +69,14 @@ export const categories = [
         icon: GiBoatFishing,
     },
     {
-        label: "Plage",
+        label: "Littoral",
         descritpion: "Randonnée en bord de mer",
         icon: FaUmbrellaBeach,
     },
     {
-        label: "Grotte",
-        descritpion: "Randonnée en grotte",
-        icon: GiCaveEntrance,
+        label: "Rivière",
+        descritpion: "Randonnée en bord de rivière",
+        icon: GiRiver,
     },
     {
         label: "Autre",
