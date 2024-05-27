@@ -66,11 +66,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                         <div className="flex flex-col cursor-pointer">
                             {currentUser ? (
                                 <>
-                                    <MenuItem
+                                    {/* <MenuItem
                                         onClick={() => router.push("/account")} // Redirect to the account page
                                         label="Votre compte"
                                         className="border-b-[1px]"
-                                    />
+                                    /> */}
                                     {/* <MenuItem
                                         onClick={() => {}} // No settings page yet
                                         label="Paramètres"
