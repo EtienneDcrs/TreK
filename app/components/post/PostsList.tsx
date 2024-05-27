@@ -38,7 +38,6 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
         // get the posts from the server
         s.on("restorePosts", (posts: SafePost[]) => {
             setPosts(posts);
-            setDisplayedPosts(posts);
         });
 
         return () => {
