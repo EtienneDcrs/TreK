@@ -10,6 +10,7 @@ interface InputProps {
     required?: boolean;
     register: UseFormRegister<FieldValues>; // register function from react-hook-form
     errors: FieldErrors; // errors object from react-hook-form
+    validation?: any; // optional validation rules
 }
 
 const Input: React.FC<InputProps> = ({
@@ -20,6 +21,7 @@ const Input: React.FC<InputProps> = ({
     required,
     register,
     errors,
+    validation,
 }) => {
     return (
         <div className="w-full relative">
@@ -27,7 +29,7 @@ const Input: React.FC<InputProps> = ({
                 id={id}
                 disabled={disabled}
                 type={type}
-                {...register(id, { required })} // register the input with the required validation
+                {...register(id, { required, ...validation })} // register the input with the required validation
                 placeholder=" "
                 className={`
                     peer

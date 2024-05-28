@@ -64,6 +64,13 @@ const RegisterModal = () => {
                 register={register}
                 errors={errors}
                 required
+                validation={{
+                    pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message:
+                            "L'adresse email doit être au format xxx@xxx.xxx",
+                    },
+                }}
             />
             <Input
                 id="name"
@@ -81,6 +88,13 @@ const RegisterModal = () => {
                 register={register}
                 errors={errors}
                 required
+                validation={{
+                    minLength: {
+                        value: 8,
+                        message:
+                            "Le mot de passe doit contenir au moins 8 caractères",
+                    },
+                }}
             />
         </div>
     );
