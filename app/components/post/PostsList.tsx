@@ -95,7 +95,9 @@ const PostsList: React.FC<PostsListProps> = ({ currentUser, isAdmin }) => {
     // Render posts
     return (
         <>
-            <PostModal currentUser={currentUser} socket={socket} />
+            {currentUser && (
+                <PostModal currentUser={currentUser} socket={socket} />
+            )}
             {displayedPosts.length === 0 ? (
                 <EmptyState showReset />
             ) : (

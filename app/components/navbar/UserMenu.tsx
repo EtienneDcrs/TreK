@@ -99,12 +99,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                                     {/* If the user is not logged in */}
                                     <MenuItem
                                         onClick={loginModal.onOpen}
-                                        label="Login"
+                                        label="Se connecter"
                                         className="border-b-[1px]"
                                     />
                                     <MenuItem
                                         onClick={registerModal.onOpen}
-                                        label="Sign up"
+                                        label="Créer un compte"
                                     />
                                 </>
                             )}
