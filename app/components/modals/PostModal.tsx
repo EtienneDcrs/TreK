@@ -244,8 +244,8 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
         setStep(STEPS.FILE); // reset the step to the first one
         postModal.onClose();
         setIsLoading(false);
-        router.push(`/posts/${data.id}`); // redirect to the new post
         location.reload();
+        router.push(`/posts/${data.id}`); // redirect to the new post
     };
 
     let bodyContent = (
