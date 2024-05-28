@@ -78,6 +78,21 @@ const PostContent: React.FC<PostContentProps> = ({
                         <div>{post.length.toFixed(2)} km</div>{" "}
                         <div>Distance</div>
                     </div>
+                    <div
+                        className="flex flex-col 
+                        justify-center items-center 
+                        p-2
+                        pt-4
+                        gap-3
+                        h-full
+                        "
+                    >
+                        {/* Display the length of the route */}
+                        <div>
+                            {Math.max(...post.elevations).toFixed(2)} m
+                        </div>{" "}
+                        <div>Hauteur Max</div>
+                    </div>
                 </div>
                 <div
                     className="flex flex-col 

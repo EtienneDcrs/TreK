@@ -260,7 +260,10 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
                         className="centered"
                         onChange={handleFileChange}
                     />
-                    <div className="w-full">map not yet available</div>
+                    <div className="w-full">
+                        Ajoutez un fichier .GPX ou .KML pour envoyer les
+                        coordonnées de votre randonné.
+                    </div>
                 </div>
             </div>
         </div>
