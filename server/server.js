@@ -26,7 +26,12 @@ app.prepare().then(() => {
 
     io.on("connection", async (socket) => {
         console.log("User connected");
-        const restorePosts = await prisma.post.findMany();
+        const restorePosts = await prisma.post.findMany({
+            orderBy: {
+                // sort the posts by createdAt in ascending order
+                createdAt: "asc",
+            },
+        });
         io.emit("restorePosts", restorePosts);
 
         socket.on("newPost", async (newPost) => {
@@ -47,7 +52,12 @@ app.prepare().then(() => {
                     },
                 });
 
-                const posts = await prisma.post.findMany();
+                const posts = await prisma.post.findMany({
+                    orderBy: {
+                        // sort the posts by createdAt in ascending order
+                        createdAt: "asc",
+                    },
+                });
                 io.emit("restorePosts", posts);
             } catch (error) {
                 console.error("Error saving Post:", error);
@@ -66,7 +76,12 @@ app.prepare().then(() => {
                     where: { id: postId },
                 });
 
-                const newPosts = await prisma.post.findMany();
+                const newPosts = await prisma.post.findMany({
+                    orderBy: {
+                        // sort the posts by createdAt in ascending order
+                        createdAt: "asc",
+                    },
+                });
                 io.emit("restorePosts", newPosts);
             } catch (error) {
                 console.error("Error deleting Post:", error);

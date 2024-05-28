@@ -4,8 +4,8 @@ import prisma from "@/app/libs/prismadb";
 export default async function getPosts() {
     try {
         const posts = await prisma.post.findMany({
-            orderBy: { // sort the posts by createdAt in descending order
-                createdAt: 'desc',
+            orderBy: { // sort the posts by createdAt in ascending order
+                createdAt: 'asc',
             },
         });
 
