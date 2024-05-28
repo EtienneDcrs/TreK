@@ -236,7 +236,6 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
             socket?.emit("newPost", data);
             toast.success("Post créé !");
             router.refresh();
-            router.push(`/posts/${data.id}`); // redirect to the new post
         } catch (error) {
             toast.error("Une erreur s'est produite");
         }
@@ -245,6 +244,8 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
         setStep(STEPS.FILE); // reset the step to the first one
         postModal.onClose();
         setIsLoading(false);
+        router.push(`/posts/${data.id}`); // redirect to the new post
+        location.reload();
     };
 
     let bodyContent = (
