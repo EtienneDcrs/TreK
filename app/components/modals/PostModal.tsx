@@ -264,6 +264,11 @@ const PostModal: React.FC<PostModalProps> = ({ socket, currentUser }) => {
                         Ajoutez un fichier .GPX ou .KML pour envoyer les
                         coordonnées de votre randonné.
                     </div>
+                    <div>
+                        Récupérez votre fichier GPX ou KML depuis votre
+                        application de randonnée ou exportez votre parcours avec
+                        Google MyMaps.
+                    </div>
                 </div>
             </div>
         </div>
